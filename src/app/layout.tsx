@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -9,7 +9,6 @@ import { Providers } from "@/components/providers";
 import { NavigationProgress } from "@/components/navigation-progress";
 import { Suspense } from "react";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
@@ -27,7 +26,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="pt-BR" className="dark">
-            <body className={`${montserrat.className} ${inter.variable} ${GeistSans.variable}`}>
+            <body className={`${inter.variable} ${GeistSans.variable} font-inter`}>
                 <Providers>
                     <Suspense fallback={null}>
                         <NavigationProgress />

@@ -3,6 +3,7 @@
 import { ActionCards } from "@/components/dashboard/action-cards"
 import { RecentDrafts } from "@/components/dashboard/recent-drafts"
 import { ChartPieInteractive } from "@/components/dashboard/chart-pie-interactive"
+import { ChartMonthlyBars } from "@/components/dashboard/chart-monthly-bars"
 import { Suspense } from "react"
 
 export default function DashboardPage() {
@@ -27,10 +28,9 @@ export default function DashboardPage() {
                     </div>
                     {/* ... */}
                     <div className="space-y-6">
-                        <div className="min-h-[300px] rounded-xl bg-muted/50 flex flex-col items-center justify-center text-muted-foreground border p-6 text-center gap-4">
-                            <span className="text-lg font-medium">Outros Indicadores</span>
-                            <p className="text-sm">Espaço reservado para métricas financeiras ou prazos processuais.</p>
-                        </div>
+                        <Suspense fallback={null}>
+                            <ChartMonthlyBars />
+                        </Suspense>
                     </div>
                 </div>
             </div>
