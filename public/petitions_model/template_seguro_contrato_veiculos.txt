@@ -1,0 +1,85 @@
+AO JUIZO DA {{NUMERO_VARA}} VARA DO JUIZADO ESPECIAL CÍVEL DA COMARCA DE MANAUS – AMAZONAS
+
+
+
+
+{{NOME_AUTOR}}, {{NACIONALIDADE}}, {{ESTADO_CIVIL}}, {{PROFISSAO}}, portadora do CPF n° {{CPF_AUTOR}}, endereço eletrônico: {{EMAIL_AUTOR}}, residente e domiciliada na {{ENDERECO_COMPLETO}}, n° {{NUMERO_ENDERECO}}, Bairro {{BAIRRO}}, CEP: {{CEP}}, Manaus, Amazonas, por seus procuradores signatários, ut instrumento procuratório incluso, vem respeitosamente à presença de V.Exa. propor:
+
+
+AÇÃO DE INEXIGIBILIDADE DE SEGURO C/C POR DANOS MATERIAIS E MORAIS
+
+
+Em face de {{NOME_BANCO}}, pessoa jurídica de direito privado, inscrito no CNPJ {{CNPJ_BANCO}}, com sede no {{ENDERECO_BANCO}}, o que faz pelos fatos e fundamentos a seguir expostos:
+
+
+• DOS FATOS
+
+A parte Requerente firmou com o Réu, em {{DATA_CONTRATO}}, contrato de cédula de crédito bancário n.º {{NUMERO_CONTRATO}}, para financiamento de veículo em {{NUMERO_PARCELAS}} ({{NUMERO_PARCELAS_EXTENSO}}) vezes.
+
+Ocorre que, no momento da contratação do financiamento, foi inserido no contrato, sem o livre e esclarecido consentimento do(a) consumidor(a), o produto denominado "{{NOME_SEGURO}}", no valor de R$ {{VALOR_SEGURO}} ({{VALOR_SEGURO_EXTENSO}}), sem que lhe fosse devidamente explicado o produto, seu custo e muito menos dada a opção de recusa.
+
+Ora, qual consumidor que buscou o requerido para a realização de um financiamento de veículo em {{NUMERO_PARCELAS}} ({{NUMERO_PARCELAS_EXTENSO}}) vezes, pois não tem condições de pagar em menos tempo, haja vista que as parcelas ficariam elevadas, iria contratar uma tarifa de R$ {{VALOR_SEGURO}} ({{VALOR_SEGURO_EXTENSO}}) e gerar outros gastos? É infundamentada a linha de raciocínio que acredita que iria.
+
+Causa espanto o fato de a instituição financeira realizar este tipo de conduta conhecida como "venda casada", deixando o consumidor totalmente refém do seu procedimento unilateral, o que não merece prosperar impunemente.
+
+O dever de informar que não houve no caso em tela representa, no sistema do CDC, um verdadeiro dever essencial, para a harmonia e transparência das relações de consumo.
+
+A cobrança consiste numa onerosidade excessiva para o consumidor, ferindo consideravelmente as normas dispostas na legislação protetiva das relações de consumo, bem como, de forma bem especial, do consumidor.
+
+
+• DO DIREITO
+
+A matéria ora discutida encontra amplo respaldo no ordenamento jurídico brasileiro, especialmente no Código de Defesa do Consumidor (Lei nº 8.078/1990) e na jurisprudência consolidada do Superior Tribunal de Justiça.
+
+O STJ, em sede de recurso repetitivo (REsp. 1.639.259), fixou as seguintes teses:
+
+"1. [...] o correspondente bancário, no âmbito das relações de consumo. 2. TESES FIXADAS PARA OS FINS DO ART. 1.040 DO CPC/2015: 2.1 - Abusividade da cláusula que prevê o ressarcimento pelo consumidor da despesa com o registro do pré-gravame, em contratos celebrados a partir de 25/02/2011, data de entrada em vigor da Res.-CMN 3.954/2011, sendo válida a cláusula pactuada no período anterior a essa resolução, ressalvado o controle da onerosidade excessiva. 2.2 - Nos contratos bancários em geral, o consumidor não pode ser compelido a contratar seguro com a instituição financeira ou com seguradora por ela indicada. 2.3 - A abusividade de encargos acessórios do contrato não descaracteriza a mora."
+
+Portanto, é expressa e consolidada a proibição de que o consumidor seja compelido a contratar seguro com a instituição financeira ou por ela indicada, sendo nula de pleno direito a cláusula contratual que assim dispõe.
+
+A conduta do(a) requerido(a) configura, ainda, prática de venda casada, expressamente vedada pelo art. 39, inciso I, do CDC, que proíbe o fornecedor de condicionar o fornecimento de produto ou serviço à aquisição de outro produto ou serviço.
+
+Nos termos do art. 42, parágrafo único, do CDC, é devida a restituição em dobro dos valores cobrados indevidamente, acrescidos de correção monetária e juros legais, desde a data de cada cobrança.
+
+
+• DOS DANOS MATERIAIS – REPETIÇÃO DO INDÉBITO
+
+Com fundamento no art. 42, parágrafo único, do Código de Defesa do Consumidor, requer-se a restituição em dobro do valor cobrado indevidamente a título de "{{NOME_SEGURO}}", no montante de R$ {{VALOR_SEGURO}} ({{VALOR_SEGURO_EXTENSO}}), totalizando, com a repetição do indébito, R$ {{TOTAL_DOBRO}} ({{TOTAL_DOBRO_EXTENSO}}), devidamente corrigido monetariamente e acrescido de juros moratórios desde a data da cobrança.
+
+
+• DOS DANOS MORAIS
+
+A conduta do(a) requerido(a), ao impor ao(à) consumidor(a) produto não solicitado e não autorizado, causa dano moral que supera o mero aborrecimento, atingindo a esfera extrapatrimonial do(a) requerente, que se viu vítima de prática abusiva em uma relação que deveria ser pautada pela boa-fé e pela transparência.
+
+Para que além de ser punido pela atitude unilateral que o mesmo teve na presente lide, servirá para que pense mais de uma vez se valerá fazer a mesma ilicitude com outros consumidores.
+
+Na fixação do montante devido, o prudente arbítrio do julgador deve considerar os fins pedagógico e punitivo da reparação moral, sem embargo de sopesar as circunstâncias próprias do agravo causado ao consumidor.
+
+Requer-se, portanto, a condenação do(a) requerido(a) ao pagamento de indenização por danos morais no valor não inferior a R$ {{VALOR_DANO_MORAL}} ({{VALOR_DANO_MORAL_EXTENSO}}).
+
+
+* DOS PEDIDOS — REQUER
+
+1. A inversão do ônus da prova ao réu, nos termos do Código de Defesa do Consumidor;
+
+2. A citação do Requerido para, se quiser, responder os atos e termos desta ação, que deverá ser julgada procedente;
+
+3. A Gratuidade da Justiça, eis que não pode demandar em juízo sem prejuízo do sustento próprio e de sua família;
+
+4. A declaração de nulidade e inexigibilidade do "{{NOME_SEGURO}}" no valor de R$ {{VALOR_SEGURO}} ({{VALOR_SEGURO_EXTENSO}});
+
+5. A devolução em dobro do valor cobrado indevidamente a título de "{{NOME_SEGURO}}", totalizando R$ {{TOTAL_DOBRO}} ({{TOTAL_DOBRO_EXTENSO}}), devidamente corrigido monetariamente e acrescido de juros legais desde a data da cobrança;
+
+6. A condenação do(a) requerido(a) ao pagamento de indenização por danos morais no valor não inferior a R$ {{VALOR_DANO_MORAL}} ({{VALOR_DANO_MORAL_EXTENSO}});
+
+7. A condenação do(a) requerido(a) ao pagamento das custas processuais e honorários advocatícios;
+
+8. A produção de todos os meios de prova em direito admitidos, especialmente documental.
+
+Dá-se à causa o valor de R$ {{TOTAL_CAUSA}} ({{TOTAL_CAUSA_EXTENSO}}).
+
+
+Nestes termos,
+Pede deferimento.
+
+Manaus/AM, {{DATA_EXTENSO}}.

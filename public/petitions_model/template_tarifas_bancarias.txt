@@ -1,0 +1,142 @@
+MANAUS/AM
+
+
+
+
+{{NOME_AUTOR}}, {{NACIONALIDADE}}, {{ESTADO_CIVIL}}, {{PROFISSAO}}, CPF Nº. {{CPF_AUTOR}}, RG Nº. {{RG_AUTOR}} - SSP/AM, residente e domiciliado no {{ENDERECO_COMPLETO}}, nº {{NUMERO_ENDERECO}}, Bairro: {{BAIRRO}}, CEP: {{CEP}}, Manaus – Amazonas, por intermédio de seu advogado, legalmente constituído, com escritório profissional na Avenida Fernando Pessoa, 1179, Japiim II - CEP 69.076-790, Manaus – Amazonas, onde recebe intimações e notificações, com base nos artigos 319 e seguintes do Código de Processo Civil, bem como no art. 5º, V, CRFB/88 e demais dispositivos legais previstos no Código de Defesa do Consumidor e na Autorregulação Bancária propor:
+
+
+{{TITULO_ACAO}}
+
+
+em face de {{NOME_BANCO}}, pessoa jurídica de direito privado, com registro no CNPJ sob o nº {{CNPJ_BANCO}}, com sede na cidade de {{ENDERECO_BANCO}}, pelas razões de fato e de direito que passa a expor:
+
+
+I - DOS FATOS
+
+
+A parte Autora mantém vínculo contratual com a instituição financeira conforme comprovado (anexo 6), todavia, ao proceder à conferência de seus extratos bancários, constatou a realização de descontos indevidos em sua conta corrente a título de "{{RUBRICA}}", sem que houvesse qualquer solicitação, anuência ou assinatura de contrato específico que legitimasse tais cobranças. Evidencia-se, assim, a ocorrência de descontos unilaterais e abusivos, perpetrados em flagrante desrespeito aos princípios da lealdade contratual, da informação e da transparência, expressamente consagrados no Código de Defesa do Consumidor.
+
+{{TABELA_DESCONTOS}}
+
+Não restando alternativa à parte Autora, senão socorrer-se do Poder Judiciário para ver declarada a inexistência da relação jurídica que fundamentaria tais cobranças, bem como para restituir os valores pagos em razão da conduta abusiva da instituição financeira.
+
+
+3. - DO DIREITO
+
+[CASO TENHA TUTELA DE URGÊNCIA, O TÓPICO FICA NA PARTE DO DIREITO]
+[CASO TENHA PRESCRIÇÃO, O TÓPICO FICA NA PARTE DO DIREITO]
+[CASO TENHA PRIORIDADE DE TRAMITAÇÃO, O TÓPICO FICA NA PARTE DO DIREITO]
+
+
+   1. – DA APLICABILIDADE DO CÓDIGO DE DEFESA DO CONSUMIDOR E RELAÇÃO DE CONSUMO
+
+
+A presente demanda versa sobre relação de consumo, plenamente caracterizada pela existência de vínculo jurídico entre a instituição financeira, fornecedora de serviços bancários, e a parte autora, destinatária final desses serviços, nos termos dos artigos 2º e 3º do Código de Defesa do Consumidor (Lei nº 8.078/90).
+
+O entendimento é consolidado pela Súmula 297 do STJ, que dispõe: "O Código de Defesa do Consumidor é aplicável às instituições financeiras."
+
+O Banco Réu, ao realizar cobranças a título de "{{RUBRICA}}" sem respaldo contratual, violou frontalmente tais princípios, configurando prática abusiva e enriquecimento sem causa. Dessa forma, é inequívoca a incidência das normas consumeristas ao caso em tela, devendo-se assegurar à parte autora a proteção conferida pelo diploma legal, especialmente quanto aos princípios da boa-fé objetiva, da transparência, da informação e da proibição de práticas abusivas.
+
+A aplicação do CDC é, portanto, imperiosa e imprescindível à solução da presente controvérsia, especialmente diante da prática abusiva de prestação de serviço sem consentimento, da falta de clareza nos lançamentos e da ausência de contrato firmado entre as partes.
+
+
+   2. – DA COBRANÇA INDEVIDA E DA REPETIÇÃO DO INDÉBITO
+
+
+A cobrança realizada pela instituição financeira, sem qualquer respaldo contratual ou autorização expressa do consumidor, configura cobrança indevida nos termos do art. 42, parágrafo único, do Código de Defesa do Consumidor, que determina a restituição em dobro dos valores pagos indevidamente.
+
+No presente caso, não há qualquer indício de engano justificável. Ao contrário: os descontos foram realizados de forma sistemática, sem contrato, sem ciência ou autorização da autora. A conduta da instituição financeira foi deliberada e reiterada, o que agrava sua responsabilidade civil.
+
+Ressalte-se que a repetição do indébito, em dobro, não depende de prova do dolo ou má-fé, sendo suficiente a comprovação do pagamento indevido e da ausência de autorização, requisitos amplamente preenchidos neste feito.
+
+Diante da cobrança indevida, faz jus à restituição dos valores pagos, conforme determina o art. 42, parágrafo único, do Código de Defesa do Consumidor.
+
+
+   3. – DA RESPONSABILIDADE OBJETIVA DA INSTITUIÇÃO FINANCEIRA
+
+
+No âmbito das relações bancárias, resta consolidado o entendimento de que os bancos se enquadram no conceito de fornecedores de serviços, enquanto o correntista figura como consumidor final, nos termos dos artigos 2º e 3º do CDC e da Súmula 297 do Superior Tribunal de Justiça, que estabelece que "O Código de Defesa do Consumidor é aplicável às instituições financeiras."
+
+Assim, a responsabilidade da instituição financeira decorre da falha na prestação do serviço, prescindindo de qualquer demonstração de culpa. Basta que se comprove a conduta lesiva, o dano experimentado e o nexo causal entre a conduta do agente e o dano sofrido pelo consumidor.
+
+Em suma, a responsabilidade objetiva das instituições financeiras traduz-se na aplicação concreta da teoria do risco do empreendimento, segundo a qual aquele que aufere lucro com a atividade econômica deve suportar os riscos inerentes à sua operação, garantindo ao consumidor a reparação integral dos prejuízos sofridos, bastando a comprovação da conduta lesiva, do dano e do nexo causal.
+
+
+   4. – DA INVERSÃO DO ÔNUS DA PROVA
+
+
+A aplicação do CDC é, portanto, imperiosa e imprescindível à solução da presente controvérsia, especialmente diante da prática abusiva de prestação de serviço sem consentimento, da falta de clareza nos lançamentos e da ausência de contrato firmado entre as partes.
+
+Nos termos do art. 6º, VIII, do CDC, a inversão do ônus da prova é medida que se impõe, sendo evidente a hipossuficiência técnica e econômica da parte autora em relação à instituição financeira requerida, bem como a verossimilhança das alegações apresentadas.
+
+
+5. - DOS DANOS MATERIAIS – REPETIÇÃO DO INDÉBITO
+
+
+Ressalte-se que a repetição do indébito, em dobro, não depende de prova do dolo ou má-fé, sendo suficiente a comprovação do pagamento indevido e da ausência de autorização, requisitos amplamente preenchidos neste feito.
+
+Assim, requer-se a condenação da parte ré à DEVOLUÇÃO EM DOBRO o valor de R$ {{TOTAL_DOBRO}} ({{TOTAL_DOBRO_EXTENSO}}), conforme fl. 03 dos autos, de todos os valores indevidamente descontados, DESDE O PRIMEIRO EVENTO DANOSO ({{DATA_PRIMEIRO_DESCONTO}}) até a CESSAÇÃO DA COBRANÇA, devidamente CORRIGIDOS E ACRESCIDOS DE JUROS LEGAIS, os quais devem incidir a partir do evento danoso, conforme orientação da Súmula 54 do STJ segundo a qual "OS JUROS MORATÓRIOS FLUEM A PARTIR DO EVENTO DANOSO, EM CASO DE RESPONSABILIDADE EXTRACONTRATUAL", conforme apuração dos extratos bancários anexados, demonstrado na fl. 03 dos autos.
+
+
+6. - DOS DANOS MORAIS
+
+
+A conduta da instituição ré ultrapassa os limites do mero aborrecimento ou dissabor cotidiano. A cobrança indevida de valores da conta bancária da autora, de forma reiterada e sem qualquer respaldo contratual, caracteriza evidente violação à dignidade do consumidor e atinge a esfera extrapatrimonial da parte autora.
+
+O dano moral, neste contexto, é presumido (in re ipsa), pois decorre diretamente da afronta ao direito de personalidade, à confiança e à boa-fé objetiva que devem nortear as relações de consumo.
+
+(TJ-AM, Apelação Cível nº 0624128-78.2022.8.04.0001, Rel. Des. Yedo Simões de Oliveira, 2ª Câmara Cível, julgado em 01/06/2024, publicado em 13/11/2023).
+
+Ademais, a TEORIA ADOTADA PELA DOUTRINA e jurisprudência brasileira quanto à fixação do dano moral é a do DESESTÍMULO, ou seja: o quantum indenizatório arbitrado deve estabelecer uma quantia significativa, de modo a conscientizar o ofensor de que não deve persistir no comportamento lesivo.
+
+Dessa forma, requer-se a condenação do Reclamado ao pagamento de INDENIZAÇÃO POR DANOS MORAIS, em razão das práticas abusivas e ilegais perpetradas, no valor não inferior a R$ {{VALOR_DANO_MORAL}} ({{VALOR_DANO_MORAL_EXTENSO}}), quantia esta que se revela compatível com os princípios da razoabilidade, proporcionalidade e função pedagógica da reparação civil. Tal pleito não busca qualquer enriquecimento sem causa, mas apenas o reconhecimento e a justa compensação pelo desrespeito e pela frustração da confiança depositada pelo(a) consumidor(a) nos serviços do {{NOME_BANCO}}.
+
+
+VI – DO TEMPO DESPERDIÇADO
+
+
+Além dos prejuízos materiais e morais já demonstrados, cumpre destacar a incidência da Teoria do Desvio Produtivo do Consumidor, também denominada Teoria do Tempo Desperdiçado, desenvolvida por Marcos Dessaune e amplamente acolhida pela doutrina e jurisprudência pátrias, inclusive pelo Superior Tribunal de Justiça.
+
+Tal teoria reconhece que o tempo útil que o consumidor é compelido a despender para resolver problemas decorrentes de falhas na prestação de serviços, como cobranças indevidas, omissões e desorganização por parte do fornecedor, constitui dano moral indenizável, por violar direitos da personalidade, frustrar a legítima expectativa de boa-fé e impor desgaste emocional, estresse e perda de tempo existencial.
+
+O STJ já consolidou esse entendimento:
+
+"O tempo despendido pelo consumidor para resolver problemas gerados por maus fornecedores de serviços configura dano moral indenizável, uma vez que representa desvio produtivo e viola direitos da personalidade."
+
+Requer-se, portanto, a condenação do(a) requerido(a) ao pagamento de R$ {{VALOR_TEMPO_DESPERDICADO}} ({{VALOR_TEMPO_DESPERDICADO_EXTENSO}}) a título de indenização pelo tempo desperdiçado (Desvio Produtivo do Consumidor).
+
+
+* DOS PEDIDOS
+
+Ante o exposto, requer:
+
+1. Seja reconhecida a relação de consumo entre as partes, aplicando-se integralmente o Código de Defesa do Consumidor (arts. 2º, 3º e 14 do CDC), com a consequente inversão do ônus da prova (art. 6º, VIII, do CDC), diante da hipossuficiência técnica e econômica da parte autora;
+
+2. Que o requerido apresente os contratos específicos, a comprovação dos aditivos com a anuência do consumidor durante o decorrer do período de desconto que justifique os valores cobrados;
+
+3. Seja reconhecida a ilegalidade e abusividade dos descontos realizados sob a rubrica "{{RUBRICA}}";
+
+4. Seja a parte ré condenada à restituição em dobro dos valores indevidamente descontados a título de "{{RUBRICA}}", que somam a quantia de R$ {{TOTAL_DESCONTOS}} ({{TOTAL_DESCONTOS_EXTENSO}}), com repetição do indébito (2x), totalizando o valor de R$ {{TOTAL_DOBRO}} ({{TOTAL_DOBRO_EXTENSO}}), em virtude da repetição do indébito em dobro, nos termos do art. 42, parágrafo único, do CDC, devidamente corrigidos monetariamente e acrescidos de juros moratórios de 1% ao mês desde o evento danoso;
+
+Dos Danos Morais
+
+5. Seja a parte ré condenada ao pagamento de indenização por danos morais no valor não inferior a R$ {{VALOR_DANO_MORAL}} ({{VALOR_DANO_MORAL_EXTENSO}});
+
+Do Tempo Desperdiçado (Desvio Produtivo do Consumidor)
+
+6. Seja a parte ré condenada ao pagamento de R$ {{VALOR_TEMPO_DESPERDICADO}} ({{VALOR_TEMPO_DESPERDICADO_EXTENSO}}) a título de indenização pelo tempo desperdiçado;
+
+Do Valor Total da Indenização
+
+7. Dá-se à causa o valor de R$ {{TOTAL_CAUSA}} ({{TOTAL_CAUSA_EXTENSO}}), correspondente à soma dos danos materiais (repetição em dobro), danos morais e tempo desperdiçado.
+
+8. A condenação do(a) requerido(a) ao pagamento de custas processuais e honorários advocatícios;
+
+9. A produção de todos os meios de prova em direito admitidos, especialmente documental.
+
+
+Nestes termos,
+Pede deferimento.
+
+Manaus/AM, {{DATA_EXTENSO}}.
