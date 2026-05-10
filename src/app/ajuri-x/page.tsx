@@ -17,14 +17,14 @@ import { Scale16SolidIcon } from "@/components/icons/scale-icon";
 
 export default function AjuriXPage() {
     return (
-        <div className="flex flex-1 flex-col h-[calc(100vh-4rem)] animate-in fade-in duration-700 bg-black overflow-hidden relative">
+        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
             {/* Background elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -mr-64 -mt-64" />
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-900/10 blur-[120px] rounded-full -ml-64 -mb-64" />
             </div>
 
-            <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-6 p-4 md:p-8 h-full relative z-10">
+            <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-6 p-4 md:p-8 relative z-10">
                 <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
                     <div className="space-y-4">
                         <div className="flex items-center gap-4">

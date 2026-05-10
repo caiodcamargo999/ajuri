@@ -11,6 +11,13 @@ import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+export const viewport = {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+};
+
 export const metadata: Metadata = {
     title: "Ajuri Comp - Gerador de Petições",
     description: "Automação jurídica para advogados modernos.",

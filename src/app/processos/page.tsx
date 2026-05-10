@@ -62,11 +62,11 @@ export default function ProcessosPage() {
     if (loading) return null;
 
     return (
-        <div className="flex flex-1 flex-col h-[calc(100vh-4rem)] animate-in fade-in duration-700 bg-black overflow-hidden relative">
+        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
 
-            <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-6 p-4 md:p-8 h-full relative z-10">
+            <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-6 p-4 md:p-8 relative z-10">
                 <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
                     <div className="space-y-4">
                         <div className="flex items-center gap-4">
@@ -116,7 +116,7 @@ export default function ProcessosPage() {
                 </div>
 
                 <main className="flex-1 min-h-0">
-                    <div className="h-full bg-zinc-950/20 rounded-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-500 transition-all">
+                    <div className="bg-zinc-950/20 rounded-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-500 transition-all">
                         <ProcessList
                             processes={filteredProcesses}
                             onEdit={handleEditProcess}

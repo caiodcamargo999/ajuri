@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset className="bg-black">
-                <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-4 border-b border-white/5 px-6 backdrop-blur-xl bg-black/60 transition-all">
+                <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-4 border-b border-white/5 px-4 md:px-6 backdrop-blur-xl bg-black/60 transition-all">
                     <SidebarTrigger className="-ml-1 text-zinc-400 hover:text-white transition-colors" />
                     <Separator orientation="vertical" className="mr-2 h-4 bg-white/10" />
                     <Breadcrumb>

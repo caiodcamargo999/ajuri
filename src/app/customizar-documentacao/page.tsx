@@ -5,7 +5,7 @@ import { Palette, Sparkles } from "lucide-react"
 
 export default function CustomizarDocumentacaoPage() {
     return (
-        <div className="flex flex-1 flex-col gap-8 p-8 max-w-[1600px] mx-auto w-full animate-in fade-in duration-700">
+        <div className="flex flex-col gap-8 p-4 md:p-8 max-w-[1600px] mx-auto w-full animate-in fade-in duration-700 relative z-10 min-h-screen">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">

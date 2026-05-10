@@ -574,10 +574,11 @@ export default function AjuriXForm() {
                         const isCurrent = step === s.id;
                         return (
                             <div key={s.id} className="flex flex-col items-center gap-2 bg-black px-2">
-                                <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-emerald-500 border-emerald-500 text-black' : 'bg-zinc-900 border-zinc-700 text-zinc-500'}`}>
-                                    {isActive ? <Check className="w-5 h-5" /> : <span className="font-bold">{s.id}</span>}
+                                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-emerald-500 border-emerald-500 text-black shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-zinc-900 border-zinc-700 text-zinc-500'}`}>
+                                    {isActive ? <Check className="w-5 h-5 md:w-6 md:h-6" /> : <span className="font-bold text-sm md:text-base">{s.id}</span>}
                                 </div>
-                                <span className={`text-sm font-medium ${isCurrent ? 'text-emerald-400' : 'text-zinc-500'}`}>{s.title}</span>
+                                <span className={`text-[10px] md:text-sm font-bold uppercase tracking-wider hidden sm:block ${isCurrent ? 'text-emerald-400' : 'text-zinc-500'}`}>{s.title}</span>
+                                <span className={`text-[8px] font-bold uppercase tracking-tighter sm:hidden ${isCurrent ? 'text-emerald-400' : 'text-zinc-500'}`}>{s.id}º Passo</span>
                             </div>
                         )
                     })}

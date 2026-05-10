@@ -140,7 +140,7 @@ export function ChartPieInteractive() {
     }
 
     return (
-        <Card className="flex flex-col border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl h-full">
+        <Card className="flex flex-col border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl">
             <CardHeader className="pb-0 border-b border-white/5 bg-white/5 pt-4 px-6 flex flex-row items-center justify-between">
                 <div>
                     <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
