@@ -1,8 +1,18 @@
 "use client"
 
-import AjuriXForm from "@/components/ajuri-x/ajuri-x-form";
 import { Suspense, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Loader2, Zap, ShieldCheck } from "lucide-react";
+
+const AjuriXForm = dynamic(() => import("@/components/ajuri-x/ajuri-x-form"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[600px] flex flex-col items-center justify-center bg-zinc-950/40 border border-white/5 rounded-2xl backdrop-blur-xl">
+            <Loader2 className="h-12 w-12 text-emerald-500 animate-spin" />
+            <p className="text-zinc-500 text-xs mt-4 uppercase tracking-widest font-bold">Iniciando Inteligência...</p>
+        </div>
+    )
+});
 import { Scale16SolidIcon } from "@/components/icons/scale-icon";
 
 export default function AjuriXPage() {

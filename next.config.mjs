@@ -2,14 +2,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Ensure we can import the old assets if needed, though we should move them
   images: {
     remotePatterns: [],
+    unoptimized: false,
+    formats: ['image/avif', 'image/webp'],
   },
   experimental: {
+    optimizePackageImports: [
+      'lucide-react', 
+      'recharts', 
+      'framer-motion', 
+      'date-fns',
+      '@radix-ui/react-icons'
+    ],
     serverActions: {
       allowedOrigins: ['localhost:3000'],
     },
+  },
+  // Desabilita logs de desenvolvimento em produção para ganho de performance
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
 };
 

@@ -1,10 +1,23 @@
 "use client"
 
 import { ActionCards } from "@/components/dashboard/action-cards"
-import { RecentDrafts } from "@/components/dashboard/recent-drafts"
-import { ChartPieInteractive } from "@/components/dashboard/chart-pie-interactive"
-import { ChartMonthlyBars } from "@/components/dashboard/chart-monthly-bars"
+import dynamic from "next/dynamic"
 import { Suspense } from "react"
+
+const ChartPieInteractive = dynamic(() => import("@/components/dashboard/chart-pie-interactive").then(mod => mod.ChartPieInteractive), { 
+    ssr: false,
+    loading: () => <div className="h-[350px] w-full bg-zinc-900/20 animate-pulse rounded-xl" />
+})
+
+const ChartMonthlyBars = dynamic(() => import("@/components/dashboard/chart-monthly-bars").then(mod => mod.ChartMonthlyBars), { 
+    ssr: false,
+    loading: () => <div className="h-[300px] w-full bg-zinc-900/20 animate-pulse rounded-xl" />
+})
+
+const RecentDrafts = dynamic(() => import("@/components/dashboard/recent-drafts").then(mod => mod.RecentDrafts), {
+    ssr: false,
+    loading: () => <div className="h-[200px] w-full bg-zinc-900/20 animate-pulse rounded-xl" />
+})
 
 export default function DashboardPage() {
     return (

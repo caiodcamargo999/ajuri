@@ -1,8 +1,17 @@
 "use client"
 
-import { MyPetitionsList } from "@/components/petitions/my-petitions-list"
 import { Button } from "@/components/ui/button"
-import { PlusCircle, Search, FileText, Sparkles } from "lucide-react"
+import dynamic from "next/dynamic"
+import { PlusCircle, Search, FileText, Sparkles, Loader2 } from "lucide-react"
+
+const MyPetitionsList = dynamic(() => import("@/components/petitions/my-petitions-list").then(mod => mod.MyPetitionsList), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[400px] flex items-center justify-center">
+            <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+        </div>
+    )
+})
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
