@@ -19,10 +19,25 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-    title: "Ajuri Comp - Gerador de Petições",
-    description: "Automação jurídica para advogados modernos.",
+    title: "Ajuri | Automação Jurídica com Inteligência Artificial",
+    description: "A plataforma completa para advogados modernos. Crie petições, calcule indenizações e gerencie seus clientes com o poder da IA.",
+    keywords: ["advocacia", "direito", "inteligência artificial", "automação jurídica", "petições", "crm jurídico"],
+    authors: [{ name: "Ajuri Team" }],
+    openGraph: {
+        title: "Ajuri | Automação Jurídica Inteligente",
+        description: "Transforme seu escritório com IA. Produtividade e precisão em um só lugar.",
+        url: "https://ajuri.com.br",
+        siteName: "Ajuri",
+        locale: "pt_BR",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Ajuri | Automação Jurídica Inteligente",
+        description: "A revolução na criação de petições e gestão jurídica.",
+    },
     icons: {
-        icon: "/favicon.png",
+        icon: "/logo.png",
     },
 };
 
@@ -34,6 +49,23 @@ export default function RootLayout({
     return (
         <html lang="pt-BR" className="dark">
             <body className={`${inter.variable} ${GeistSans.variable} font-inter`}>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "Organization",
+                            "name": "Ajuri",
+                            "url": "https://ajuri.com.br",
+                            "logo": "https://ajuri.com.br/logo.png",
+                            "description": "Automação Jurídica com Inteligência Artificial para advogados modernos.",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "addressCountry": "BR"
+                            }
+                        })
+                    }}
+                />
                 <Providers>
                     <Suspense fallback={null}>
                         <NavigationProgress />

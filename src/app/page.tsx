@@ -1,10 +1,12 @@
 import HeroSection from "@/components/hero-section";
-import Features from "@/components/features";
-import ContentSection from "@/components/content-section";
-import Pricing from "@/components/pricing";
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import TeamSection from "@/components/team-section";
-import LogoCloud from "@/components/logo-cloud";
+
+const LogoCloud = dynamic(() => import("@/components/logo-cloud"), { ssr: true });
+const Features = dynamic(() => import("@/components/features"), { ssr: true });
+const ContentSection = dynamic(() => import("@/components/content-section"), { ssr: true });
+const TeamSection = dynamic(() => import("@/components/team-section"), { ssr: true });
+const Pricing = dynamic(() => import("@/components/pricing"), { ssr: true });
 
 export default function Home() {
     return (

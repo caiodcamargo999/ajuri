@@ -8,7 +8,8 @@ export const Logo = () => {
                 alt="Ajuri Logo"
                 width={140}
                 height={50}
-                quality={100}
+                quality={90}
+                priority
                 className="object-contain h-12 w-auto"
             />
         </div>

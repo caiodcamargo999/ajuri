@@ -4,7 +4,7 @@ import { CRMClient, STATUS_COLUMNS, ClientStatus } from "@/types/crm";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreVertical, Mail, Phone, Calendar, Plus, MessageCircle } from "lucide-react";
+import { MoreVertical, Mail, Phone, Calendar, Plus, MessageCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -25,6 +25,8 @@ interface KanbanViewProps {
     onDeleteClient: (clientId: string) => void;
     onCreateClient?: (status: ClientStatus) => void;
     onChat?: (client: CRMClient) => void;
+    selectedClients?: string[];
+    onToggleSelection?: (clientId: string) => void;
 }
 
 export function KanbanView({
@@ -34,7 +36,9 @@ export function KanbanView({
     onMoveClient,
     onDeleteClient,
     onCreateClient,
-    onChat
+    onChat,
+    selectedClients = [],
+    onToggleSelection
 }: KanbanViewProps) {
     const getClientsByStatus = (status: ClientStatus) => {
         return clients.filter((c) => c.status === status);
@@ -84,29 +88,48 @@ export function KanbanView({
                     </div>
 
                     <div className="flex flex-col gap-3 h-full rounded-2xl bg-muted/30 p-2 border border-border/50">
-                        {getClientsByStatus(column.id).map((client) => (
-                            <motion.div
-                                key={client.id}
-                                layoutId={client.id}
-                                draggable
-                                onDragStart={(e) => handleDragStart(e as any, client.id)}
-                                className="cursor-grab active:cursor-grabbing"
-                            >
-                                <Card
-                                    className="p-4 hover:shadow-md transition-all border-border/50 bg-card group"
-                                    onClick={() => onEditClient(client)}
+                        {getClientsByStatus(column.id).map((client) => {
+                            const isSelected = selectedClients.includes(client.id);
+                            return (
+                                <motion.div
+                                    key={client.id}
+                                    layoutId={client.id}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e as any, client.id)}
+                                    className="cursor-grab active:cursor-grabbing relative"
                                 >
-                                    <div className="flex flex-col gap-3">
-                                        <div className="flex items-start justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <Avatar className="h-8 w-8 border">
-                                                    <AvatarImage src={client.avatar} />
-                                                    <AvatarFallback className="text-[10px]">
-                                                        {client.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase()}
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                                <span className="font-medium text-sm truncate max-w-[180px]">{client.name}</span>
-                                            </div>
+                                    <Card
+                                        className={cn(
+                                            "p-4 hover:shadow-md transition-all border-border/50 bg-card group",
+                                            isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background border-primary/50"
+                                        )}
+                                        onClick={() => onEditClient(client)}
+                                    >
+                                        <div className="flex flex-col gap-3">
+                                            <div className="flex items-start justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <div 
+                                                        className="relative"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            onToggleSelection?.(client.id);
+                                                        }}
+                                                    >
+                                                        <div className={cn(
+                                                            "w-4 h-4 rounded border transition-all flex items-center justify-center cursor-pointer",
+                                                            isSelected ? "bg-primary border-primary" : "border-zinc-700 bg-zinc-900 group-hover:border-zinc-500"
+                                                        )}>
+                                                            {isSelected && <div className="w-2 h-2 bg-white rounded-sm" />}
+                                                        </div>
+                                                    </div>
+                                                    <Avatar className="h-8 w-8 border">
+                                                        <AvatarImage src={client.avatar} />
+                                                        <AvatarFallback className="text-[10px]">
+                                                            {client.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase()}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <span className="font-medium text-sm truncate max-w-[140px]">{client.name}</span>
+                                                </div>
                                             <div onClick={(e) => e.stopPropagation()}>
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -153,6 +176,16 @@ export function KanbanView({
                                             )}
                                         </div>
 
+                                        {client.tags && client.tags.length > 0 && (
+                                            <div className="flex flex-wrap gap-1 px-0.5">
+                                                {client.tags.map(tag => (
+                                                    <Badge key={tag} variant="outline" className="text-[9px] py-0 px-1.5 h-4 bg-zinc-50 border-zinc-200 text-zinc-500 font-medium">
+                                                        {tag}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        )}
+
                                         <div className="flex items-center justify-between pt-1 mt-1 border-t border-border/30">
                                             <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                                                 <Calendar className="h-3 w-3" />
@@ -183,7 +216,7 @@ export function KanbanView({
                                     </div>
                                 </Card>
                             </motion.div>
-                        ))}
+                        )})}
 
                         {getClientsByStatus(column.id).length === 0 && (
                             <div className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-border/30 rounded-xl text-muted-foreground/40 text-xs">

@@ -341,6 +341,8 @@ export default function AjuriXForm() {
                         timestamp: new Date().toISOString()
                     }],
                     tasks: [],
+                    tags: [],
+                    pipelineId: "default"
                 };
                 clients = [...clients, newClient];
             } else {

@@ -144,7 +144,7 @@ export default function HeroSection() {
                                         size="lg"
                                         variant="ghost"
                                         className="w-full sm:w-auto h-12 rounded-xl px-8 text-zinc-300 hover:text-white hover:bg-zinc-900 border border-transparent hover:border-zinc-800">
-                                        <Link href="https://cal.com/backofficebr/30min" target="_blank">
+                                        <Link href="https://cal.com/backofficebr/60min" target="_blank">
                                             <span className="text-nowrap">Falar com Vendas</span>
                                         </Link>
                                     </Button>

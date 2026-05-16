@@ -12,26 +12,29 @@ export async function GET(request: Request) {
         const { error } = await supabase.auth.exchangeCodeForSession(code)
 
         if (!error) {
-            // Check whitelist
-            const { data: { user } } = await supabase.auth.getUser()
+            const isPasswordRecovery = next === '/auth/update-password'
 
-            if (user?.email) {
-                const { data: whitelistedUser } = await supabase
-                    .from('whitelist')
-                    .select('email')
-                    .ilike('email', user.email.trim())
-                    .maybeSingle() // Use maybeSingle to avoid errors on no rows
+            // Skip whitelist check for password recovery — user is already a valid Supabase Auth user
+            if (!isPasswordRecovery) {
+                const { data: { user } } = await supabase.auth.getUser()
 
-                if (!whitelistedUser) {
-                    await supabase.auth.signOut()
-                    return NextResponse.redirect('https://cal.com/backofficebr/30min')
+                if (user?.email) {
+                    const { data: whitelistedUser } = await supabase
+                        .from('whitelist')
+                        .select('email')
+                        .ilike('email', user.email.trim())
+                        .maybeSingle()
+
+                    if (!whitelistedUser) {
+                        await supabase.auth.signOut()
+                        return NextResponse.redirect('https://cal.com/backofficebr/60min')
+                    }
                 }
             }
 
-            const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
+            const forwardedHost = request.headers.get('x-forwarded-host')
             const isLocalEnv = process.env.NODE_ENV === 'development'
             if (isLocalEnv) {
-                // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
                 return NextResponse.redirect(`${origin}${next}`)
             } else if (forwardedHost) {
                 return NextResponse.redirect(`https://${forwardedHost}${next}`)

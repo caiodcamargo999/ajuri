@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { PlusCircle, Search, LayoutGrid, List, Users, Sparkles, Settings, Zap, Filter } from "lucide-react"
+import { PlusCircle, Search, LayoutGrid, List, Users, Sparkles, Settings, Zap, Filter, FileUp, Trash2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { ClientList } from "@/components/clients/client-list"
 import { KanbanView } from "@/components/clients/kanban-view"
 import { ClientModal } from "@/components/clients/client-modal"
 import { ClientChatSheet } from "@/components/clients/client-chat-sheet"
 import { PipelineManager } from "@/components/clients/pipeline-manager"
+import { CSVImportModal } from "@/components/clients/csv-import-modal"
 import { CRMClient, ClientStatus, CRMPipeline, CRMIntegration, DEFAULT_STAGES, CRMStage } from "@/types/crm"
 import { toast } from "sonner"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -26,12 +27,14 @@ export default function ClientesPage() {
 
     // New State for Pipelines & Integrations
     const [pipelines, setPipelines] = useState<CRMPipeline[]>([]);
-    const [integrations, setIntegrations] = useState<CRMIntegration[]>([]);
+    const [integrations, setIntegrations] = useState<any[]>([]);
+    const [selectedClients, setSelectedClients] = useState<string[]>([]);
     const [currentPipelineId, setCurrentPipelineId] = useState<string>("");
 
     // UI State
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPipelineManagerOpen, setIsPipelineManagerOpen] = useState(false);
+    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
     const [editingClient, setEditingClient] = useState<CRMClient | null>(null);
     const [chatClient, setChatClient] = useState<CRMClient | null>(null);
@@ -90,7 +93,8 @@ export default function ClientesPage() {
                     ...c,
                     pipelineId: c.pipelineId || "default", // Assign to default if missing
                     activities: c.activities || [],
-                    tasks: c.tasks || []
+                    tasks: c.tasks || [],
+                    tags: c.tags || []
                 }));
 
                 // Only update storage if data changed (simple check)
@@ -155,8 +159,29 @@ export default function ClientesPage() {
     const handleDeleteClient = (clientId: string) => {
         const newClients = clients.filter(c => c.id !== clientId);
         saveClientsToLocalStorage(newClients);
-        toast.success("Lead removido com sucesso.");
+        setSelectedClients([]);
     };
+
+    const handleBulkDelete = () => {
+        if (selectedClients.length === 0) return;
+        
+        if (confirm(`Tem certeza que deseja excluir ${selectedClients.length} leads selecionados?`)) {
+            const newClients = clients.filter(c => !selectedClients.includes(c.id));
+            saveClientsToLocalStorage(newClients);
+            setSelectedClients([]);
+            toast.success(`${selectedClients.length} leads excluídos com sucesso!`);
+        }
+    };
+
+    const toggleClientSelection = (clientId: string) => {
+        setSelectedClients(prev => 
+            prev.includes(clientId) 
+                ? prev.filter(id => id !== clientId) 
+                : [...prev, clientId]
+        );
+    };
+
+    const clearSelection = () => setSelectedClients([]);
 
     const handleEditClient = (client: CRMClient) => {
         setEditingClient(client);
@@ -201,6 +226,11 @@ export default function ClientesPage() {
     const handleSaveIntegrations = (newIntegrations: CRMIntegration[]) => {
         setIntegrations(newIntegrations);
         localStorage.setItem(INTEGRATION_KEY, JSON.stringify(newIntegrations));
+    };
+
+    const handleImportCSV = (newClients: CRMClient[]) => {
+        const combinedClients = [...clients, ...newClients];
+        saveClientsToLocalStorage(combinedClients);
     };
 
     const filteredClients = clients.filter(c => {
@@ -277,6 +307,14 @@ export default function ClientesPage() {
                         </div>
 
                         <Button
+                            variant="outline"
+                            onClick={() => setIsImportModalOpen(true)}
+                            className="border-zinc-800 bg-zinc-950 hover:bg-zinc-900 text-zinc-400 font-bold h-12 px-6 rounded-2xl transition-all"
+                        >
+                            <FileUp className="h-5 w-5 mr-2" /> Importar CSV
+                        </Button>
+
+                        <Button
                             onClick={() => { setEditingClient(null); setIsModalOpen(true); }}
                             className="bg-amber-600 hover:bg-amber-500 text-white font-black h-12 px-8 rounded-2xl shadow-xl shadow-amber-900/20 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap"
                         >
@@ -326,21 +364,58 @@ export default function ClientesPage() {
                             <ClientList
                                 clients={filteredClients}
                                 onEdit={handleEditClient}
+                                onChat={handleChat}
                                 onDelete={handleDeleteClient}
+                                selectedClients={selectedClients}
+                                onToggleSelection={toggleClientSelection}
                             />
                         ) : (
                             <KanbanView
-                                clients={filteredClients}
+                                clients={filteredClients.filter(c => c.pipelineId === currentPipelineId)}
                                 columns={kanbanColumns}
                                 onEditClient={handleEditClient}
                                 onMoveClient={handleMoveClient}
                                 onDeleteClient={handleDeleteClient}
                                 onCreateClient={handleCreateClientByStatus}
                                 onChat={handleChat}
+                                selectedClients={selectedClients}
+                                onToggleSelection={toggleClientSelection}
                             />
                         )}
                     </div>
                 </main>
+
+                {/* Barra de Ações em Massa */}
+                {selectedClients.length > 0 && (
+                    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                        <div className="flex items-center gap-3 pr-6 border-r border-zinc-800">
+                            <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 font-bold text-xs">
+                                {selectedClients.length}
+                            </div>
+                            <span className="text-sm font-bold text-white whitespace-nowrap">Leads selecionados</span>
+                        </div>
+                        
+                        <div className="flex items-center gap-3">
+                            <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={clearSelection}
+                                className="text-zinc-500 hover:text-white"
+                            >
+                                Desmarcar Tudo
+                            </Button>
+                            <Button 
+                                variant="destructive" 
+                                size="sm"
+                                onClick={handleBulkDelete}
+                                className="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 rounded-xl"
+                            >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Excluir Selecionados
+                            </Button>
+                        </div>
+                    </div>
+                )}
 
                 <ClientModal
                     isOpen={isModalOpen}
@@ -363,6 +438,14 @@ export default function ClientesPage() {
                     onOpenChange={setIsPipelineManagerOpen}
                     pipelines={pipelines}
                     onSave={handleSavePipelines}
+                />
+
+                <CSVImportModal
+                    isOpen={isImportModalOpen}
+                    onClose={() => setIsImportModalOpen(false)}
+                    onImport={handleImportCSV}
+                    currentPipelineId={currentPipelineId}
+                    pipelines={pipelines}
                 />
             </div>
         </div>

@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CRMClient, ClientStatus, CRMActivity, CRMTask } from "@/types/crm";
-import { User, Mail, Phone, MapPin, FileType, History, MessageSquare, Send, Calendar, Clock, MoreVertical, Trash2, CheckCircle2, AlertCircle } from "lucide-react";
+import { User, Mail, Phone, MapPin, FileType, History, MessageSquare, Send, Calendar, Clock, MoreVertical, Trash2, CheckCircle2, AlertCircle, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -73,6 +73,8 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient }
     const [tasks, setTasks] = useState<CRMTask[]>([]);
     const [waInstance, setWaInstance] = useState<string | null>(null);
     const [inputType, setInputType] = useState<"NOTE" | "WHATSAPP" | "TASK">("NOTE");
+    const [tags, setTags] = useState<string[]>([]);
+    const [tagInput, setTagInput] = useState("");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -129,6 +131,7 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient }
             });
             setActivities(editingClient.activities || []);
             setTasks(editingClient.tasks || []);
+            setTags(editingClient.tags || []);
         } else {
             form.reset({
                 name: "",
@@ -148,6 +151,7 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient }
             });
             setActivities([]);
             setTasks([]);
+            setTags([]);
         }
         setActiveTab("TIMELINE");
         setNoteInput("");
@@ -164,6 +168,7 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient }
             processCount: editingClient?.processCount || 0,
             activities: activities,
             tasks: tasks,
+            tags: tags,
         };
         onSave(clientData);
         onClose();
@@ -410,6 +415,60 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient }
                                             </FormItem>
                                         )}
                                     />
+                                </div>
+
+                                <Separator />
+
+                                <div className="space-y-4">
+                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50 mb-3">Tags</h3>
+                                    <div className="space-y-3">
+                                        <div className="flex gap-2">
+                                            <Input
+                                                placeholder="Nova tag..."
+                                                className="bg-background h-9 text-xs"
+                                                value={tagInput}
+                                                onChange={(e) => setTagInput(e.target.value)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                        e.preventDefault();
+                                                        if (tagInput.trim() && !tags.includes(tagInput.trim())) {
+                                                            setTags([...tags, tagInput.trim()]);
+                                                            setTagInput("");
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                className="h-9 px-3"
+                                                onClick={() => {
+                                                    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
+                                                        setTags([...tags, tagInput.trim()]);
+                                                        setTagInput("");
+                                                    }
+                                                }}
+                                            >
+                                                <PlusCircle className="w-3 h-3" />
+                                            </Button>
+                                        </div>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {tags.map((tag) => (
+                                                <Badge
+                                                    key={tag}
+                                                    variant="secondary"
+                                                    className="text-[10px] py-0 px-2 flex items-center gap-1 group bg-zinc-100 hover:bg-zinc-200 text-zinc-700 border-zinc-200"
+                                                >
+                                                    {tag}
+                                                    <X
+                                                        className="w-2.5 h-2.5 cursor-pointer opacity-40 group-hover:opacity-100 transition-opacity"
+                                                        onClick={() => setTags(tags.filter((t) => t !== tag))}
+                                                    />
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <Separator />

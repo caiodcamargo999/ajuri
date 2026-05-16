@@ -92,7 +92,7 @@ export const HeroHeader = () => {
                                     size="sm"
                                     className="rounded-full"
                                 >
-                                    <Link href="https://cal.com/backofficebr/30min" target="_blank">
+                                    <Link href="https://cal.com/backofficebr/60min" target="_blank">
                                         <span>Falar com Vendas</span>
                                     </Link>
                                 </Button>

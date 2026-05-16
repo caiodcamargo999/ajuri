@@ -22,7 +22,12 @@ export async function middleware(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
 
     // definindo aqui quais sao as rotas publicas
-    const isPublicRoute = request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/' || request.nextUrl.pathname.startsWith('/auth');
+    const isPublicRoute = 
+        request.nextUrl.pathname === '/login' || 
+        request.nextUrl.pathname === '/' || 
+        request.nextUrl.pathname === '/esqueci-senha' ||
+        request.nextUrl.pathname === '/auth/update-password' ||
+        request.nextUrl.pathname.startsWith('/auth');
     
     // bloqueia acesso nao autenticado e retorna p o login
     if (!user && !isPublicRoute) {

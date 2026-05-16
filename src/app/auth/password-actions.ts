@@ -15,12 +15,16 @@ export async function forgotPassword(formData: FormData) {
     // Vou confiar no Auth do Supabase, mas posso checar a whitelist se for crítico.
     // Vamos manter simples: Enviar reset.
 
+    let baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ajuri.vercel.app'
+    baseUrl = baseUrl.replace(/\/$/, '') // Remove trailing slash
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback?next=/auth/update-password`,
+        redirectTo: `${baseUrl}/auth/callback?next=/auth/update-password`,
     })
 
     if (error) {
-        return redirect('/esqueci-senha?error=Não foi possível enviar o email')
+        console.error('[forgotPassword] Supabase error:', error.message, error)
+        return redirect(`/esqueci-senha?error=${encodeURIComponent(error.message)}`)
     }
 
     return redirect('/esqueci-senha?success=Verifique seu email para redefinir a senha')

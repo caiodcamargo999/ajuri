@@ -107,6 +107,8 @@ export function ChatInterface() {
                                     timestamp: new Date().toISOString()
                                 }],
                                 tasks: [],
+                                tags: [],
+                                pipelineId: "default"
                             };
 
                             clients = [newClient, ...clients];

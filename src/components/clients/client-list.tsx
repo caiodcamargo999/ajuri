@@ -27,10 +27,35 @@ interface ClientListProps {
     clients: CRMClient[];
     stages?: { id: string; name: string; color: string }[];
     onEdit: (client: CRMClient) => void;
+    onChat: (client: CRMClient) => void;
     onDelete: (clientId: string) => void;
+    selectedClients: string[];
+    onToggleSelection: (clientId: string) => void;
 }
 
-export function ClientList({ clients, stages, onEdit, onDelete }: ClientListProps) {
+export function ClientList({ 
+    clients, 
+    stages, 
+    onEdit, 
+    onChat, 
+    onDelete,
+    selectedClients, 
+    onToggleSelection 
+}: ClientListProps) {
+    const allSelected = clients.length > 0 && selectedClients.length === clients.length;
+    
+    const handleSelectAll = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (allSelected) {
+            clients.forEach(c => {
+                if (selectedClients.includes(c.id)) onToggleSelection(c.id);
+            });
+        } else {
+            clients.forEach(c => {
+                if (!selectedClients.includes(c.id)) onToggleSelection(c.id);
+            });
+        }
+    };
     const getStageConfig = (status: string) => {
         if (stages) {
             const found = stages.find(s => s.id === status);
@@ -52,6 +77,17 @@ export function ClientList({ clients, stages, onEdit, onDelete }: ClientListProp
             <Table>
                 <TableHeader className="bg-muted/50">
                     <TableRow className="hover:bg-transparent">
+                        <TableHead className="w-10">
+                            <div 
+                                className={cn(
+                                    "w-4 h-4 rounded border transition-all flex items-center justify-center cursor-pointer",
+                                    allSelected ? "bg-primary border-primary" : "border-zinc-700 bg-zinc-900"
+                                )}
+                                onClick={handleSelectAll}
+                            >
+                                {allSelected && <div className="w-2 h-2 bg-white rounded-sm" />}
+                            </div>
+                        </TableHead>
                         <TableHead className="w-[300px]">Cliente</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Processos</TableHead>
@@ -62,7 +98,7 @@ export function ClientList({ clients, stages, onEdit, onDelete }: ClientListProp
                 <TableBody>
                     {clients.length === 0 ? (
                         <TableRow>
-                            <TableCell colSpan={5} className="h-24 text-center">
+                            <TableCell colSpan={6} className="h-24 text-center">
                                 Nenhum cliente encontrado.
                             </TableCell>
                         </TableRow>
@@ -71,13 +107,28 @@ export function ClientList({ clients, stages, onEdit, onDelete }: ClientListProp
                             const stage = getStageConfig(client.status);
                             const colorClass = stage.color.replace("bg-", "text-").replace("500", "600");
                             const bgClass = stage.color + "/10";
+                            const isSelected = selectedClients.includes(client.id);
 
                             return (
                                 <TableRow
                                     key={client.id}
-                                    className="hover:bg-muted/50 transition-colors cursor-pointer"
+                                    className={cn(
+                                        "hover:bg-muted/50 transition-colors cursor-pointer",
+                                        isSelected && "bg-primary/5"
+                                    )}
                                     onClick={() => onEdit(client)}
                                 >
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
+                                        <div 
+                                            className={cn(
+                                                "w-4 h-4 rounded border transition-all flex items-center justify-center cursor-pointer",
+                                                isSelected ? "bg-primary border-primary" : "border-zinc-700 bg-zinc-900"
+                                            )}
+                                            onClick={() => onToggleSelection(client.id)}
+                                        >
+                                            {isSelected && <div className="w-2 h-2 bg-white rounded-sm" />}
+                                        </div>
+                                    </TableCell>
                                     <TableCell className="font-medium">
                                         <div className="flex items-center gap-3">
                                             <Avatar className="h-9 w-9 border border-border text-xs">

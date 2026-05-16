@@ -81,6 +81,7 @@ export interface CRMClient {
     activities: CRMActivity[];
     tasks: CRMTask[];
     value?: number; // Estimated contract value
+    tags: string[];
 }
 
 export const DEFAULT_STAGES: CRMStage[] = [
