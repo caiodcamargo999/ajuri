@@ -95,7 +95,7 @@ export function ProcessModal({ isOpen, onClose, onSave, editingProcess }: Proces
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[500px] rounded-2xl">
+            <DialogContent className="w-[95vw] max-w-[500px] rounded-2xl p-4 md:p-6 overflow-y-auto max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle>{editingProcess ? "Editar Processo" : "Novo Processo"}</DialogTitle>
                     <DialogDescription>
@@ -147,7 +147,7 @@ export function ProcessModal({ isOpen, onClose, onSave, editingProcess }: Proces
                             )}
                         />
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
                                 name="status"

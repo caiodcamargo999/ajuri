@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "@/components/ui/use-toast"
 import { Trash2, UserPlus, Users, BadgeCheck } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-// import { BrandingSettings } from "./branding-settings" -- Removed as moved to separate page
+import { TemplateManager } from "@/components/settings/TemplateManager"
 
 interface Profile {
     id: string
@@ -165,9 +165,10 @@ export function SettingsForm({ defaultTab = "profile" }: SettingsFormProps) {
 
     return (
         <Tabs defaultValue={defaultTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="profile">Perfil</TabsTrigger>
                 <TabsTrigger value="team">Equipe & Plano</TabsTrigger>
+                <TabsTrigger value="templates">Modelos</TabsTrigger>
             </TabsList>
 
 
@@ -231,7 +232,7 @@ export function SettingsForm({ defaultTab = "profile" }: SettingsFormProps) {
                                         toast({ title: "Erro", description: err.message, variant: "destructive" })
                                     }
                                 }}
-                                className="flex items-end gap-2"
+                                className="flex flex-col sm:flex-row sm:items-end items-stretch gap-2"
                             >
                                 <div className="grid w-full gap-2">
                                     <Label htmlFor="password">Nova Senha</Label>
@@ -256,7 +257,7 @@ export function SettingsForm({ defaultTab = "profile" }: SettingsFormProps) {
                     <CardContent className="space-y-6">
 
                         {/* Add Collaborator Form */}
-                        <form onSubmit={handleAddCollaborator} className="flex w-full items-end gap-2">
+                        <form onSubmit={handleAddCollaborator} className="flex flex-col sm:flex-row w-full sm:items-end items-stretch gap-2">
                             <div className="grid w-full gap-2">
                                 <Label htmlFor="collab-email">Email do Colaborador</Label>
                                 <Input
@@ -323,6 +324,11 @@ export function SettingsForm({ defaultTab = "profile" }: SettingsFormProps) {
                         </div>
                     </CardFooter>
                 </Card>
+            </TabsContent>
+
+            {/* --- TEMPLATES TAB --- */}
+            <TabsContent value="templates">
+                <TemplateManager />
             </TabsContent>
         </Tabs>
     )

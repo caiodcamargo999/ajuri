@@ -16,6 +16,7 @@ import {
     MessageSquare,
     Zap,
     CheckSquare,
+    BookOpen,
 } from "lucide-react"
 import { FaWhatsapp } from "react-icons/fa"
 
@@ -162,10 +163,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             Dashboard
                         </SidebarGroupLabel>
                         <SidebarMenuItem>
-                            <SidebarMenuButton asChild tooltip="Dashboard" isActive={pathname === "/dashboard"} size="default" className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-emerald-500/5 hover:text-emerald-400 active:scale-95">
+                            <SidebarMenuButton asChild tooltip="Dashboard" isActive={pathname === "/dashboard"} size="default" className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-emerald-500/5 hover:text-emerald-400 active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10">
                                 <Link href="/dashboard" className="flex items-center gap-3">
                                     <LayoutDashboard className={cn("opacity-70 transition-colors", pathname === "/dashboard" ? "text-emerald-400 opacity-100" : "group-hover:text-emerald-400")} />
-                                    <span className={cn(pathname === "/dashboard" && "text-emerald-400")}>Dashboard</span>
+                                    <span className={cn(pathname === "/dashboard" && "text-emerald-400", "group-data-[collapsible=icon]:hidden")}>Dashboard</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -179,23 +180,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         </SidebarGroupLabel>
                         {[
                             { href: "/peticoes", label: "Petições", icon: FileText, color: "text-blue-400" },
-                            { href: "/processos", label: "Processos", icon: Briefcase, color: "text-purple-400" },
+                            // { href: "/processos", label: "Processos", icon: Briefcase, color: "text-purple-400" },
                             { href: "/clientes", label: "Clientes", icon: Users, color: "text-amber-400" },
                             { href: "/tarefas", label: "Tarefas", icon: CheckSquare, color: "text-indigo-400" },
+                            { href: "/docs", label: "Docs", icon: FileText, color: "text-blue-500" },
                             { href: "/integracoes", label: "Integrações", icon: Zap, color: "text-amber-600" },
                             { href: "/whatsapp", label: "WhatsApp", icon: FaWhatsapp, color: "text-emerald-500" },
                             { href: "/customizar-documentacao", label: "Customização", icon: Palette, color: "text-pink-400" },
+                            { href: "/documentacao", label: "Documentação", icon: BookOpen, color: "text-cyan-400" },
                         ].map((item) => (
                             <SidebarMenuItem key={item.href}>
                                 <SidebarMenuButton
                                     asChild
                                     tooltip={item.label}
                                     isActive={pathname.startsWith(item.href)}
-                                    className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-white/5 active:scale-95"
+                                    className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-white/5 active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10"
                                 >
                                     <Link href={item.href} className="flex items-center gap-3">
                                         <item.icon className={cn("opacity-70 transition-all", pathname.startsWith(item.href) ? `${item.color} opacity-100` : "group-hover:opacity-100")} />
-                                        <span className={cn(pathname.startsWith(item.href) && "text-white")}>{item.label}</span>
+                                        <span className={cn(pathname.startsWith(item.href) && "text-white", "group-data-[collapsible=icon]:hidden")}>{item.label}</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
@@ -209,21 +212,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             IA Intelligence
                         </SidebarGroupLabel>
                         <SidebarMenuItem>
-                            <SidebarMenuButton asChild tooltip="Ajuri X" isActive={pathname.startsWith("/ajuri-x")} className="rounded-xl px-4 font-bold sidebar-item transition-all duration-500 bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] active:scale-95">
+                            <SidebarMenuButton asChild tooltip="Ajuri X" isActive={pathname.startsWith("/ajuri-x")} className="rounded-xl px-4 font-bold sidebar-item transition-all duration-500 bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10">
                                 <Link href="/ajuri-x" className="flex items-center gap-3">
                                     <Scale16SolidIcon className="text-emerald-500 w-5 h-5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]" size="100%" color="currentColor" />
-                                    <span className="text-emerald-500 tracking-wider">AJURI X</span>
+                                    <span className="text-emerald-500 tracking-wider group-data-[collapsible=icon]:hidden">AJURI X</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
+                        {/*
                         <SidebarMenuItem>
-                            <SidebarMenuButton asChild tooltip="Agente Ajuri X" isActive={pathname.startsWith("/assistentes-ia")} className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-white/5 active:scale-95">
+                            <SidebarMenuButton asChild tooltip="Agente Ajuri X" isActive={pathname.startsWith("/assistentes-ia")} className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-white/5 active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10">
                                 <Link href="/assistentes-ia" className="flex items-center gap-3">
                                     <Bot className={cn("opacity-70 transition-colors", pathname.startsWith("/assistentes-ia") ? "text-emerald-400 opacity-100" : "group-hover:text-emerald-400")} />
-                                    <span>Agente Ajuri X</span>
+                                    <span className="group-data-[collapsible=icon]:hidden">Agente Ajuri X</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
+                        */}
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>

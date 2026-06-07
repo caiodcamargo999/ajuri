@@ -11,7 +11,10 @@ import { Input } from "@/components/ui/input"
 
 const STORAGE_KEY = "ajuri_legal_processes";
 
+import { redirect } from "next/navigation"
+
 export default function ProcessosPage() {
+    redirect('/dashboard');
     const [processes, setProcesses] = useState<LegalProcess[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingProcess, setEditingProcess] = useState<LegalProcess | null>(null);
@@ -84,13 +87,13 @@ export default function ProcessosPage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                         <Button variant="outline" className="gap-2 bg-zinc-950/50 border-white/5 hover:bg-white/5 font-bold h-12 px-6 rounded-2xl hidden md:flex text-zinc-400">
                             <Filter className="h-4 w-4" /> Filtros Avançados
                         </Button>
                         <Button
                             onClick={() => { setEditingProcess(null); setIsModalOpen(true); }}
-                            className="bg-purple-600 hover:bg-purple-500 text-white font-black h-12 px-8 rounded-2xl shadow-xl shadow-purple-900/20 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap"
+                            className="bg-purple-600 hover:bg-purple-500 text-white font-black h-12 px-8 rounded-2xl shadow-xl shadow-purple-900/20 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap w-full md:w-auto"
                         >
                             <PlusCircle className="h-5 w-5 mr-2" /> Novo Processo
                         </Button>

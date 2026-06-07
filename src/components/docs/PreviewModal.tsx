@@ -1,0 +1,180 @@
+import React, { useRef, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Download, Loader2 } from "lucide-react";
+import { ProcuracaoTemplate } from "./templates/ProcuracaoTemplate";
+import { DeclaracaoHipossuficienciaTemplate } from "./templates/DeclaracaoHipossuficienciaTemplate";
+import { ContratoHonorariosTemplate } from "./templates/ContratoHonorariosTemplate";
+import { CRMClient } from "@/types/crm";
+import { CustomDocumentTemplate } from "./templates/CustomDocumentTemplate";
+
+export type DocumentType = "procuracao" | "declaracao" | "contrato" | "custom" | null;
+
+interface PreviewModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  documentType: DocumentType;
+  clientData: Partial<CRMClient>;
+  docSettings?: {
+    tipoAcao: string;
+    valorInicial: string;
+    percentualExito: string;
+  };
+  customTemplateTitle?: string;
+  customTemplateContent?: string;
+}
+
+export const PreviewModal: React.FC<PreviewModalProps> = ({
+  isOpen,
+  onClose,
+  documentType,
+  clientData,
+  docSettings,
+  customTemplateTitle,
+  customTemplateContent
+}) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [officeData, setOfficeData] = useState<any>(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      try {
+        const storedProfiles = localStorage.getItem("ajuri_branding_profiles");
+        const activeId = localStorage.getItem("ajuri_active_profile_id");
+        
+        if (storedProfiles) {
+          const profiles = JSON.parse(storedProfiles);
+          const activeProfile = profiles.find((p: any) => p.id === activeId) || profiles[0];
+          
+          if (activeProfile?.officeData) {
+            setOfficeData(activeProfile.officeData);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, [isOpen]);
+
+  const getDocumentTitle = () => {
+    switch (documentType) {
+      case "procuracao":
+        return "Procuração";
+      case "declaracao":
+        return "Declaração de Hipossuficiência";
+      case "contrato":
+        return "Contrato de Honorários";
+      case "custom":
+        return customTemplateTitle || "Documento Personalizado";
+      default:
+        return "Documento";
+    }
+  };
+
+  const getFileName = () => {
+    const docName = getDocumentTitle().replace(/\s+/g, "_");
+    const clientName = clientData.name?.replace(/\s+/g, "_") || "Cliente";
+    return `${docName}_${clientName}.pdf`;
+  };
+
+  const handleExportPDF = async () => {
+    if (!contentRef.current) return;
+    try {
+      setIsExporting(true);
+      
+      // Dynamically import html2pdf so it doesn't break SSR
+      const html2pdf = (await import("html2pdf.js")).default;
+      
+      const element = contentRef.current;
+      const opt = {
+        margin: 0,
+        filename: getFileName(),
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" as const },
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const renderContent = () => {
+    switch (documentType) {
+      case "procuracao":
+        return <ProcuracaoTemplate client={clientData} officeData={officeData} />;
+      case "declaracao":
+        return <DeclaracaoHipossuficienciaTemplate client={clientData} officeData={officeData} />;
+      case "contrato":
+        return <ContratoHonorariosTemplate client={clientData} officeData={officeData} docSettings={docSettings} />;
+      case "custom":
+        return <CustomDocumentTemplate client={clientData} officeData={officeData} docSettings={docSettings} templateHtml={customTemplateContent || ""} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col bg-zinc-950 border-white/10 text-white overflow-hidden p-0">
+        <DialogHeader className="p-6 border-b border-white/10 shrink-0 bg-zinc-950/50 backdrop-blur-md">
+          <div className="flex items-center justify-between">
+            <DialogTitle className="text-xl font-bold text-white flex items-center gap-3">
+              <span className="bg-amber-500/10 text-amber-500 p-2 rounded-xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-5 h-5"
+                >
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+              </span>
+              Pré-visualização: {getDocumentTitle()}
+            </DialogTitle>
+            <Button
+              onClick={handleExportPDF}
+              disabled={isExporting}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-10 px-6 rounded-xl shadow-lg transition-all"
+            >
+              {isExporting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Gerando PDF...
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4 mr-2" />
+                  Exportar PDF
+                </>
+              )}
+            </Button>
+          </div>
+        </DialogHeader>
+
+        {/* Scrollable area with dark background, centering the white document */}
+        <div className="flex-1 overflow-y-auto bg-black/50 p-8 custom-scrollbar flex justify-center">
+          {/* The content to be captured by html2pdf should have no outside interference. 
+              We wrap it in a div that is referenced by html2pdf */}
+          <div ref={contentRef} className="shadow-2xl">
+            {renderContent()}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};

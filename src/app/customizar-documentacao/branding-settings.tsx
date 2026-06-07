@@ -352,7 +352,7 @@ export function BrandingSettings() {
                   className="bg-black/40 border-white/5 h-12 rounded-xl focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all font-medium"
                 />
               </div>
-              <div className="grid grid-cols-3 gap-6 md:col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:col-span-2">
                 <div className="col-span-1 space-y-3">
                   <Label className="text-xs font-bold uppercase tracking-wider text-zinc-500">Cidade</Label>
                   <Input name="city" value={officeData.city} onChange={handleInputChange} className="bg-black/40 border-white/5 h-12 rounded-xl transition-all" />
@@ -446,7 +446,7 @@ export function BrandingSettings() {
             </div>
           </CardContent>
 
-          <CardFooter className="flex justify-end gap-4 p-8 border-t border-white/5 bg-white/5">
+          <CardFooter className="flex flex-col sm:flex-row sm:justify-end gap-4 p-4 md:p-8 border-t border-white/5 bg-white/5">
             <Button
               variant="outline"
               onClick={() => {

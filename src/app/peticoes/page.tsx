@@ -14,7 +14,11 @@ const MyPetitionsList = dynamic(() => import("@/components/petitions/my-petition
 })
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { CustomTemplate, STORAGE_KEY_TEMPLATES } from "@/components/settings/CustomTemplateEditor"
+import { CreateFromTemplateModal } from "@/components/petitions/CreateFromTemplateModal"
+import { PreviewModal, DocumentType } from "@/components/docs/PreviewModal"
+import { CRMClient } from "@/types/crm"
 
 import {
     Select,
@@ -27,6 +31,39 @@ import {
 export default function PeticoesPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
+    
+    // Custom Templates State
+    const [customTemplates, setCustomTemplates] = useState<CustomTemplate[]>([]);
+    const [selectedTemplate, setSelectedTemplate] = useState<CustomTemplate | null>(null);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    
+    // Preview Modal State
+    const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+    const [previewClientData, setPreviewClientData] = useState<Partial<CRMClient>>({});
+    const [previewDocSettings, setPreviewDocSettings] = useState<any>({});
+
+    useEffect(() => {
+        const storedTemplates = localStorage.getItem(STORAGE_KEY_TEMPLATES);
+        if (storedTemplates) {
+            try {
+                setCustomTemplates(JSON.parse(storedTemplates));
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }, []);
+
+    const handleSelectTemplate = (template: CustomTemplate) => {
+        setSelectedTemplate(template);
+        setIsCreateModalOpen(true);
+    };
+
+    const handleGeneratePreview = (clientData: Partial<CRMClient>, docSettings: any) => {
+        setPreviewClientData(clientData);
+        setPreviewDocSettings(docSettings);
+        setIsCreateModalOpen(false);
+        setIsPreviewModalOpen(true);
+    };
 
     return (
         <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
@@ -92,12 +129,50 @@ export default function PeticoesPage() {
                     </div>
                 </div>
 
+                {/* --- CUSTOM TEMPLATES BUTTONS --- */}
+                {customTemplates.length > 0 && (
+                    <div className="py-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                        <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-3">
+                            Gerar Petição a partir de Meus Modelos
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                            {customTemplates.map((template) => (
+                                <Button
+                                    key={template.id}
+                                    onClick={() => handleSelectTemplate(template)}
+                                    className="bg-zinc-900/50 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 hover:border-blue-500/30 rounded-xl transition-all"
+                                >
+                                    <FileText className="w-4 h-4 mr-2 text-blue-400" />
+                                    {template.title}
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <main className="flex-1 min-h-0">
                     <div className="h-full bg-zinc-950/20 rounded-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-500">
                         <MyPetitionsList searchQuery={searchQuery} filterStatus={filterStatus} />
                     </div>
                 </main>
             </div>
+
+            <CreateFromTemplateModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                template={selectedTemplate}
+                onGenerate={handleGeneratePreview}
+            />
+
+            <PreviewModal
+                isOpen={isPreviewModalOpen}
+                onClose={() => setIsPreviewModalOpen(false)}
+                documentType="custom"
+                clientData={previewClientData}
+                docSettings={previewDocSettings}
+                customTemplateTitle={selectedTemplate?.title}
+                customTemplateContent={selectedTemplate?.content}
+            />
         </div>
     )
 }

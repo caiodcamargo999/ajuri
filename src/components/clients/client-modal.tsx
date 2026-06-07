@@ -619,7 +619,7 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[1000px] h-[85vh] flex flex-col p-0 overflow-hidden bg-background border-border/40 font-inter">
+            <DialogContent className="w-full max-w-[100vw] h-[100dvh] sm:max-w-[1000px] sm:h-[85vh] flex flex-col p-0 overflow-hidden bg-background border-border/40 font-inter sm:rounded-xl rounded-none">
 
                 {/* Header Estilo Kommo */}
                 <div className="flex items-center justify-between p-4 border-b bg-muted/20">
@@ -669,9 +669,9 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
                     </div>
                 </div>
 
-                <div className="flex-1 flex overflow-hidden">
+                <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
                     {/* Coluna Esquerda: Dados e Campos (30%) */}
-                    <div className="w-[30%] border-r overflow-y-auto p-5 bg-muted/5 space-y-6">
+                    <div className="w-full lg:w-[30%] border-b lg:border-b-0 lg:border-r overflow-y-auto p-5 bg-muted/5 space-y-6 shrink-0 lg:shrink">
                         <Form {...form}>
                             <form className="space-y-6">
                                 <div className="space-y-4 text-sm font-medium">

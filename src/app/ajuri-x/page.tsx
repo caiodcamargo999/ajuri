@@ -15,7 +15,10 @@ const AjuriXForm = dynamic(() => import("@/components/ajuri-x/ajuri-x-form"), {
 });
 import { Scale16SolidIcon } from "@/components/icons/scale-icon";
 
+import { redirect } from "next/navigation"
+
 export default function AjuriXPage() {
+    redirect('/dashboard');
     return (
         <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
             {/* Background elements */}
@@ -35,26 +38,10 @@ export default function AjuriXPage() {
                                 <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none">
                                     AJURI X Intelligence
                                 </h1>
-                                <div className="flex items-center gap-3">
-                                    <span className="flex items-center gap-1.5 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] bg-emerald-500/5 px-2.5 py-1 rounded-full border border-emerald-500/10">
-                                        <Zap className="w-3 h-3" /> IA Avançada
-                                    </span>
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="hidden lg:flex items-center gap-6 px-6 py-3 bg-white/5 border border-white/5 rounded-2xl backdrop-blur-md">
-                        <div className="flex flex-col items-center">
-                            <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Segurança</span>
-                            <ShieldCheck className="w-4 h-4 text-emerald-500/60" />
-                        </div>
-                        <div className="w-px h-8 bg-white/10" />
-                        <div className="flex flex-col items-end">
-                            <span className="text-sm font-bold text-zinc-300">End-to-End</span>
-                            <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-tighter">Processamento Privado</span>
-                        </div>
-                    </div>
                 </header>
 
                 <main className="flex-1 min-h-0">

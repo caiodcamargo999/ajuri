@@ -181,7 +181,7 @@ export default function TarefasPage() {
 
     return (
         <div className="flex-1 flex flex-col h-full bg-zinc-950 p-6 overflow-hidden">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-white mb-2">Quadro de Tarefas</h1>
                     <p className="text-zinc-400">Gerencie todas as tarefas dos seus clientes em um só lugar.</p>
@@ -403,7 +403,7 @@ export default function TarefasPage() {
                                         className="w-full bg-zinc-900/50 border border-white/10 rounded-lg p-3 text-sm text-white resize-none min-h-[100px] focus:ring-1 focus:ring-emerald-500 focus:outline-none"
                                     />
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-1">
                                         <label className="text-xs font-bold text-zinc-500 uppercase">Responsável</label>
                                         <div className="flex items-center gap-2 bg-zinc-900/50 border border-white/10 rounded-lg px-3 h-10">
@@ -507,7 +507,7 @@ export default function TarefasPage() {
                                         className="w-full bg-zinc-900/50 border border-white/10 rounded-lg p-3 text-sm text-white resize-none min-h-[80px] focus:ring-1 focus:ring-emerald-500 focus:outline-none"
                                     />
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-1">
                                         <label className="text-xs font-bold text-zinc-500 uppercase">Responsável</label>
                                         <div className="flex items-center gap-2 bg-zinc-900/50 border border-white/10 rounded-lg px-3 h-10">

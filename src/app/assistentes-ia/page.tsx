@@ -1,7 +1,10 @@
 "use client"
 import { ChatInterface } from "@/components/ai/chat-interface"
 
+import { redirect } from "next/navigation"
+
 export default function AssistentesIAPage() {
+    redirect('/dashboard');
     return (
         <div className="flex flex-1 flex-col gap-6 p-4 pt-0 h-full">
             <div>
