@@ -47,6 +47,7 @@ export interface CRMActivity {
     content: string;
     timestamp: string;
     author?: string;
+    audioUrl?: string;
 }
 
 export interface CRMTask {
@@ -54,7 +55,9 @@ export interface CRMTask {
     title: string;
     description?: string;
     dueDate: string;
-    status: "PENDING" | "COMPLETED";
+    createdAt?: string;
+    assignee?: string;
+    status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING" | "COMPLETED";
     priority: "LOW" | "MEDIUM" | "HIGH";
 }
 

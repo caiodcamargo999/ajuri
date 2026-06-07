@@ -15,6 +15,7 @@ import {
     Palette,
     MessageSquare,
     Zap,
+    CheckSquare,
 } from "lucide-react"
 import { FaWhatsapp } from "react-icons/fa"
 
@@ -180,6 +181,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             { href: "/peticoes", label: "Petições", icon: FileText, color: "text-blue-400" },
                             { href: "/processos", label: "Processos", icon: Briefcase, color: "text-purple-400" },
                             { href: "/clientes", label: "Clientes", icon: Users, color: "text-amber-400" },
+                            { href: "/tarefas", label: "Tarefas", icon: CheckSquare, color: "text-indigo-400" },
                             { href: "/integracoes", label: "Integrações", icon: Zap, color: "text-amber-600" },
                             { href: "/whatsapp", label: "WhatsApp", icon: FaWhatsapp, color: "text-emerald-500" },
                             { href: "/customizar-documentacao", label: "Customização", icon: Palette, color: "text-pink-400" },

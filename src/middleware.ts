@@ -19,7 +19,13 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
+    let user = null;
+    try {
+        const { data } = await supabase.auth.getUser()
+        user = data.user;
+    } catch (error) {
+        console.error('Erro de conexão com o Supabase no middleware:', error)
+    }
 
     // definindo aqui quais sao as rotas publicas
     const isPublicRoute = 

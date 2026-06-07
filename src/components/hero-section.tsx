@@ -140,13 +140,13 @@ export default function HeroSection() {
                                     </div>
                                     <Button
                                         key={2}
-                                        asChild
                                         size="lg"
                                         variant="ghost"
-                                        className="w-full sm:w-auto h-12 rounded-xl px-8 text-zinc-300 hover:text-white hover:bg-zinc-900 border border-transparent hover:border-zinc-800">
-                                        <Link href="https://cal.com/backofficebr/60min" target="_blank">
-                                            <span className="text-nowrap">Falar com Vendas</span>
-                                        </Link>
+                                        className="w-full sm:w-auto h-12 rounded-xl px-8 text-zinc-300 hover:text-white hover:bg-zinc-900 border border-transparent hover:border-zinc-800"
+                                        data-cal-namespace="60min"
+                                        data-cal-link="backofficebr/60min"
+                                        data-cal-config='{"layout":"month_view","theme":"dark"}'>
+                                        <span className="text-nowrap">Falar com Vendas</span>
                                     </Button>
                                 </AnimatedGroup>
                             </div>

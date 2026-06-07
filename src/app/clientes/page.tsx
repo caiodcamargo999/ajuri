@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input"
 import { ClientList } from "@/components/clients/client-list"
 import { KanbanView } from "@/components/clients/kanban-view"
 import { ClientModal } from "@/components/clients/client-modal"
-import { ClientChatSheet } from "@/components/clients/client-chat-sheet"
 import { PipelineManager } from "@/components/clients/pipeline-manager"
 import { CSVImportModal } from "@/components/clients/csv-import-modal"
 import { CRMClient, ClientStatus, CRMPipeline, CRMIntegration, DEFAULT_STAGES, CRMStage } from "@/types/crm"
@@ -37,7 +36,7 @@ export default function ClientesPage() {
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
     const [editingClient, setEditingClient] = useState<CRMClient | null>(null);
-    const [chatClient, setChatClient] = useState<CRMClient | null>(null);
+    const [modalInitialTab, setModalInitialTab] = useState<"TIMELINE" | "WHATSAPP" | "TASKS">("TIMELINE");
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -116,7 +115,8 @@ export default function ClientesPage() {
         setClients(newClients);
     };
 
-    const handleSaveClient = (clientData: CRMClient) => {
+    const handleSaveClient = (clientData: CRMClient, options?: { closeModal?: boolean, showToast?: boolean }) => {
+        const defaultOptions = { closeModal: true, showToast: true, ...options };
         let newClients: CRMClient[];
 
         // Ensure client has a pipeline ID (use current if new)
@@ -129,10 +129,10 @@ export default function ClientesPage() {
 
         if (exists) {
             newClients = clients.map(c => c.id === clientToSave.id ? clientToSave : c);
-            toast.success("Cliente atualizado com sucesso!");
+            if (defaultOptions.showToast) toast.success("Cliente atualizado!");
         } else {
             newClients = [...clients, clientToSave];
-            toast.success("Novo cliente cadastrado!");
+            if (defaultOptions.showToast) toast.success("Novo cliente cadastrado!");
         }
 
         saveClientsToLocalStorage(newClients);
@@ -140,8 +140,10 @@ export default function ClientesPage() {
         // Trigger Webhooks
         triggerWebhooks(exists ? "CLIENT_UPDATED" : "CLIENT_CREATED", clientToSave);
 
-        setIsModalOpen(false);
-        setEditingClient(null);
+        if (defaultOptions.closeModal) {
+            setIsModalOpen(false);
+            setEditingClient(null);
+        }
     };
 
     const handleMoveClient = (clientId: string, newStatus: ClientStatus) => {
@@ -185,6 +187,7 @@ export default function ClientesPage() {
 
     const handleEditClient = (client: CRMClient) => {
         setEditingClient(client);
+        setModalInitialTab("TIMELINE");
         setIsModalOpen(true);
     };
 
@@ -194,11 +197,14 @@ export default function ClientesPage() {
             pipelineId: currentPipelineId
         };
         setEditingClient(tempClient as CRMClient);
+        setModalInitialTab("TIMELINE");
         setIsModalOpen(true);
     };
 
     const handleChat = (client: CRMClient) => {
-        setChatClient(client);
+        setEditingClient(client);
+        setModalInitialTab("WHATSAPP");
+        setIsModalOpen(true);
     };
 
     const handleUpdateClient = (updatedClient: CRMClient) => {
@@ -206,10 +212,6 @@ export default function ClientesPage() {
         saveClientsToLocalStorage(newClients);
 
         triggerWebhooks("CLIENT_UPDATED", updatedClient);
-
-        if (chatClient && chatClient.id === updatedClient.id) {
-            setChatClient(updatedClient);
-        }
     };
 
     // Pipeline & Integration Management Handlers
@@ -423,13 +425,7 @@ export default function ClientesPage() {
                     onSave={handleSaveClient}
                     onDelete={handleDeleteClient}
                     editingClient={editingClient}
-                />
-
-                <ClientChatSheet
-                    open={!!chatClient}
-                    onOpenChange={(open) => !open && setChatClient(null)}
-                    client={chatClient}
-                    onUpdateClient={handleUpdateClient}
+                    initialTab={modalInitialTab}
                 />
 
                 {/* Gerenciadores */}

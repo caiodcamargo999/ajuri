@@ -25,13 +25,13 @@ export default function Pricing() {
 
                                 <div className="flex justify-center">
                                     <Button
-                                        asChild
                                         size="lg"
-                                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-full text-lg h-12 px-8">
-                                        <Link href="https://cal.com/wallacy" target="_blank">
-                                            <Calendar className="mr-2 h-5 w-5" />
-                                            Agendar Demonstração
-                                        </Link>
+                                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-full text-lg h-12 px-8"
+                                        data-cal-namespace="60min"
+                                        data-cal-link="backofficebr/60min"
+                                        data-cal-config='{"layout":"month_view","theme":"dark"}'>
+                                        <Calendar className="mr-2 h-5 w-5" />
+                                        Agendar Demonstração
                                     </Button>
                                 </div>
 

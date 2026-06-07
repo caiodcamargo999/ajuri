@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
+import { getCalApi } from "@calcom/embed-react"
 
 const menuItems = [
     { name: 'Funcionalidades', href: '#features' },
@@ -24,6 +25,14 @@ export const HeroHeader = () => {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
+
+    React.useEffect(() => {
+        (async function () {
+            const cal = await getCalApi({"namespace":"60min"});
+            cal("ui", {"theme":"dark","cssVarsPerTheme":{"dark":{"cal-brand":"#4c69e9"}, "light":{"cal-brand":"#4c69e9"}},"hideEventTypeDetails":false,"layout":"month_view"});
+        })();
+    }, [])
+
     return (
         <header>
             <nav
@@ -88,13 +97,13 @@ export const HeroHeader = () => {
                                     </Link>
                                 </Button>
                                 <Button
-                                    asChild
                                     size="sm"
                                     className="rounded-full"
+                                    data-cal-namespace="60min"
+                                    data-cal-link="backofficebr/60min"
+                                    data-cal-config='{"layout":"month_view","theme":"dark"}'
                                 >
-                                    <Link href="https://cal.com/backofficebr/60min" target="_blank">
-                                        <span>Falar com Vendas</span>
-                                    </Link>
+                                    <span>Falar com Vendas</span>
                                 </Button>
                             </div>
                         </div>
