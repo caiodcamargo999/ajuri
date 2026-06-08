@@ -237,11 +237,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton
-                                    size="lg"
-                                    className="data-[state=open]:bg-white/5 data-[state=open]:text-white rounded-xl transition-all duration-300 hover:bg-white/5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
-                                >
+                            <SidebarMenuButton
+                                asChild
+                                size="lg"
+                                className="data-[state=open]:bg-white/5 data-[state=open]:text-white rounded-xl transition-all duration-300 hover:bg-white/5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
+                            >
+                                <DropdownMenuTrigger className="focus-visible:outline-none focus-visible:ring-0">
                                     <div className="relative">
                                         <Avatar className="h-9 w-9 rounded-lg border border-white/10 shadow-lg">
                                             <AvatarImage src={userAvatar} alt={userName} />
@@ -254,8 +255,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                         <span className="truncate text-[10px] text-zinc-500 uppercase tracking-wider font-bold">{userPlan}</span>
                                     </div>
                                     <MoreHorizontal className="ml-auto size-4 text-zinc-600 group-data-[collapsible=icon]:hidden" />
-                                </SidebarMenuButton>
-                            </DropdownMenuTrigger>
+                                </DropdownMenuTrigger>
+                            </SidebarMenuButton>
                             <DropdownMenuContent
                                 className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10 bg-zinc-950 backdrop-blur-2xl"
                                 side={isMobile ? "bottom" : "right"}

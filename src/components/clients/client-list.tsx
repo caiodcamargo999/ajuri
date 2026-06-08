@@ -166,12 +166,10 @@ export function ClientList({
                                     </TableCell>
                                     <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
                                         <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-muted">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
+                                            <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap rounded-full h-8 w-8 p-0 hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                                                <MoreHorizontal className="h-4 w-4" />
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="rounded-xl w-48">
+                                            <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10 text-zinc-200">
                                                 <DropdownMenuLabel>Ações</DropdownMenuLabel>
                                                 <DropdownMenuItem className="cursor-pointer rounded-lg" onClick={() => onEdit(client)}>Editar Cliente</DropdownMenuItem>
                                                 <DropdownMenuItem className="cursor-pointer rounded-lg" onClick={() => onEdit(client)}>Ver Histórico</DropdownMenuItem>

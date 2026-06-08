@@ -58,9 +58,9 @@ export function RecentDrafts() {
 
     if (loading) {
         return (
-            <Card className="border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl">
+            <Card className="shadow-xs hover:shadow-md transition-shadow">
                 <CardHeader>
-                    <Skeleton className="h-6 w-48 bg-white/5" />
+                    <Skeleton className="h-6 w-48" />
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <Skeleton className="h-16 w-full bg-white/5" />
@@ -72,8 +72,8 @@ export function RecentDrafts() {
     }
 
     return (
-        <Card className="border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl relative overflow-hidden group">
-            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-white/5 bg-white/5">
+        <Card className="shadow-xs hover:shadow-md transition-shadow relative overflow-hidden group">
+            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
                 <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
                     <Clock className="w-4 h-4 text-emerald-500" />
                     Trabalhos Recentes
@@ -117,11 +117,9 @@ export function RecentDrafts() {
                                 </div>
 
                                 <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="h-8 w-8 p-0 text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
-                                            <span className="sr-only">Open menu</span>
-                                            <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
+                                    <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap rounded-lg h-8 w-8 p-0 text-zinc-500 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                                        <span className="sr-only">Open menu</span>
+                                        <MoreHorizontal className="h-4 w-4" />
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10 text-zinc-200">
                                         <DropdownMenuLabel>Ações</DropdownMenuLabel>

@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatCurrency, formatCurrencyExtended } from "@/utils/formatters";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import { Plus, Trash2, Receipt, Calculator } from "lucide-react";
 
 interface ChargesFormProps {
@@ -154,21 +156,22 @@ export function ChargesForm({
                                 onChange={handleExtractUpload}
                                 disabled={isAnalyzing}
                             />
-                            <Button size="sm" variant="secondary" className="gap-2" asChild disabled={isAnalyzing}>
-                                <label htmlFor="extract-upload" className="cursor-pointer">
-                                    {isAnalyzing ? (
-                                        <>
-                                            <Calculator className="w-4 h-4 animate-spin" />
-                                            Lendo Extrato...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Calculator className="w-4 h-4" />
-                                            Ler Extrato com IA
-                                        </>
-                                    )}
-                                </label>
-                            </Button>
+                            <label 
+                                htmlFor="extract-upload" 
+                                className={cn(buttonVariants({ size: "sm", variant: "secondary" }), "gap-2 cursor-pointer", isAnalyzing && "pointer-events-none opacity-50")}
+                            >
+                                {isAnalyzing ? (
+                                    <>
+                                        <Calculator className="w-4 h-4 animate-spin" />
+                                        Lendo Extrato...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Calculator className="w-4 h-4" />
+                                        Ler Extrato com IA
+                                    </>
+                                )}
+                            </label>
                         </div>
                         <Button onClick={addCharge} size="sm" variant="outline">
                             <Plus className="w-4 h-4 mr-1" />

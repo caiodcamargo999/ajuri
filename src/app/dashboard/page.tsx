@@ -21,10 +21,7 @@ const RecentDrafts = dynamic(() => import("@/components/dashboard/recent-drafts"
 
 export default function DashboardPage() {
     return (
-        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
-
+        <div className="flex flex-1 flex-col animate-in fade-in duration-700 min-h-screen relative">
             <div className="max-w-[1600px] mx-auto w-full space-y-6 p-4 md:p-8 relative z-10">
                 <Suspense fallback={null}>
                     <ActionCards />

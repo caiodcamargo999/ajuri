@@ -101,12 +101,12 @@ export function ChartMonthlyBars() {
     }, [supabase])
 
     if (loading) {
-        return <Skeleton className="w-full h-[300px] bg-white/5 rounded-xl" />
+        return <Skeleton className="w-full h-[300px] rounded-xl" />
     }
 
     return (
-        <Card className="flex flex-col border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl">
-            <CardHeader className="pb-0 border-b border-white/5 bg-white/5 pt-4 px-6 flex flex-row items-center justify-between">
+        <Card className="flex flex-col shadow-xs hover:shadow-md transition-shadow">
+            <CardHeader className="pb-0 border-b pt-4 px-6 flex flex-row items-center justify-between">
                 <div>
                     <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
                         <BarChart3 className="w-4 h-4 text-blue-500" />
@@ -139,8 +139,8 @@ export function ChartMonthlyBars() {
                     </BarChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm border-t border-white/5 bg-white/5 p-4 mt-auto">
-                <div className="flex gap-2 font-medium leading-none text-zinc-300">
+            <CardFooter className="flex-col items-start gap-2 text-sm border-t p-4 mt-auto">
+                <div className="flex gap-2 font-medium leading-none">
                     Tendência de crescimento <TrendingUp className="h-4 w-4 text-emerald-500" />
                 </div>
                 <div className="leading-none text-muted-foreground text-[10px] uppercase tracking-wider font-bold">

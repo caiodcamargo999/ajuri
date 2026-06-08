@@ -226,10 +226,8 @@ export function MyPetitionsList({ searchQuery = "", filterStatus = "all" }: MyPe
                                     </CardDescription>
                                 </div>
                                 <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-9 w-9 -mr-2 rounded-full hover:bg-muted">
-                                        <MoreVertical className="h-4 w-4" />
-                                    </Button>
+                                <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap rounded-full h-9 w-9 -mr-2 hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                                    <MoreVertical className="h-4 w-4" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="rounded-xl w-48">
                                     <DropdownMenuItem className="gap-2 cursor-pointer" onClick={() => handleEdit(petition)}>

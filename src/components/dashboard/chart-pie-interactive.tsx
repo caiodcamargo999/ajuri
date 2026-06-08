@@ -113,10 +113,10 @@ export function ChartPieInteractive() {
 
     if (loading) {
         return (
-            <Card className="flex flex-col border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl h-full">
+            <Card className="flex flex-col h-full shadow-xs hover:shadow-md transition-shadow">
                 <CardHeader className="items-center pb-0">
-                    <Skeleton className="h-6 w-48 bg-white/5 mx-auto" />
-                    <Skeleton className="h-4 w-32 bg-white/5 mt-2 mx-auto" />
+                    <Skeleton className="h-6 w-48 mx-auto" />
+                    <Skeleton className="h-4 w-32 mt-2 mx-auto" />
                 </CardHeader>
                 <CardContent className="flex-1 pb-0 flex items-center justify-center">
                     <Skeleton className="h-[200px] w-[200px] rounded-full bg-white/5" />
@@ -127,9 +127,9 @@ export function ChartPieInteractive() {
 
     if (chartData.length === 0) {
         return (
-            <Card className="flex flex-col items-center justify-center p-12 min-h-[350px] border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl">
-                <div className="p-4 bg-white/5 rounded-full mb-4">
-                    <FileText className="h-8 w-8 text-zinc-500" />
+            <Card className="flex flex-col items-center justify-center p-12 min-h-[350px] shadow-xs">
+                <div className="p-4 bg-secondary rounded-full mb-4">
+                    <FileText className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <CardTitle className="text-center text-zinc-300">Nenhuma Petição Criada</CardTitle>
                 <CardDescription className="text-center mt-2 max-w-[200px] text-zinc-500">
@@ -140,8 +140,8 @@ export function ChartPieInteractive() {
     }
 
     return (
-        <Card className="flex flex-col border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl">
-            <CardHeader className="pb-0 border-b border-white/5 bg-white/5 pt-4 px-6 flex flex-row items-center justify-between">
+        <Card className="flex flex-col shadow-xs hover:shadow-md transition-shadow">
+            <CardHeader className="pb-0 border-b pt-4 px-6 flex flex-row items-center justify-between">
                 <div>
                     <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
                         <PieChartIcon className="w-4 h-4 text-emerald-500" />

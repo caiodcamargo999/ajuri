@@ -1,50 +1,139 @@
+"use client";
 
-'use client';
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { StaticImageType } from "@/types/components/image";
+import { motion, type Variants } from "motion/react";
+import Image from "next/image";
 
 export default function LogoCloud() {
-    const clients = [
-        "Venâncio & Associados",
-        "Pierre & Cunha Advogados",
-        "Vinicius Lima Advocacia",
-        "Bentes Ramos",
-        "Carneiro & Bacellar",
-        "GAC Advogados",
-        "Sena Advocacia",
-        "Mascarenhas & Justiniano",
-        "Justiniano, Mascarenhas e Cutrim",
-        "Coelho Santos Tavares",
-        "Luis Albert Advogado",
-    ];
+  const is4xl = useMediaQuery("(min-width: 2560px)");
+  const logos: StaticImageType[] = [
+    {
+      name: "Notion",
+      image:
+        "/logo/notion.svg",
+      size: {
+        width: is4xl ? 120 : 100,
+        height: is4xl ? 120 : 100,
+      },
+    },
+    {
+      name: "Framer",
+      image:
+        "/logo/framer.svg",
+      size: {
+        width: is4xl ? 120 : 100,
+        height: is4xl ? 120 : 100,
+      },
+    },
+    {
+      name: "Webflow",
+      image:
+        "/logo/webflow.svg",
+      size: {
+        width: is4xl ? 120 : 100,
+        height: is4xl ? 120 : 100,
+      },
+    },
+    {
+      name: "Slack",
+      image:
+        "/logo/slack.svg",
+      size: {
+        width: is4xl ? 120 : 100,
+        height: is4xl ? 120 : 100,
+      },
+    },
+    {
+      name: "Coinbase",
+      image:
+        "/logo/coinbase.svg",
+      size: {
+        width: is4xl ? 120 : 100,
+        height: is4xl ? 120 : 100,
+      },
+    },
+    {
+      name: "Uber",
+      image:
+        "/logo/uber.svg",
+      size: {
+        width: is4xl ? 80 : 65,
+        height: is4xl ? 80 : 65,
+      },
+    },
+    {
+      name: "Loom",
+      image:
+        "/logo/loom.svg",
+      size: {
+        width: is4xl ? 120 : 100,
+        height: is4xl ? 120 : 100,
+      },
+    },
+  ];
 
-    return (
-        <section className="bg-black py-24 border-y border-zinc-900 overflow-hidden">
-            <div className="mx-auto max-w-7xl px-6">
-                <h2 className="text-center text-xl font-medium text-zinc-400 mb-20 tracking-wide">
-                    Empresas que confiam na Ajuri
-                </h2>
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
 
-                <div className="relative m-auto w-full overflow-hidden bg-black before:absolute before:left-0 before:top-0 before:z-20 before:h-full before:w-16 before:bg-gradient-to-r before:from-black before:to-transparent after:absolute after:right-0 after:top-0 after:z-20 after:h-full after:w-16 after:bg-gradient-to-l after:from-black after:to-transparent">
-                    <div className="flex w-max animate-infinite-scroll gap-16 hover:[animation-play-state:paused]">
-                        {[...clients, ...clients].map((client, index) => (
-                            <div key={index} className="flex items-center justify-center">
-                                <span className="text-2xl md:text-3xl font-serif text-zinc-600 whitespace-nowrap tracking-tight transition-colors duration-300 hover:text-white cursor-default">
-                                    {client}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
+  };
 
-                <style jsx>{`
-                    @keyframes scroll {
-                        0% { transform: translateX(0); }
-                        100% { transform: translateX(-50%); }
-                    }
-                    .animate-infinite-scroll {
-                        animation: scroll 40s linear infinite;
-                    }
-                `}</style>
-            </div>
-        </section>
-    )
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="flex flex-col gap-8 md:gap-4 items-center justify-center mt-4 max-w-6xl 2xl:max-w-full mx-auto"
+    >
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-center font-light 4xl:text-3xl"
+      >
+        Your favorite companies are our partners
+      </motion.p>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-12"
+      >
+        {logos.map((logo) => (
+          <motion.div
+            key={logo.name}
+            variants={itemVariants}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Image
+              src={logo.image}
+              alt={logo.name}
+              className="invert dark:invert-0"
+              width={logo.size?.width}
+              height={logo.size?.height}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
+    </motion.div>
+  );
 }

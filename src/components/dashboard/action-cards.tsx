@@ -56,31 +56,9 @@ export function ActionCards() {
     ];
 
     return (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Card className="relative overflow-hidden group border-none bg-gradient-to-br from-emerald-600 to-emerald-900 shadow-2xl shadow-emerald-900/20 sm:col-span-2 lg:col-span-1 min-h-[160px] cursor-pointer active:scale-[0.98] transition-all duration-300">
-                <Link href="/ajuri-x" className="absolute inset-0 z-30" />
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-white/20 transition-all duration-500" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/20 rounded-full blur-2xl -ml-12 -mb-12" />
-
-                <CardHeader className="pb-2 relative z-10">
-                    <div className="flex items-center gap-2 text-white/90">
-                        <Sparkles className="w-4 h-4 text-emerald-300 animate-pulse" />
-                        <CardTitle className="text-lg font-bold">AJURI X</CardTitle>
-                    </div>
-                </CardHeader>
-                <CardContent className="relative z-10 space-y-4">
-                    <p className="text-xs text-emerald-100/80 leading-relaxed font-medium">
-                        IA jurídica de alta performance.
-                    </p>
-                    <Button variant="secondary" size="sm" className="w-full bg-white text-emerald-700 group-hover:bg-emerald-50 font-bold shadow-xl border-none relative z-40 pointer-events-none">
-                        Iniciar IA
-                        <ArrowUpRight className="ml-2 w-4 h-4" />
-                    </Button>
-                </CardContent>
-            </Card>
-
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {stats.map((stat, i) => (
-                <Card key={i} className="bg-zinc-950/40 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-300 group min-h-[140px]">
+                <Card key={i} className="group min-h-[140px] transition-all duration-300 hover:ring-foreground/20 hover:shadow-md">
                     <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                         <CardTitle className="text-xs font-bold uppercase tracking-[0.1em] text-zinc-500 truncate">
                             {stat.label}
@@ -90,7 +68,7 @@ export function ActionCards() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-black text-white tracking-tight">{stat.value}</div>
+                        <div className="text-2xl font-black tracking-tight">{stat.value}</div>
                         <div className="flex items-center mt-2.5">
                             <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded-full border", stat.bg, stat.color, stat.border)}>
                                 {stat.trend}

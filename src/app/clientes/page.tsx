@@ -259,19 +259,17 @@ export default function ClientesPage() {
     if (loading) return null;
 
     return (
-        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative w-full">
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
+        <div className="flex flex-1 flex-col animate-in fade-in duration-700 relative w-full">
 
             <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-6 p-4 md:p-8 relative z-10 min-w-0">
                 <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 shrink-0 flex-wrap">
                     <div className="space-y-4 min-w-0">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
-                                <Users className="w-8 h-8 text-amber-500" />
+                            <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20">
+                                <Users className="w-8 h-8 text-primary" />
                             </div>
                             <div className="space-y-1">
-                                <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none">
+                                <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-none">
                                     Gestão de Clientes
                                 </h1>
                                 <p className="text-zinc-500 text-sm md:text-base font-medium">
@@ -282,17 +280,17 @@ export default function ClientesPage() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2 bg-zinc-950/50 p-1.5 rounded-2xl border border-white/5 backdrop-blur-md">
+                        <div className="flex items-center gap-2 bg-muted/50 p-1.5 rounded-2xl border backdrop-blur-md">
                             <Select value={currentPipelineId} onValueChange={setCurrentPipelineId}>
-                                <SelectTrigger className="w-[160px] md:w-[200px] h-11 bg-transparent border-none font-bold text-white focus:ring-0">
+                                <SelectTrigger className="w-[160px] md:w-[200px] h-11 bg-transparent border-none font-bold focus:ring-0">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
+                                        <div className="w-2 h-2 rounded-full bg-primary" />
                                         <SelectValue placeholder="Selecione o Funil" />
                                     </div>
                                 </SelectTrigger>
-                                <SelectContent className="bg-zinc-950 border-zinc-800">
+                                <SelectContent>
                                     {pipelines.map(p => (
-                                        <SelectItem key={p.id} value={p.id} className="font-medium text-white">{p.name}</SelectItem>
+                                        <SelectItem key={p.id} value={p.id} className="font-medium">{p.name}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -300,7 +298,7 @@ export default function ClientesPage() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-11 w-11 rounded-xl hover:bg-white/5 text-zinc-400"
+                                className="h-11 w-11 rounded-xl"
                                 onClick={() => setIsPipelineManagerOpen(true)}
                                 title="Gerenciar Pipelines"
                             >
@@ -311,14 +309,14 @@ export default function ClientesPage() {
                         <Button
                             variant="outline"
                             onClick={() => setIsImportModalOpen(true)}
-                            className="border-zinc-800 bg-zinc-950 hover:bg-zinc-900 text-zinc-400 font-bold h-12 px-6 rounded-2xl transition-all"
+                            className="font-bold h-12 px-6 rounded-2xl transition-all"
                         >
                             <FileUp className="h-5 w-5 mr-2" /> Importar CSV
                         </Button>
 
                         <Button
                             onClick={() => { setEditingClient(null); setIsModalOpen(true); }}
-                            className="bg-amber-600 hover:bg-amber-500 text-white font-black h-12 px-8 rounded-2xl shadow-xl shadow-amber-900/20 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap"
+                            className="font-black h-12 px-8 rounded-2xl transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap"
                         >
                             <PlusCircle className="h-5 w-5 mr-2" /> Novo Cliente
                         </Button>
@@ -327,29 +325,29 @@ export default function ClientesPage() {
 
                 <div className="flex flex-col md:flex-row items-center gap-4 py-2">
                     <div className="relative flex-1 w-full group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-amber-500 transition-colors" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             type="search"
                             placeholder="Buscar por nome, email ou CPF..."
-                            className="pl-11 bg-zinc-950/40 border-white/5 h-12 rounded-2xl focus:ring-amber-500/20 focus:border-amber-500/40 transition-all font-medium text-white"
+                            className="pl-11 h-12 rounded-2xl transition-all font-medium"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
 
                     <div className="flex items-center gap-3 w-full md:w-auto">
-                        <div className="hidden xl:flex items-center px-4 h-12 bg-zinc-950/20 border border-white/5 rounded-2xl">
-                            <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest leading-none">
+                        <div className="hidden xl:flex items-center px-4 h-12 bg-muted/50 border rounded-2xl">
+                            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest leading-none">
                                 {filteredClients.length} Leads Ativos
                             </span>
                         </div>
 
                         <Tabs value={view} onValueChange={(v) => setView(v as any)} className="flex-1 md:flex-none">
-                            <TabsList className="bg-zinc-950/50 border border-white/5 p-1 rounded-2xl h-12 w-full">
-                                <TabsTrigger value="kanban" className="rounded-xl gap-2 font-bold text-xs h-10 px-6 data-[state=active]:bg-white/5 data-[state=active]:text-white">
+                            <TabsList className="bg-muted/50 border p-1 rounded-2xl h-12 w-full">
+                                <TabsTrigger value="kanban" className="rounded-xl gap-2 font-bold text-xs h-10 px-6">
                                     <LayoutGrid className="h-4 w-4" /> Kanban
                                 </TabsTrigger>
-                                <TabsTrigger value="list" className="rounded-xl gap-2 font-bold text-xs h-10 px-6 data-[state=active]:bg-white/5 data-[state=active]:text-white">
+                                <TabsTrigger value="list" className="rounded-xl gap-2 font-bold text-xs h-10 px-6">
                                     <List className="h-4 w-4" /> Lista
                                 </TabsTrigger>
                             </TabsList>
@@ -360,7 +358,7 @@ export default function ClientesPage() {
                 <main className="flex-1 min-h-0 min-w-0 w-full overflow-hidden">
                     <div className={cn(
                         "h-full animate-in fade-in slide-in-from-bottom-2 duration-500 w-full min-w-0 overflow-hidden",
-                        view === "kanban" ? "" : "bg-zinc-950/20 rounded-2xl border border-white/5"
+                        view === "kanban" ? "" : "bg-card rounded-2xl border"
                     )}>
                         {view === "list" ? (
                             <ClientList
@@ -389,12 +387,12 @@ export default function ClientesPage() {
 
                 {/* Barra de Ações em Massa */}
                 {selectedClients.length > 0 && (
-                    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                        <div className="flex items-center gap-3 pr-6 border-r border-zinc-800">
-                            <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 font-bold text-xs">
+                    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-background border rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                        <div className="flex items-center gap-3 pr-6 border-r">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
                                 {selectedClients.length}
                             </div>
-                            <span className="text-sm font-bold text-white whitespace-nowrap">Leads selecionados</span>
+                            <span className="text-sm font-bold whitespace-nowrap">Leads selecionados</span>
                         </div>
                         
                         <div className="flex items-center gap-3">
@@ -402,7 +400,7 @@ export default function ClientesPage() {
                                 variant="ghost" 
                                 size="sm" 
                                 onClick={clearSelection}
-                                className="text-zinc-500 hover:text-white"
+                                className="text-muted-foreground hover:text-foreground"
                             >
                                 Desmarcar Tudo
                             </Button>
@@ -410,7 +408,7 @@ export default function ClientesPage() {
                                 variant="destructive" 
                                 size="sm"
                                 onClick={handleBulkDelete}
-                                className="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 rounded-xl"
+                                className="rounded-xl"
                             >
                                 <Trash2 className="w-4 h-4 mr-2" />
                                 Excluir Selecionados
