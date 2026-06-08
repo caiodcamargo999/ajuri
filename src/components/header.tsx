@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Logo } from '@/components/logo'
 import { Menu, X } from 'lucide-react'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { getCalApi } from "@calcom/embed-react"
@@ -86,12 +86,16 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <Link
-                                    href="/login"
-                                    className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-full")}
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    size="sm"
+                                    className="rounded-full"
                                 >
-                                    <span>Login</span>
-                                </Link>
+                                    <Link href="/login">
+                                        <span>Login</span>
+                                    </Link>
+                                </Button>
                                 <Button
                                     size="sm"
                                     className="rounded-full"

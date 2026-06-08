@@ -2,8 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, ChevronRight, Calculator } from 'lucide-react'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { TextEffect } from '@/components/motion-primitives/text-effect'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
@@ -130,11 +129,14 @@ export default function HeroSection() {
                                     <div
                                         key={1}
                                         className="bg-gradient-to-b from-blue-500 to-blue-700 rounded-[calc(var(--radius-xl)+0.125rem)] p-0.5 shadow-lg shadow-blue-500/20">
-                                        <Link
-                                            href="/login"
-                                            className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto rounded-xl px-8 text-base bg-black hover:bg-zinc-900 text-white h-12 border border-transparent hover:border-blue-500/30 transition-all flex items-center justify-center")}>
-                                            <span className="text-nowrap font-medium">Acessar Plataforma</span>
-                                        </Link>
+                                        <Button
+                                            asChild
+                                            size="lg"
+                                            className="w-full sm:w-auto rounded-xl px-8 text-base bg-black hover:bg-zinc-900 text-white h-12 border border-transparent hover:border-blue-500/30 transition-all">
+                                            <Link href="/login">
+                                                <span className="text-nowrap font-medium">Acessar Plataforma</span>
+                                            </Link>
+                                        </Button>
                                     </div>
                                     <Button
                                         key={2}
