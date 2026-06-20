@@ -129,14 +129,13 @@ export default function HeroSection() {
                                     <div
                                         key={1}
                                         className="bg-gradient-to-b from-blue-500 to-blue-700 rounded-[calc(var(--radius-xl)+0.125rem)] p-0.5 shadow-lg shadow-blue-500/20">
-                                        <Button
-                                            asChild
-                                            size="lg"
-                                            className="w-full sm:w-auto rounded-xl px-8 text-base bg-black hover:bg-zinc-900 text-white h-12 border border-transparent hover:border-blue-500/30 transition-all">
-                                            <Link href="/login">
+                                        <Link href="/login">
+                                            <Button
+                                                size="lg"
+                                                className="w-full sm:w-auto rounded-xl px-8 text-base bg-black hover:bg-zinc-900 text-white h-12 border border-transparent hover:border-blue-500/30 transition-all">
                                                 <span className="text-nowrap font-medium">Acessar Plataforma</span>
-                                            </Link>
-                                        </Button>
+                                            </Button>
+                                        </Link>
                                     </div>
                                     <Button
                                         key={2}

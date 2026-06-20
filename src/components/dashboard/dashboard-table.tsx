@@ -22,6 +22,7 @@ import {
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuGroup,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -133,7 +134,9 @@ export const columns: ColumnDef<Payment>[] = [
                         <MoreHorizontal className="h-4 w-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        </DropdownMenuGroup>
                         <DropdownMenuItem
                             onClick={() => navigator.clipboard.writeText(payment.id)}
                         >

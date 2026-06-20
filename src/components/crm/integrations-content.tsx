@@ -135,14 +135,14 @@ export function IntegrationsContent() {
     if (loading) return null;
 
     return (
-        <div className="flex flex-col gap-8 p-4 md:p-8 max-w-[1200px] mx-auto w-full animate-in fade-in duration-700 relative z-10 min-h-screen">
+        <div className="flex flex-col gap-8 p-4 md:p-8 max-w-[1200px] mx-auto w-full animate-in fade-in duration-300 relative z-10 min-h-screen">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
                             <Zap className="w-6 h-6 text-amber-500" />
                         </div>
-                        <h1 className="text-3xl font-black tracking-tight text-foreground">
+                        <h1 className="text-3xl font-medium tracking-tight text-foreground">
                             Integrações e Automações
                         </h1>
                     </div>

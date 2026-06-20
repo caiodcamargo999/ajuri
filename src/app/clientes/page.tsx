@@ -259,7 +259,7 @@ export default function ClientesPage() {
     if (loading) return null;
 
     return (
-        <div className="flex flex-1 flex-col animate-in fade-in duration-700 relative w-full">
+        <div className="flex flex-1 flex-col animate-in fade-in duration-300 relative w-full">
 
             <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-6 p-4 md:p-8 relative z-10 min-w-0">
                 <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 shrink-0 flex-wrap">

@@ -66,7 +66,7 @@ export default function PeticoesPage() {
     };
 
     return (
-        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
+        <div className="flex flex-1 flex-col animate-in fade-in duration-300 bg-black min-h-screen relative">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
 
@@ -78,7 +78,7 @@ export default function PeticoesPage() {
                                 <FileText className="w-8 h-8 text-blue-500" />
                             </div>
                             <div className="space-y-1">
-                                <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none">
+                                <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground leading-none">
                                     Banco de Petições
                                 </h1>
                                 <p className="text-zinc-500 text-sm md:text-base font-medium">
@@ -90,7 +90,7 @@ export default function PeticoesPage() {
 
                     <div className="flex flex-wrap items-center gap-3">
                         <Link href="/ajuri-x">
-                            <Button className="bg-blue-600 hover:bg-blue-500 text-white font-black h-12 px-8 rounded-2xl shadow-xl shadow-blue-900/20 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap">
+                            <Button className="bg-foreground text-background hover:bg-foreground/90 hover:text-background dark:hover:text-background font-medium h-12 px-8 rounded-full transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap">
                                 <PlusCircle className="h-5 w-5 mr-2" /> Criar via AJURI X
                             </Button>
                         </Link>
@@ -103,7 +103,7 @@ export default function PeticoesPage() {
                         <Input
                             type="search"
                             placeholder="Buscar por título ou data..."
-                            className="pl-11 bg-zinc-950/40 border-white/5 h-12 rounded-2xl focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-medium text-white"
+                            className="pl-11 bg-black/40 border-white/10 h-12 rounded-xl focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-medium text-white"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -111,7 +111,7 @@ export default function PeticoesPage() {
 
                     <div className="flex items-center gap-3 w-full md:w-auto">
                         <Select value={filterStatus} onValueChange={setFilterStatus}>
-                            <SelectTrigger className="w-full md:w-[200px] bg-zinc-950/50 border-white/5 h-12 rounded-2xl font-bold text-white">
+                            <SelectTrigger className="w-full md:w-[200px] bg-black/40 border-white/10 h-12 rounded-xl font-medium text-white">
                                 <SelectValue placeholder="Filtrar por Status" />
                             </SelectTrigger>
                             <SelectContent className="bg-zinc-950 border-zinc-800">
@@ -122,7 +122,7 @@ export default function PeticoesPage() {
                             </SelectContent>
                         </Select>
 
-                        <div className="hidden xl:flex items-center gap-2 text-[10px] font-black text-zinc-500 uppercase tracking-widest px-4 h-12 bg-zinc-950/20 border border-white/5 rounded-2xl leading-none">
+                        <div className="hidden xl:flex items-center gap-2 text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-4 h-12 bg-black/40 border border-white/10 rounded-xl leading-none">
                             <Sparkles className="w-3.5 h-3.5" />
                             Arquivado em Nuvem
                         </div>
@@ -140,7 +140,7 @@ export default function PeticoesPage() {
                                 <Button
                                     key={template.id}
                                     onClick={() => handleSelectTemplate(template)}
-                                    className="bg-zinc-900/50 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 hover:border-blue-500/30 rounded-xl transition-all"
+                                    className="bg-zinc-900/50 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 rounded-xl transition-all font-medium"
                                 >
                                     <FileText className="w-4 h-4 mr-2 text-blue-400" />
                                     {template.title}
@@ -151,7 +151,7 @@ export default function PeticoesPage() {
                 )}
 
                 <main className="flex-1 min-h-0">
-                    <div className="h-full bg-zinc-950/20 rounded-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-500">
+                    <div className="h-full bg-black/20 rounded-2xl border border-white/10 p-6 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-500">
                         <MyPetitionsList searchQuery={searchQuery} filterStatus={filterStatus} />
                     </div>
                 </main>

@@ -12,6 +12,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuGroup,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -136,7 +137,9 @@ export function KanbanView({
                                                         <MoreVertical className="h-3.5 w-3.5" />
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end" className="rounded-xl w-48">
-                                                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                                        <DropdownMenuGroup>
+                                                            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                                        </DropdownMenuGroup>
                                                         <DropdownMenuItem className="cursor-pointer rounded-lg" onClick={() => onEditClient(client)}>Editar Cliente</DropdownMenuItem>
                                                         <DropdownMenuItem className="cursor-pointer rounded-lg" onClick={() => onEditClient(client)}>Ver Histórico</DropdownMenuItem>
                                                         <DropdownMenuItem className="cursor-pointer rounded-lg text-primary" onClick={() => {

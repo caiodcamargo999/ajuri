@@ -199,14 +199,14 @@ export function MyPetitionsList({ searchQuery = "", filterStatus = "all" }: MyPe
                 return (
                     <Card
                         key={petition.id}
-                        className="group relative overflow-hidden transition-all hover:border-primary/50 hover:shadow-lg bg-card/50 border-border/40 rounded-2xl flex flex-col cursor-pointer"
+                        className="group relative overflow-hidden transition-all hover:bg-white/5 bg-transparent border-white/10 rounded-2xl flex flex-col cursor-pointer"
                         onClick={() => handleEdit(petition)}
                     >
                         <CardHeader className="pb-4">
                             <div className="flex items-start justify-between">
                                 <div className="space-y-2 flex-1 pr-4">
                                     <div className="flex items-center gap-2">
-                                        <CardTitle className="text-lg font-bold line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                                        <CardTitle className="text-lg font-medium line-clamp-2 group-hover:text-foreground transition-colors leading-tight tracking-tight">
                                             {templateName}
                                         </CardTitle>
                                         {petition.isLocal ? (
@@ -217,7 +217,7 @@ export function MyPetitionsList({ searchQuery = "", filterStatus = "all" }: MyPe
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="h-1.5 w-1.5 rounded-full bg-primary/50" />
-                                        <span className="text-sm font-semibold text-muted-foreground truncate">
+                                        <span className="text-sm font-medium text-muted-foreground truncate">
                                             {clientName}
                                         </span>
                                     </div>

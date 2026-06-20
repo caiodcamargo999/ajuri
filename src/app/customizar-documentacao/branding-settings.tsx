@@ -239,7 +239,7 @@ export function BrandingSettings() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
       {/* Sidebar de Perfis */}
       <Card className="lg:col-span-3 border border-white/5 bg-zinc-950/40 backdrop-blur-xl shadow-2xl h-fit sticky top-24">
         <CardHeader className="pb-4">

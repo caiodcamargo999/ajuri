@@ -167,7 +167,7 @@ export default function DocsPage() {
   };
 
   return (
-    <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative w-full">
+    <div className="flex flex-1 flex-col animate-in fade-in duration-300 bg-black min-h-screen relative w-full">
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
 
@@ -178,7 +178,7 @@ export default function DocsPage() {
               <FileSignature className="w-8 h-8 text-blue-500" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none">
+              <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground leading-none">
                 Docs Jurídicos
               </h1>
               <p className="text-zinc-500 font-medium mt-1">
@@ -195,7 +195,7 @@ export default function DocsPage() {
             
             <div className="flex items-center gap-3 mb-6">
               <User className="w-5 h-5 text-blue-400" />
-              <h2 className="text-lg font-bold text-white">Dados Pessoais</h2>
+              <h2 className="text-lg font-medium tracking-tight text-foreground">Dados Pessoais</h2>
             </div>
 
             <div className="space-y-4">
@@ -300,7 +300,7 @@ export default function DocsPage() {
             
             <div className="flex items-center gap-3 mb-6">
               <MapPin className="w-5 h-5 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white">Endereço</h2>
+              <h2 className="text-lg font-medium tracking-tight text-foreground">Endereço</h2>
             </div>
 
             <div className="space-y-4">
@@ -376,7 +376,7 @@ export default function DocsPage() {
           <div className="absolute top-0 left-0 w-1 h-full bg-amber-500/50 group-hover:bg-amber-400 transition-colors" />
           <div className="flex items-center gap-3 mb-6">
             <FileText className="w-5 h-5 text-amber-400" />
-            <h2 className="text-lg font-bold text-white">Informações Específicas do Documento</h2>
+            <h2 className="text-lg font-medium tracking-tight text-foreground">Informações Específicas do Documento</h2>
           </div>
           <p className="text-zinc-500 text-sm mb-6">
             Estes dados serão usados para preencher as cláusulas de Objeto e Honorários.
@@ -418,7 +418,7 @@ export default function DocsPage() {
 
         {/* Action Buttons */}
         <div className="bg-zinc-900/50 border border-white/10 rounded-3xl p-6 shadow-2xl backdrop-blur-sm">
-          <h2 className="text-lg font-bold text-white mb-6 text-center">Selecione o Documento para Gerar</h2>
+          <h2 className="text-lg font-medium tracking-tight text-foreground mb-6 text-center">Selecione o Documento para Gerar</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Button

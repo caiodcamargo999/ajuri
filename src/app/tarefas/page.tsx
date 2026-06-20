@@ -183,8 +183,8 @@ export default function TarefasPage() {
         <div className="flex-1 flex flex-col h-full bg-zinc-950 p-6 overflow-hidden">
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Quadro de Tarefas</h1>
-                    <p className="text-zinc-400">Gerencie todas as tarefas dos seus clientes em um só lugar.</p>
+                    <h1 className="text-3xl font-medium tracking-tight text-white mb-2">Quadro de Tarefas</h1>
+                    <p className="text-sm text-zinc-400">Gerencie todas as tarefas dos seus clientes em um só lugar.</p>
                 </div>
                 
                 <div className="flex items-center gap-4">
@@ -247,22 +247,23 @@ export default function TarefasPage() {
                                     </div>
                                     <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
                                         {colTasks.map(task => (
-                                            <div 
+                                            <motion.div 
+                                                layoutId={`task-${task.id}`}
                                                 key={task.id}
                                                 draggable
-                                                onDragStart={(e) => handleDragStart(e, task.id)}
+                                                onDragStart={(e: any) => handleDragStart(e, task.id)}
                                                 onClick={() => setEditingTask(task)}
-                                                className="bg-zinc-950 p-4 rounded-xl border border-white/10 hover:border-emerald-500/50 transition-all cursor-grab active:cursor-grabbing group hover:shadow-lg shadow-black/50"
+                                                className="bg-white/5 p-4 rounded-xl border border-white/5 hover:border-white/10 transition-all cursor-grab active:cursor-grabbing group hover:bg-white/10"
                                             >
                                                 <div className="flex items-start justify-between mb-2">
                                                     <Badge variant="outline" className="text-[10px] bg-white/5 border-white/10 text-zinc-400">
                                                         {task.clientName}
                                                     </Badge>
                                                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <Button variant="ghost" size="icon" className="w-6 h-6 text-zinc-500 hover:text-emerald-400" onClick={(e) => { e.stopPropagation(); setEditingTask(task); }}>
+                                                        <Button variant="ghost" size="icon" className="w-6 h-6 text-zinc-400 hover:text-white" onClick={(e) => { e.stopPropagation(); setEditingTask(task); }}>
                                                             <Edit2 className="w-3 h-3" />
                                                         </Button>
-                                                        <Button variant="ghost" size="icon" className="w-6 h-6 text-zinc-500 hover:text-red-400" onClick={(e) => { e.stopPropagation(); deleteTaskFromClient(task); }}>
+                                                        <Button variant="ghost" size="icon" className="w-6 h-6 text-zinc-400 hover:text-red-400" onClick={(e) => { e.stopPropagation(); deleteTaskFromClient(task); }}>
                                                             <Trash2 className="w-3 h-3" />
                                                         </Button>
                                                     </div>
@@ -275,16 +276,16 @@ export default function TarefasPage() {
                                                 )}
                                                 
                                                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
-                                                    <div className="flex items-center gap-1 text-xs text-zinc-400 font-medium">
-                                                        <Calendar className="w-3.5 h-3.5" />
+                                                    <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-medium">
+                                                        <Calendar className="w-3.5 h-3.5 opacity-70" />
                                                         {new Date(task.dueDate).toLocaleDateString('pt-BR')}
                                                     </div>
-                                                    <div className="flex items-center gap-1 text-xs text-zinc-400">
-                                                        <User className="w-3.5 h-3.5" />
+                                                    <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+                                                        <User className="w-3.5 h-3.5 opacity-70" />
                                                         <span className="truncate max-w-[80px]">{task.assignee}</span>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </motion.div>
                                         ))}
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@ import { BookOpen, UserPlus, FileText, Zap, Settings, LayoutDashboard, CheckSqua
 
 export default function DocumentacaoPage() {
     return (
-        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
+        <div className="flex flex-1 flex-col animate-in fade-in duration-300 bg-black min-h-screen relative">
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full -ml-64 -mt-64 pointer-events-none" />
 
             <div className="max-w-[1200px] mx-auto w-full flex flex-col gap-10 p-6 md:p-12 relative z-10 pb-32">
@@ -12,7 +12,7 @@ export default function DocumentacaoPage() {
                             <BookOpen className="w-10 h-10 text-cyan-400" />
                         </div>
                         <div className="space-y-1">
-                            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white leading-none">
+                            <h1 className="text-4xl md:text-5xl font-medium tracking-tight text-foreground leading-none">
                                 Central de Ajuda
                             </h1>
                             <p className="text-zinc-400 text-base md:text-lg font-medium max-w-2xl">
@@ -28,7 +28,7 @@ export default function DocumentacaoPage() {
                         <div className="w-12 h-12 bg-pink-500/10 rounded-xl flex items-center justify-center mb-6">
                             <Settings className="w-6 h-6 text-pink-400" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-3">1. Customização da Conta</h2>
+                        <h2 className="text-2xl font-medium tracking-tight text-foreground mb-3">1. Customização da Conta</h2>
                         <p className="text-zinc-400 mb-4 leading-relaxed">
                             A primeira coisa a fazer é configurar a identidade visual do seu escritório para que todos os documentos gerados saiam perfeitos.
                         </p>
@@ -44,7 +44,7 @@ export default function DocumentacaoPage() {
                         <div className="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-6">
                             <UserPlus className="w-6 h-6 text-amber-400" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-3">2. Cadastro de Clientes</h2>
+                        <h2 className="text-2xl font-medium tracking-tight text-foreground mb-3">2. Cadastro de Clientes</h2>
                         <p className="text-zinc-400 mb-4 leading-relaxed">
                             Mantenha o controle de quem você atende. Isso facilita a automação da geração de documentos no futuro.
                         </p>
@@ -60,13 +60,13 @@ export default function DocumentacaoPage() {
                         <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
                             <FileText className="w-6 h-6 text-blue-400" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-3">3. Modelos de Petições e Docs Customizados</h2>
+                        <h2 className="text-2xl font-medium tracking-tight text-foreground mb-3">3. Modelos de Petições e Docs Customizados</h2>
                         <p className="text-zinc-400 mb-4 leading-relaxed">
                             O AJURI permite que você suba seus próprios modelos de contrato, procuração ou petições e transforme eles em "Fábricas de PDF" automatizadas.
                         </p>
                         <div className="grid md:grid-cols-2 gap-8 mt-6">
                             <div>
-                                <h3 className="font-bold text-white mb-2">A. Subindo o Modelo</h3>
+                                <h3 className="font-medium tracking-tight text-foreground mb-2">A. Subindo o Modelo</h3>
                                 <ul className="space-y-2 text-sm text-zinc-300">
                                     <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5" /> Vá no Menu do usuário (canto inferior esquerdo) e clique em <strong>Configurações da Conta</strong>.</li>
                                     <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5" /> Acesse a aba <strong>Modelos</strong> e clique em Novo Modelo.</li>
@@ -75,7 +75,7 @@ export default function DocumentacaoPage() {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="font-bold text-white mb-2">B. Gerando o PDF Timbrado</h3>
+                                <h3 className="font-medium tracking-tight text-foreground mb-2">B. Gerando o PDF Timbrado</h3>
                                 <ul className="space-y-2 text-sm text-zinc-300">
                                     <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5" /> Acesse a aba <strong>Docs</strong> ou <strong>Petições</strong>.</li>
                                     <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5" /> O seu novo modelo estará lá como um botão clicável.</li>
@@ -91,7 +91,7 @@ export default function DocumentacaoPage() {
                         <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6">
                             <Zap className="w-6 h-6 text-emerald-400" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-3">4. AJURI X Intelligence</h2>
+                        <h2 className="text-2xl font-medium tracking-tight text-foreground mb-3">4. AJURI X Intelligence</h2>
                         <p className="text-zinc-400 mb-4 leading-relaxed">
                             Use a Inteligência Artificial Jurídica mais avançada do mercado para redigir peças processuais complexas do zero, embasadas em jurisprudência.
                         </p>
@@ -107,7 +107,7 @@ export default function DocumentacaoPage() {
                         <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-6">
                             <LayoutDashboard className="w-6 h-6 text-indigo-400" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-3">5. Gestão e Produtividade</h2>
+                        <h2 className="text-2xl font-medium tracking-tight text-foreground mb-3">5. Gestão e Produtividade</h2>
                         <p className="text-zinc-400 mb-4 leading-relaxed">
                             Organize a rotina do seu escritório utilizando as ferramentas de gerenciamento visual.
                         </p>

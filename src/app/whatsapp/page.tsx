@@ -171,7 +171,7 @@ export default function WhatsAppPage() {
     };
 
     return (
-        <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
+        <div className="flex flex-1 flex-col animate-in fade-in duration-300 bg-black min-h-screen relative">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
 
@@ -183,7 +183,7 @@ export default function WhatsAppPage() {
                                 <FaWhatsapp className="w-8 h-8 text-emerald-500" />
                             </div>
                             <div className="space-y-1">
-                                <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none">
+                                <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground leading-none">
                                     Conexão WhatsApp
                                 </h1>
                                 <p className="text-zinc-500 text-sm md:text-base font-medium">
@@ -226,7 +226,7 @@ export default function WhatsAppPage() {
                             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl rounded-full -mr-16 -mt-16 group-hover:bg-emerald-500/10 transition-colors" />
 
                             <CardHeader className="pb-4">
-                                <CardTitle className="text-xl font-bold flex items-center gap-2">
+                                <CardTitle className="text-xl font-medium tracking-tight flex items-center gap-2">
                                     <Zap className="w-5 h-5 text-emerald-500" />
                                     Instância do Escritório
                                 </CardTitle>
@@ -294,7 +294,7 @@ export default function WhatsAppPage() {
 
                         <Card className="lg:col-span-12 xl:col-span-7 border border-white/5 bg-zinc-950/50 backdrop-blur-xl shadow-2xl flex flex-col min-h-[500px] overflow-hidden rounded-2xl">
                             <CardHeader className="border-b border-white/5 bg-black/20">
-                                <CardTitle className="text-center text-zinc-300">Status da Conexão</CardTitle>
+                                <CardTitle className="text-center font-medium tracking-tight text-zinc-300">Status da Conexão</CardTitle>
                             </CardHeader>
 
                             <CardContent className="flex-1 flex flex-col items-center justify-center p-12 relative">

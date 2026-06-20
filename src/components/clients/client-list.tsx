@@ -15,6 +15,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuGroup,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -170,7 +171,9 @@ export function ClientList({
                                                 <MoreHorizontal className="h-4 w-4" />
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10 text-zinc-200">
-                                                <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                                <DropdownMenuGroup>
+                                                    <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                                </DropdownMenuGroup>
                                                 <DropdownMenuItem className="cursor-pointer rounded-lg" onClick={() => onEdit(client)}>Editar Cliente</DropdownMenuItem>
                                                 <DropdownMenuItem className="cursor-pointer rounded-lg" onClick={() => onEdit(client)}>Ver Histórico</DropdownMenuItem>
                                                 <DropdownMenuItem className="cursor-pointer rounded-lg text-primary" onClick={() => {

@@ -54,6 +54,7 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { m
                     <div className="flex flex-col gap-4">
                         <Button
                             formAction={forgotPassword}
+                            type="submit"
                             disabled={loading}
                             className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11">
                             {loading ? 'Enviando...' : 'Enviar Link'}

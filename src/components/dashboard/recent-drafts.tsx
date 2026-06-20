@@ -5,6 +5,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuGroup,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -122,7 +123,9 @@ export function RecentDrafts() {
                                         <MoreHorizontal className="h-4 w-4" />
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end" className="bg-zinc-950 border-white/10 text-zinc-200">
-                                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                        <DropdownMenuGroup>
+                                            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                                        </DropdownMenuGroup>
                                         <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Editar</DropdownMenuItem>
                                         <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Duplicar</DropdownMenuItem>
                                         <DropdownMenuSeparator className="bg-white/10" />

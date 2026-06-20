@@ -86,16 +86,15 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    size="sm"
-                                    className="rounded-full"
-                                >
-                                    <Link href="/login">
+                                <Link href="/login">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="rounded-full"
+                                    >
                                         <span>Login</span>
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </Link>
                                 <Button
                                     size="sm"
                                     className="rounded-full"

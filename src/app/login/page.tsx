@@ -26,6 +26,7 @@ export default function LoginPage() {
                     <form>
                         <Button
                             formAction={signInWithGoogle}
+                            type="submit"
                             variant="outline"
                             className="w-full bg-zinc-900 border-zinc-700 text-zinc-200 hover:bg-zinc-800 hover:text-white h-11">
                             <svg
@@ -98,6 +99,7 @@ export default function LoginPage() {
                     <div className="flex flex-col gap-4">
                         <Button
                             formAction={login}
+                            type="submit"
                             className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11">
                             Entrar
                         </Button>

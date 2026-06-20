@@ -170,6 +170,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild tooltip="Ajuri X" isActive={pathname.startsWith("/ajuri-x")} className="rounded-xl px-4 font-bold sidebar-item transition-all duration-500 bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10 mt-1">
+                                <Link href="/ajuri-x" className="flex items-center gap-3">
+                                    <Scale16SolidIcon className="text-emerald-500 w-5 h-5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]" size="100%" color="currentColor" />
+                                    <span className="text-emerald-500 tracking-wider group-data-[collapsible=icon]:hidden">AJURI X</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarGroup>
 
@@ -206,31 +214,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenu>
                 </SidebarGroup>
 
-                <SidebarGroup>
-                    <SidebarMenu className="gap-1">
-                        <SidebarGroupLabel className="uppercase tracking-[0.2em] text-[10px] text-zinc-500 font-bold px-4 mb-2 mt-4 group-data-[collapsible=icon]:hidden opacity-80">
-                            IA Intelligence
-                        </SidebarGroupLabel>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild tooltip="Ajuri X" isActive={pathname.startsWith("/ajuri-x")} className="rounded-xl px-4 font-bold sidebar-item transition-all duration-500 bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10">
-                                <Link href="/ajuri-x" className="flex items-center gap-3">
-                                    <Scale16SolidIcon className="text-emerald-500 w-5 h-5 flex-shrink-0 drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]" size="100%" color="currentColor" />
-                                    <span className="text-emerald-500 tracking-wider group-data-[collapsible=icon]:hidden">AJURI X</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        {/*
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild tooltip="Agente Ajuri X" isActive={pathname.startsWith("/assistentes-ia")} className="rounded-xl px-4 font-semibold sidebar-item transition-all duration-300 hover:bg-white/5 active:scale-95 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-10">
-                                <Link href="/assistentes-ia" className="flex items-center gap-3">
-                                    <Bot className={cn("opacity-70 transition-colors", pathname.startsWith("/assistentes-ia") ? "text-emerald-400 opacity-100" : "group-hover:text-emerald-400")} />
-                                    <span className="group-data-[collapsible=icon]:hidden">Agente Ajuri X</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        */}
-                    </SidebarMenu>
-                </SidebarGroup>
+
             </SidebarContent>
 
             <SidebarFooter className="p-4 bg-black/20 border-t border-white/5">
@@ -263,18 +247,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 align="end"
                                 sideOffset={12}
                             >
-                                <DropdownMenuLabel className="p-0 font-normal">
-                                    <div className="flex items-center gap-3 px-4 py-3 text-left text-sm bg-white/5 rounded-t-2xl">
-                                        <Avatar className="h-10 w-10 rounded-xl border border-white/10">
-                                            <AvatarImage src={userAvatar} alt={userName} />
-                                            <AvatarFallback className="rounded-xl bg-emerald-500/10 text-emerald-500 font-bold">{userInitials}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid flex-1 text-left text-sm leading-tight">
-                                            <span className="truncate font-bold text-zinc-200">{userName}</span>
-                                            <span className="truncate text-xs text-zinc-500">{userEmail}</span>
+                                <DropdownMenuGroup>
+                                    <DropdownMenuLabel className="p-0 font-normal">
+                                        <div className="flex items-center gap-3 px-4 py-3 text-left text-sm bg-white/5 rounded-t-2xl">
+                                            <Avatar className="h-10 w-10 rounded-xl border border-white/10">
+                                                <AvatarImage src={userAvatar} alt={userName} />
+                                                <AvatarFallback className="rounded-xl bg-emerald-500/10 text-emerald-500 font-bold">{userInitials}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                                <span className="truncate font-bold text-zinc-200">{userName}</span>
+                                                <span className="truncate text-xs text-zinc-500">{userEmail}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </DropdownMenuLabel>
+                                    </DropdownMenuLabel>
+                                </DropdownMenuGroup>
                                 <DropdownMenuSeparator className="bg-white/5" />
                                 <DropdownMenuGroup className="p-2">
                                     <DropdownMenuItem className="rounded-xl cursor-pointer py-2 focus:bg-emerald-500/10 focus:text-emerald-400 transition-colors" onClick={() => router.push('/configuracoes')}>
