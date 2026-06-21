@@ -18,7 +18,6 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import { generatePetition } from "@/utils/petitionGenerator"
-import { generatePetitionPDF } from "@/utils/pdfGenerator"
 
 interface Petition {
     id: string
@@ -129,21 +128,6 @@ export function MyPetitionsList({ searchQuery = "", filterStatus = "all" }: MyPe
         }
     }
 
-    const handleDownloadPDF = async (petition: Petition) => {
-        if (!petition.formData) {
-            toast.error("Esta petição antiga não possui dados para ser regenerada.");
-            return;
-        }
-
-        const t = toast.loading("Gerando PDF...");
-        try {
-            await generatePetitionPDF(petition.formData, petition.templateId || null);
-            toast.success("PDF gerado com sucesso!", { id: t });
-        } catch (error) {
-            console.error(error);
-            toast.error(`Erro ao gerar PDF: ${error instanceof Error ? error.message : "Erro desconhecido"}`, { id: t });
-        }
-    }
 
     const handleEdit = (petition: Petition) => {
         if (petition.type === 'ajuri_x') {
@@ -237,9 +221,7 @@ export function MyPetitionsList({ searchQuery = "", filterStatus = "all" }: MyPe
                                     <DropdownMenuItem className="gap-2 cursor-pointer" onClick={() => handleDownload(petition)}>
                                         <Download className="h-4 w-4" /> Baixar .DOCX
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem className="gap-2 cursor-pointer" onClick={() => handleDownloadPDF(petition)}>
-                                        <FileDown className="h-4 w-4" /> Baixar .PDF
-                                    </DropdownMenuItem>
+
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => handleDelete(petition.id, petition.isLocal)} className="text-destructive focus:text-destructive gap-2 cursor-pointer">
                                         <Trash className="h-4 w-4" /> Excluir

@@ -9,17 +9,12 @@ export const DocumentWrapper: React.FC<DocumentWrapperProps> = ({ children }) =>
     <div
       className="bg-white text-black mx-auto shadow-2xl relative"
       style={{
-        width: "210mm",
-        minHeight: "297mm", // A4
-        padding: "25mm 20mm 25mm 30mm", // Standard A4 margins
+        width: "794px",
+        minHeight: "1123px", // A4 standard pixel size at 96 DPI
+        padding: "94px 76px 94px 113px", // A4 standard margins
         fontFamily: "'Times New Roman', Times, serif",
         fontSize: "13pt",
         lineHeight: "1.5",
-        // Setup background image for letterhead
-        backgroundImage: "url('/papel-timbrado.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
         boxSizing: "border-box"
       }}
     >

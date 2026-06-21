@@ -6,9 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CRMClient } from "@/types/crm"
-import { FileText, MapPin, User, FileSignature, Scale, Building2 } from "lucide-react"
+import { FileText, MapPin, User, FileSignature, Scale, Building2, Sparkles, Loader2 } from "lucide-react"
 import { PreviewModal, DocumentType } from "@/components/docs/PreviewModal"
 import { CustomTemplate, STORAGE_KEY_TEMPLATES } from "@/components/settings/CustomTemplateEditor"
+import { toast } from "sonner"
+import { ProcuracaoTemplate } from "@/components/docs/templates/ProcuracaoTemplate"
+import { DeclaracaoHipossuficienciaTemplate } from "@/components/docs/templates/DeclaracaoHipossuficienciaTemplate"
+import { ContratoHonorariosTemplate } from "@/components/docs/templates/ContratoHonorariosTemplate"
 
 const STORAGE_KEY = "ajuri_crm_clients"
 
@@ -23,6 +27,8 @@ export default function DocsPage() {
   const [existingClients, setExistingClients] = useState<CRMClient[]>([]);
   const [customTemplates, setCustomTemplates] = useState<CustomTemplate[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [officeData, setOfficeData] = useState<any>(null);
+
 
   // Form Fields State for those not directly matching CRMClient perfectly
   const [rua, setRua] = useState("");
@@ -33,6 +39,7 @@ export default function DocsPage() {
   // Specific document fields
   const [docSettings, setDocSettings] = useState({
     tipoAcao: "",
+    reu: "",
     valorInicial: "",
     percentualExito: ""
   });
@@ -54,6 +61,21 @@ export default function DocsPage() {
       } catch (e) {
         console.error(e);
       }
+    }
+
+    // Load officeData
+    try {
+      const storedProfiles = localStorage.getItem("ajuri_branding_profiles");
+      const activeId = localStorage.getItem("ajuri_active_profile_id");
+      if (storedProfiles) {
+        const profiles = JSON.parse(storedProfiles);
+        const activeProfile = profiles.find((p: any) => p.id === activeId) || profiles[0];
+        if (activeProfile?.officeData) {
+          setOfficeData(activeProfile.officeData);
+        }
+      }
+    } catch (e) {
+      console.error(e);
     }
   }, []);
 
@@ -90,7 +112,7 @@ export default function DocsPage() {
     setShowSuggestions(false);
   };
 
-  const isFormValid = clientData.name && clientData.cpf && clientData.estadoCivil && docSettings.tipoAcao && docSettings.valorInicial && docSettings.percentualExito;
+  const isFormValid = clientData.name && clientData.cpf && clientData.estadoCivil && docSettings.tipoAcao && docSettings.reu && docSettings.valorInicial && docSettings.percentualExito;
 
   const handleOpenPreview = (type: DocumentType) => {
     // 1. Build the full address to save
@@ -379,7 +401,7 @@ export default function DocsPage() {
             <h2 className="text-lg font-medium tracking-tight text-foreground">Informações Específicas do Documento</h2>
           </div>
           <p className="text-zinc-500 text-sm mb-6">
-            Estes dados serão usados para preencher as cláusulas de Objeto e Honorários.
+            Estes dados serão usados para preencher as cláusulas de Objeto, Réu e Honorários de Êxito.
           </p>
           
           <div className="space-y-4">
@@ -393,9 +415,18 @@ export default function DocsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5 block">Valor Inicial (R$) *</label>
+                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5 block">Réu *</label>
+                <Input 
+                  value={docSettings.reu} 
+                  onChange={(e) => setDocSettings({ ...docSettings, reu: e.target.value })}
+                  placeholder="Ex: Nome da Empresa ou Réu" 
+                  className="bg-black/50 border-white/10 text-white h-12 rounded-xl focus:border-amber-500/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5 block">Honorários Iniciais (R$) *</label>
                 <Input 
                   value={docSettings.valorInicial} 
                   onChange={(e) => setDocSettings({ ...docSettings, valorInicial: e.target.value })}
@@ -421,6 +452,7 @@ export default function DocsPage() {
           <h2 className="text-lg font-medium tracking-tight text-foreground mb-6 text-center">Selecione o Documento para Gerar</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
             <Button
               disabled={!isFormValid}
               onClick={() => handleOpenPreview("procuracao")}
@@ -481,6 +513,8 @@ export default function DocsPage() {
         customTemplateTitle={selectedCustomTemplate?.title}
         customTemplateContent={selectedCustomTemplate?.content}
       />
+
+
     </div>
   )
 }

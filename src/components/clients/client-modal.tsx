@@ -37,13 +37,16 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { evolutionService } from "@/utils/evolution";
+import { formatCPF, isValidCPF } from "@/utils/formatters";
 
 const formSchema = z.object({
     name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
     email: z.string().email("Email inválido").or(z.literal("")),
     phone: z.string().min(8, "Telefone inválido").or(z.literal("")),
     status: z.enum(["NOVO", "QUALIFICACAO", "APRESENTACAO", "NEGOCIACAO", "FECHADO", "PERDIDO", "ARQUIVADO"]),
-    cpf: z.string().optional(),
+    cpf: z.string().refine((val) => isValidCPF(val), {
+        message: "CPF é obrigatório e deve ser válido"
+    }),
     rg: z.string().optional(),
     nacionalidade: z.string().optional(),
     estadoCivil: z.string().optional(),
@@ -127,6 +130,16 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
     const noteInputRef = useRef<HTMLTextAreaElement>(null);
+
+    const generatedIdRef = useRef<string | null>(null);
+    const createdAtRef = useRef<string | null>(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            generatedIdRef.current = editingClient?.id || crypto.randomUUID();
+            createdAtRef.current = editingClient?.createdAt || new Date().toISOString();
+        }
+    }, [isOpen, editingClient]);
     
     // WhatsApp History State
     const [waHistory, setWaHistory] = useState<any[]>([]);
@@ -392,6 +405,7 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        mode: "onChange",
         defaultValues: {
             name: "",
             email: "",
@@ -478,8 +492,8 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
             const payload = {
                 ...editingClient,
                 ...data,
-                id: editingClient?.id || crypto.randomUUID(),
-                createdAt: editingClient?.createdAt || new Date().toISOString(),
+                id: generatedIdRef.current || editingClient?.id || crypto.randomUUID(),
+                createdAt: createdAtRef.current || editingClient?.createdAt || new Date().toISOString(),
                 activities,
                 tasks,
                 tags,
@@ -501,15 +515,28 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
         if (isOpen) triggerAutoSave();
     }, [activities, tasks, tags]);
 
-    const handleClose = (open: boolean) => {
+    const handleClose = async (open: boolean) => {
         if (!open) {
+            // Se for um novo lead e o formulário estiver limpo/intocado, permite fechar sem salvar e sem validar
+            if (!editingClient && !form.formState.isDirty) {
+                onClose();
+                return;
+            }
+
+            // Valida o formulário antes de fechar e salvar permanentemente
+            const isValid = await form.trigger();
+            if (!isValid) {
+                toast.error("Por favor, preencha todos os campos obrigatórios (Nome e CPF válidos).");
+                return;
+            }
+
             if (saveTimeout.current) clearTimeout(saveTimeout.current);
             const data = form.getValues();
             const payload = {
                 ...editingClient,
                 ...data,
-                id: editingClient?.id || crypto.randomUUID(),
-                createdAt: editingClient?.createdAt || new Date().toISOString(),
+                id: generatedIdRef.current!,
+                createdAt: createdAtRef.current!,
                 activities,
                 tasks,
                 tags,
@@ -529,11 +556,11 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         const clientData: CRMClient = {
-            id: editingClient?.id || crypto.randomUUID(),
+            id: generatedIdRef.current || editingClient?.id || crypto.randomUUID(),
             ...values,
             email: values.email || "",
             phone: values.phone || "",
-            createdAt: editingClient?.createdAt || new Date().toISOString(),
+            createdAt: createdAtRef.current || editingClient?.createdAt || new Date().toISOString(),
             lastUpdate: new Date().toISOString(),
             processCount: editingClient?.processCount || 0,
             activities: activities,
@@ -609,9 +636,10 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
     };
 
     const handleDelete = () => {
-        if (editingClient && onDelete) {
-            if (confirm(`Tem certeza que deseja excluir o lead ${editingClient.name}?`)) {
-                onDelete(editingClient.id);
+        if (onDelete && generatedIdRef.current) {
+            const clientName = form.getValues("name") || "este lead";
+            if (confirm(`Tem certeza que deseja excluir o lead ${clientName}?`)) {
+                onDelete(generatedIdRef.current);
                 onClose();
             }
         }
@@ -648,12 +676,13 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        {editingClient && (
+                        {onDelete && (
                             <Button
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8 rounded-full text-destructive hover:bg-destructive/10"
                                 onClick={handleDelete}
+                                title="Excluir Lead"
                             >
                                 <Trash2 className="w-4 h-4 text-destructive" />
                             </Button>
@@ -725,10 +754,22 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
                                             name="cpf"
                                             render={({ field }) => (
                                                 <FormItem className="space-y-1">
-                                                    <FormLabel className="text-[11px] text-muted-foreground">CPF</FormLabel>
+                                                    <FormLabel className="text-[11px] text-muted-foreground flex items-center gap-1">
+                                                        CPF <span className="text-destructive">*</span>
+                                                    </FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder="000.000.000-00" className="bg-background h-9 text-[11px]" {...field} />
+                                                        <Input 
+                                                            placeholder="000.000.000-00" 
+                                                            className="bg-background h-9 text-[11px]" 
+                                                            {...field} 
+                                                            onChange={(e) => {
+                                                                const formatted = formatCPF(e.target.value);
+                                                                field.onChange(formatted);
+                                                            }}
+                                                            maxLength={14}
+                                                        />
                                                     </FormControl>
+                                                    <FormMessage className="text-[10px]" />
                                                 </FormItem>
                                             )}
                                         />

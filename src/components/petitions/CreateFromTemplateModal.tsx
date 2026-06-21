@@ -36,6 +36,7 @@ export function CreateFromTemplateModal({
   
   const [docSettings, setDocSettings] = useState({
     tipoAcao: "",
+    reu: "",
     valorInicial: "",
     percentualExito: ""
   });
@@ -210,10 +211,14 @@ export function CreateFromTemplateModal({
               <label className="text-xs font-bold text-zinc-400 uppercase">Tipo de Ação</label>
               <Input value={docSettings.tipoAcao} onChange={(e) => setDocSettings({ ...docSettings, tipoAcao: e.target.value })} className="bg-black/50 border-white/10" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="text-xs font-bold text-zinc-400 uppercase">Réu</label>
+                <Input value={docSettings.reu} onChange={(e) => setDocSettings({ ...docSettings, reu: e.target.value })} placeholder="Ex: Nome da Empresa ou Réu" className="bg-black/50 border-white/10" />
+              </div>
               <div>
                 <label className="text-xs font-bold text-zinc-400 uppercase">Valor Inicial</label>
-                <Input value={docSettings.valorInicial} onChange={(e) => setDocSettings({ ...docSettings, valorInicial: e.target.value })} className="bg-black/50 border-white/10" />
+                <Input value={docSettings.valorInicial} onChange={(e) => setDocSettings({ ...docSettings, valorInicial: e.target.value })} placeholder="Ex: 5.000,00" className="bg-black/50 border-white/10" />
               </div>
               <div>
                 <label className="text-xs font-bold text-zinc-400 uppercase">Percentual Êxito</label>

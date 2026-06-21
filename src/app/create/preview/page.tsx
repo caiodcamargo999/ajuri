@@ -8,7 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { exportToWord } from "@/utils/exportWord";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BrandingProfile } from "@/types/petition";
-import { ChevronLeft, Download, FileDown, Eye } from "lucide-react";
+import { ChevronLeft, FileDown, Eye } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function PreviewPage() {
@@ -32,38 +32,7 @@ export default function PreviewPage() {
         }
     }, []);
 
-    const handleExportPDF = async () => {
-        try {
-            setIsExporting(true);
-            const element = document.getElementById("petition-content");
-            if (!element) {
-                toast({
-                    title: "Erro",
-                    description: "Conteúdo da petição não encontrado",
-                    variant: "destructive",
-                });
-                return;
-            }
 
-            // @ts-ignore
-            const generatePetitionPDF = (await import("@/utils/pdfGenerator")).generatePetitionPDF;
-            await generatePetitionPDF(data, data.petitionType, selectedProfileId || undefined);
-
-            toast({
-                title: "PDF Gerado!",
-                description: "O arquivo foi baixado com sucesso.",
-            });
-        } catch (error) {
-            console.error("Error generating PDF:", error);
-            toast({
-                title: "Erro ao gerar PDF",
-                description: "Tente novamente ou use a impressão do navegador.",
-                variant: "destructive",
-            });
-        } finally {
-            setIsExporting(false);
-        }
-    };
 
     const handleExportWord = async () => {
         try {
@@ -109,13 +78,9 @@ export default function PreviewPage() {
                         </div>
                     )}
                     <div className="flex gap-2 w-full md:w-auto">
-                        <Button variant="outline" onClick={handleExportWord} disabled={isExporting} className="flex-1 md:flex-none">
+                        <Button variant="outline" onClick={handleExportWord} disabled={isExporting} className="w-full md:w-auto">
                             <FileDown className="w-4 h-4 mr-2" />
-                            Word
-                        </Button>
-                        <Button variant="default" onClick={handleExportPDF} disabled={isExporting} className="flex-1 md:flex-none">
-                            <Download className="w-4 h-4 mr-2" />
-                            PDF
+                            Baixar Word (.docx)
                         </Button>
                     </div>
                 </div>

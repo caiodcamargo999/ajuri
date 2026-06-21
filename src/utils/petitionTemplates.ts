@@ -58,14 +58,14 @@ const addStandardHeader = (children: (Paragraph | Table)[], comarca: string) => 
 
 const addAuthorQualification = (children: (Paragraph | Table)[], data: PetitionData, office: OfficeData) => {
     const { client } = data;
-    const clientAddress = `${client.street || "[RUA/LOGRADOURO]"}, ${client.number || "[NÚMERO]"}, Bairro ${client.neighborhood || "[BAIRRO]"}, CEP ${client.cep || "[CEP]"}`;
+    const clientAddress = `${client.street || "___________________"}, ${client.number || "______"}, Bairro ${client.neighborhood || "___________________"}, CEP ${client.cep || "___________"}`;
 
     children.push(
         createParagraph([
-            createTextRun(client.name || "[NOME DO CLIENTE]", { bold: true }),
-            createTextRun(`, ${client.nationality || "[NACIONALIDADE]"}, ${client.civilStatus || "[ESTADO CIVIL]"}, ${client.profession || "[PROFISSÃO]"}, inscrito(a) no CPF sob o nº `),
+            createTextRun(client.name || "___________________", { bold: true }),
+            createTextRun(`, ${client.nationality || "___________________"}, ${client.civilStatus || "___________________"}, ${client.profession || "___________________"}, inscrito(a) no CPF sob o nº `),
             createTextRun(client.cpf || "000.000.000-00", { bold: true }),
-            createTextRun(`, portador(a) do RG nº ${client.rg || "0000000"}, residente e domiciliado(a) na ${clientAddress}, ${client.city || "[CIDADE]"} / ${client.state || "[UF]"}, por intermédio de seu advogado, devidamente constituído, com escritório na ${office.address || "[DESCREVA O ENDEREÇO DO ESCRITÓRIO NAS CONFIGURAÇÕES]"} - CEP ${office.cep || "[CEP]"}, onde recebe intimações, vem, respeitosamente, perante Vossa Excelência, propor a presente:`),
+            createTextRun(`, portador(a) do RG nº ${client.rg || "___________________"}, residente e domiciliado(a) na ${clientAddress}, ${client.city || "___________________"} / ${client.state || "___"}, por intermédio de seu advogado, devidamente constituído, com escritório na ${office.address || "___________________________________________"} - CEP ${office.cep || "___________"}, onde recebe intimações, vem, respeitosamente, perante Vossa Excelência, propor a presente:`),
         ])
     );
 };
@@ -157,7 +157,7 @@ const getFlightDelayTemplate = (data: PetitionData, office: OfficeData): (Paragr
     );
 
     children.push(createParagraph([createTextRun("I - DOS FATOS", { bold: true })], { alignment: AlignmentType.CENTER }));
-    children.push(createParagraph([createTextRun("O Autor adquiriu passagens aéreas e, na data prevista, o voo foi [atrasado/cancelado]. Houve perda de compromissos [citar compromissos] e ausência de assistência material adequada (alimentação/hospedagem).")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("O Autor adquiriu passagens aéreas e, na data prevista, o voo foi atrasado ou cancelado. Houve perda de compromissos pessoais e profissionais e ausência de assistência material adequada (alimentação/hospedagem).")], { indent: { firstLine: 720 } }));
 
     children.push(createParagraph([createTextRun("II - DO DIREITO", { bold: true })], { alignment: AlignmentType.CENTER }));
     children.push(createParagraph([createTextRun("A responsabilidade do transportador aéreo é objetiva (Art. 14 CDC e Convenção de Varsóvia/Montreal). O atraso superior a 4 horas gera presunção de dano moral (Súmula STJ).")], { indent: { firstLine: 720 } }));
@@ -184,7 +184,7 @@ const getHealthNegationTemplate = (data: PetitionData, office: OfficeData): (Par
     );
 
     children.push(createParagraph([createTextRun("I - DOS FATOS", { bold: true })], { alignment: AlignmentType.CENTER }));
-    children.push(createParagraph([createTextRun("O Autor necessita de [procedimento/cirurgia/home care] conforme prescrição médica anexa. O Plano de Saúde negou a cobertura sob alegação de [falta de rol da ANS / carência], colocando em risco a vida/saúde do paciente.")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("O Autor necessita de procedimento cirúrgico ou home care conforme prescrição médica anexa. O Plano de Saúde negou a cobertura sob alegação de falta de rol da ANS ou carência contratual, colocando em risco a vida e a saúde do paciente.")], { indent: { firstLine: 720 } }));
 
     children.push(createParagraph([createTextRun("II - DO DIREITO", { bold: true })], { alignment: AlignmentType.CENTER }));
     children.push(createParagraph([createTextRun("A negativa é abusiva. O rol da ANS é exemplificativo. Se há cobertura para a doença, o plano deve cobrir o tratamento prescrito pelo médico (Súmula 102 TJSP / Entendimento STJ).")], { indent: { firstLine: 720 } }));
@@ -203,9 +203,9 @@ const getDivorceTemplate = (data: PetitionData, office: OfficeData): (Paragraph 
 
     children.push(createParagraph([createTextRun("DIVÓRCIO CONSENSUAL", { bold: true })], { alignment: AlignmentType.CENTER, spacing: { before: 400, after: 400 } }));
 
-    children.push(createParagraph([createTextRun("Os Requerentes, de comum acordo, vêm expor que contraíram matrimônio em [data], sob o regime de [regime]. Não desejam mais manter a união. Há [filhos/bens] a considerar conforme termos abaixo:")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("Os Requerentes, de comum acordo, vêm expor que contraíram matrimônio, sob o regime de bens legalmente estabelecido. Não desejam mais manter a união, resolvendo acordar sobre a partilha de bens comuns, guarda e regime de visitas dos filhos, bem como pensão alimentícia nos termos abaixo:")], { indent: { firstLine: 720 } }));
 
-    children.push(createParagraph([createTextRun("1. Dos Bens: [Descrever partilha]; 2. Dos Filhos: [Guarda e visitas]; 3. Alimentos: [Valor da pensão].")]));
+    children.push(createParagraph([createTextRun("1. Dos Bens: Partilha de bens comuns; 2. Dos Filhos: Guarda e regime de visitas acordados; 3. Alimentos: Valor de pensão fixado de comum acordo.")]));
 
     children.push(createParagraph([createTextRun("Requerem a homologação do divórcio e expedição de mandado de averbação.")], { spacing: { before: 400 } }));
 
@@ -220,7 +220,7 @@ const getUsucapiaoTemplate = (data: PetitionData, office: OfficeData): (Paragrap
 
     children.push(createParagraph([createTextRun("REQUERIMENTO DE USUCAPIÃO EXTRAJUDICIAL (PROVIMENTO 65 CNJ)", { bold: true })], { alignment: AlignmentType.CENTER, spacing: { before: 400, after: 400 } }));
 
-    children.push(createParagraph([createTextRun("O Requerente detém a posse mansa, pacífica e ininterrupta do imóvel situado na [endereço], há mais de [anos] anos, com animus domini. Apresenta ata notarial e planta descritiva anexa.")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("O Requerente detém a posse mansa, pacífica e ininterrupta do imóvel, exercendo nela sua moradia habitual com animus domini, conforme ata notarial e planta descritiva anexa.")], { indent: { firstLine: 720 } }));
 
     children.push(createParagraph([createTextRun("Requer o processamento e posterior registro da propriedade em seu nome.")], { spacing: { before: 400 } }));
 
@@ -243,7 +243,7 @@ const getPixFraudTemplate = (data: PetitionData, office: OfficeData): (Paragraph
     );
 
     children.push(createParagraph([createTextRun("I - DOS FATOS", { bold: true })], { alignment: AlignmentType.CENTER }));
-    children.push(createParagraph([createTextRun("O Autor foi vítima de golpe via Pix no valor de [valor]. Acionou o banco imediatamente via MED (Mecanismo Especial de Devolução), porém o banco falhou em bloquear os valores ou rastrear a conta destino fraudulenta.")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("O Autor foi vítima de golpe via Pix. Acionou o banco imediatamente via MED (Mecanismo Especial de Devolução), porém o banco falhou em bloquear os valores ou rastrear a conta destino fraudulenta.")], { indent: { firstLine: 720 } }));
 
     children.push(createParagraph([createTextRun("II - DO DIREITO", { bold: true })], { alignment: AlignmentType.CENTER }));
     children.push(createParagraph([createTextRun("Responsabilidade Objetiva dos bancos em falhas de segurança (Súmula 479 STJ). O banco responde pelo fortuito interno e ineficiência do sistema antifraude.")], { indent: { firstLine: 720 } }));
@@ -257,7 +257,7 @@ const getPixFraudTemplate = (data: PetitionData, office: OfficeData): (Paragraph
 const getMandamusTemplate = (data: PetitionData, office: OfficeData): (Paragraph | Table)[] => {
     const children: (Paragraph | Table)[] = [];
     children.push(createParagraph([createTextRun("MANDADO DE SEGURANÇA COM PEDIDO LIMINAR", { bold: true })], { alignment: AlignmentType.CENTER }));
-    children.push(createParagraph([createTextRun("Ato coator praticado pelo [Autoridade] relacionado ao concurso público [Nome]. O Impetrante foi preterido em decorrência de [anulação questão / erro nomeação]. Há prova pré-constituída do direito líquido e certo.")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("Ato coator praticado pela Autoridade Coatora relacionado ao concurso público. O Impetrante foi preterido em decorrência de ato ilegal da comissão organizadora. Há prova pré-constituída do direito líquido e certo.")], { indent: { firstLine: 720 } }));
     children.push(createParagraph([createTextRun("Pede-se liminar para reserva de vaga e posterior concessão da segurança.")]));
     return children;
 };
@@ -265,7 +265,7 @@ const getMandamusTemplate = (data: PetitionData, office: OfficeData): (Paragraph
 const getTrafficFineTemplate = (data: PetitionData, office: OfficeData): (Paragraph | Table)[] => {
     const children: (Paragraph | Table)[] = [];
     children.push(createParagraph([createTextRun("DEFESA ADMINISTRATIVA / AÇÃO DE ANULAÇÃO DE MULTA DE TRÂNSITO", { bold: true })], { alignment: AlignmentType.CENTER }));
-    children.push(createParagraph([createTextRun("O Autor foi autuado indevidamente por infração que não cometeu ou cujo auto de infração padece de vício insanável [descrever vício, ex: falta de sinalização, erro no radar].")], { indent: { firstLine: 720 } }));
+    children.push(createParagraph([createTextRun("O Autor foi autuado indevidamente por infração que não cometeu ou cujo auto de infração padece de vício formal ou substancial, como falta de sinalização adequada ou erro de medição do equipamento de fiscalização.")], { indent: { firstLine: 720 } }));
     children.push(createParagraph([createTextRun("Requer o cancelamento da autuação e dos pontos na CNH.")]));
     return children;
 };

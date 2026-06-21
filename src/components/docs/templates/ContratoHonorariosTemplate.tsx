@@ -7,6 +7,7 @@ interface Props {
   officeData?: any;
   docSettings?: {
     tipoAcao: string;
+    reu: string;
     valorInicial: string;
     percentualExito: string;
   };
@@ -54,7 +55,7 @@ export const ContratoHonorariosTemplate: React.FC<Props> = ({ client, officeData
 
         <h2 className="font-bold mb-2">CLÁUSULA PRIMEIRA - DO OBJETO</h2>
         <p className="mb-8 text-justify indent-12 leading-relaxed">
-          O presente instrumento tem como objeto a prestação de serviços advocatícios por parte da CONTRATADA ao(à) CONTRATANTE, especificamente para atuar na propositura de <strong>{docSettings?.tipoAcao || "________________________________________________"}</strong> até o trânsito em julgado.
+          O presente instrumento tem como objeto a prestação de serviços advocatícios por parte da CONTRATADA ao(à) CONTRATANTE, especificamente para atuar na propositura de <strong>{docSettings?.tipoAcao || "________________________________________________"}</strong> em face de <strong>{docSettings?.reu || "________________________________________________"}</strong>, até o trânsito em julgado.
         </p>
 
         <h2 className="font-bold mb-2">CLÁUSULA SEGUNDA - DOS HONORÁRIOS</h2>

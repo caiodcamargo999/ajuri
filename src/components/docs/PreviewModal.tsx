@@ -6,7 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, Loader2 } from "lucide-react";
+import { Copy, Check } from "lucide-react";
+import { toast } from "sonner";
 import { ProcuracaoTemplate } from "./templates/ProcuracaoTemplate";
 import { DeclaracaoHipossuficienciaTemplate } from "./templates/DeclaracaoHipossuficienciaTemplate";
 import { ContratoHonorariosTemplate } from "./templates/ContratoHonorariosTemplate";
@@ -22,6 +23,7 @@ interface PreviewModalProps {
   clientData: Partial<CRMClient>;
   docSettings?: {
     tipoAcao: string;
+    reu: string;
     valorInicial: string;
     percentualExito: string;
   };
@@ -39,7 +41,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
   customTemplateContent
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
-  const [isExporting, setIsExporting] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const [officeData, setOfficeData] = useState<any>(null);
 
   React.useEffect(() => {
@@ -77,34 +79,17 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
     }
   };
 
-  const getFileName = () => {
-    const docName = getDocumentTitle().replace(/\s+/g, "_");
-    const clientName = clientData.name?.replace(/\s+/g, "_") || "Cliente";
-    return `${docName}_${clientName}.pdf`;
-  };
-
-  const handleExportPDF = async () => {
+  const handleCopyText = async () => {
     if (!contentRef.current) return;
     try {
-      setIsExporting(true);
-      
-      // Dynamically import html2pdf so it doesn't break SSR
-      const html2pdf = (await import("html2pdf.js")).default;
-      
-      const element = contentRef.current;
-      const opt = {
-        margin: 0,
-        filename: getFileName(),
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" as const },
-      };
-
-      await html2pdf().set(opt).from(element).save();
+      const text = contentRef.current.innerText || contentRef.current.textContent || "";
+      await navigator.clipboard.writeText(text);
+      setIsCopied(true);
+      toast.success("Texto copiado para a área de transferência!");
+      setTimeout(() => setIsCopied(false), 2000);
     } catch (error) {
-      console.error("Error generating PDF:", error);
-    } finally {
-      setIsExporting(false);
+      console.error("Error copying text:", error);
+      toast.error("Erro ao copiar o texto.");
     }
   };
 
@@ -147,19 +132,18 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
               Pré-visualização: {getDocumentTitle()}
             </DialogTitle>
             <Button
-              onClick={handleExportPDF}
-              disabled={isExporting}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-10 px-6 rounded-xl shadow-lg transition-all"
+              onClick={handleCopyText}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-10 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2"
             >
-              {isExporting ? (
+              {isCopied ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Gerando PDF...
+                  <Check className="w-4 h-4" />
+                  Copiado!
                 </>
               ) : (
                 <>
-                  <Download className="w-4 h-4 mr-2" />
-                  Exportar PDF
+                  <Copy className="w-4 h-4" />
+                  Copiar Texto
                 </>
               )}
             </Button>

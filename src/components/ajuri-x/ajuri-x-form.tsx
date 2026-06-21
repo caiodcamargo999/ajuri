@@ -49,7 +49,6 @@ import { DEFAULT_OFFICE } from "@/types/petition";
 import { formatCurrency, valorPorExtenso } from "@/utils/currency";
 import { PETITION_TEMPLATES, ACTIVE_PETITION_TEMPLATES } from "@/constants/templates";
 import { Badge } from "@/components/ui/badge";
-import { generatePetitionPDF } from "@/utils/pdfGenerator";
 import {
     getTarifasBancariasChildren,
     getAtrasoVooChildren,
@@ -113,7 +112,6 @@ export default function AjuriXForm() {
     const [step, setStep] = useState(1);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isLoadingEdit, setIsLoadingEdit] = useState(false);
-    const [targetFormat, setTargetFormat] = useState<'docx' | 'pdf'>('docx');
 
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -435,11 +433,7 @@ export default function AjuriXForm() {
         setIsGenerating(true);
         try {
             handleCRMIntegration(data);
-            if (targetFormat === 'docx') {
-                await generatePetition(data, selectedTemplateId);
-            } else {
-                await generatePetitionPDF(data, selectedTemplateId);
-            }
+            await generatePetition(data, selectedTemplateId);
 
             // Save to history
             const petitionData = {
@@ -932,23 +926,11 @@ export default function AjuriXForm() {
 
                                         <Button
                                             type="submit"
-                                            onClick={() => setTargetFormat('pdf')}
-                                            disabled={isGenerating}
-                                            variant="outline"
-                                            className="border-zinc-700 hover:bg-zinc-800 text-zinc-300 gap-2 min-w-[120px]"
-                                        >
-                                            {isGenerating && targetFormat === 'pdf' ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
-                                            {isGenerating && targetFormat === 'pdf' ? "Gerando..." : "Baixar .PDF"}
-                                        </Button>
-
-                                        <Button
-                                            type="submit"
-                                            onClick={() => setTargetFormat('docx')}
                                             disabled={isGenerating}
                                             className="bg-emerald-600 hover:bg-emerald-500 text-white min-w-[180px] shadow-lg shadow-emerald-700/20 gap-2 transition-all"
                                         >
-                                            {isGenerating && targetFormat === 'docx' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                                            {isGenerating && targetFormat === 'docx' ? "Gerando..." : "Baixar .DOCX"}
+                                            {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                                            {isGenerating ? "Gerando..." : "Baixar .DOCX"}
                                         </Button>
                                     </div>
                                 )}

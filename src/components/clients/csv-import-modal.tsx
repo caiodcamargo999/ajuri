@@ -254,6 +254,18 @@ export function CSVImportModal({ isOpen, onClose, onImport, currentPipelineId, p
                                     </Select>
                                 </div>
                                 <div className="space-y-2">
+                                    <Label className="text-xs font-black uppercase tracking-widest text-zinc-500">CPF</Label>
+                                    <Select value={mapping.cpf} onValueChange={(v) => setMapping({ ...mapping, cpf: v })}>
+                                        <SelectTrigger className="bg-zinc-900 border-zinc-800 h-11">
+                                            <SelectValue placeholder="Opcional" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-zinc-950 border-zinc-800">
+                                            <SelectItem value="skip">Pular</SelectItem>
+                                            {headers.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2">
                                     <Label className="text-xs font-black uppercase tracking-widest text-zinc-500">Valor Estimado</Label>
                                     <Select value={mapping.value} onValueChange={(v) => setMapping({ ...mapping, value: v })}>
                                         <SelectTrigger className="bg-zinc-900 border-zinc-800 h-11">

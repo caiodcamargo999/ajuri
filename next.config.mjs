@@ -2,6 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ['pdf-parse', 'pdfjs-dist'],
   images: {
     remotePatterns: [],
     unoptimized: false,
@@ -17,6 +18,13 @@ const nextConfig = {
     ],
     serverActions: {
       allowedOrigins: ['localhost:3000'],
+      bodySizeLimit: '20mb',
+    },
+  },
+  // Allow larger request bodies for PDF uploads
+  api: {
+    bodyParser: {
+      sizeLimit: '20mb',
     },
   },
   // Desabilita logs de desenvolvimento em produção para ganho de performance

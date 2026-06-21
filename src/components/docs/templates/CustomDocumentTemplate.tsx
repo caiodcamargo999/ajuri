@@ -6,6 +6,7 @@ interface CustomDocumentTemplateProps {
   officeData: any;
   docSettings?: {
     tipoAcao: string;
+    reu: string;
     valorInicial: string;
     percentualExito: string;
   };
@@ -33,7 +34,10 @@ export const CustomDocumentTemplate: React.FC<CustomDocumentTemplateProps> = ({
     // Doc settings
     newHtml = newHtml.replace(/\{\{TIPO_ACAO\}\}/g, docSettings?.tipoAcao || "________________");
     newHtml = newHtml.replace(/\{\{VALOR_INICIAL\}\}/g, docSettings?.valorInicial || "________________");
+    newHtml = newHtml.replace(/\{\{REU\}\}/g, docSettings?.reu || "________________");
     newHtml = newHtml.replace(/\{\{PERCENTUAL_EXITO\}\}/g, docSettings?.percentualExito || "________________");
+    // Remove any remaining square brackets
+    newHtml = newHtml.replace(/[\[\]]/g, "");
     
     return newHtml;
   };
