@@ -10,7 +10,7 @@ const Pricing = dynamic(() => import("@/components/pricing"), { ssr: true });
 
 export default function Home() {
     return (
-        <div className="flex min-h-screen flex-col bg-black text-foreground overflow-x-hidden">
+        <div className="flex min-h-screen flex-col bg-black text-foreground overflow-x-clip">
             {/* Sections with improved vertical spacing */}
             <HeroSection />
 
