@@ -157,9 +157,9 @@ export function PipelineManager({ pipelines, onSave, open, onOpenChange }: Pipel
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="flex flex-1 overflow-hidden">
+                <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
                     {/* Sidebar: List of Pipelines */}
-                    <div className="w-1/3 border-r bg-muted/10 flex flex-col">
+                    <div className="w-full md:w-1/3 h-[30%] md:h-auto border-b md:border-b-0 md:border-r bg-muted/10 flex flex-col">
                         <div className="p-4 border-b">
                             <Button onClick={handleCreatePipeline} className="w-full gap-2" variant="outline" size="sm">
                                 <Plus className="w-4 h-4" /> Novo Pipeline

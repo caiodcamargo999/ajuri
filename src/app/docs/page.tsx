@@ -13,8 +13,31 @@ import { toast } from "sonner"
 import { ProcuracaoTemplate } from "@/components/docs/templates/ProcuracaoTemplate"
 import { DeclaracaoHipossuficienciaTemplate } from "@/components/docs/templates/DeclaracaoHipossuficienciaTemplate"
 import { ContratoHonorariosTemplate } from "@/components/docs/templates/ContratoHonorariosTemplate"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { History, Clock, FileDown } from "lucide-react"
 
 const STORAGE_KEY = "ajuri_crm_clients"
+const HISTORY_STORAGE_KEY = "ajuri_docs_history"
+
+export interface DocsHistoryItem {
+  id: string;
+  date: string;
+  documentType: DocumentType;
+  customTemplateTitle?: string;
+  clientData: Partial<CRMClient>;
+  docSettings: {
+    tipoAcao: string;
+    reu: string;
+    valorInicial: string;
+    percentualExito: string;
+  };
+  addressData: {
+    rua: string;
+    numero: string;
+    cidade: string;
+    estado: string;
+  };
+}
 
 export default function DocsPage() {
   const [clientData, setClientData] = useState<Partial<CRMClient>>({
@@ -28,6 +51,7 @@ export default function DocsPage() {
   const [customTemplates, setCustomTemplates] = useState<CustomTemplate[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [officeData, setOfficeData] = useState<any>(null);
+  const [history, setHistory] = useState<DocsHistoryItem[]>([]);
 
 
   // Form Fields State for those not directly matching CRMClient perfectly
@@ -77,6 +101,16 @@ export default function DocsPage() {
     } catch (e) {
       console.error(e);
     }
+    
+    // Load history
+    const storedHistory = localStorage.getItem(HISTORY_STORAGE_KEY);
+    if (storedHistory) {
+      try {
+        setHistory(JSON.parse(storedHistory));
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }, []);
 
   const handleSelectClient = (client: CRMClient) => {
@@ -112,47 +146,67 @@ export default function DocsPage() {
     setShowSuggestions(false);
   };
 
-  const isFormValid = clientData.name && clientData.cpf && clientData.estadoCivil && docSettings.tipoAcao && docSettings.reu && docSettings.valorInicial && docSettings.percentualExito;
+  const isFormValid = clientData.name && clientData.cpf && clientData.estadoCivil && docSettings.tipoAcao && docSettings.reu && docSettings.percentualExito;
+
+  const saveToHistory = (type: DocumentType, customTemplate?: CustomTemplate) => {
+    const newItem: DocsHistoryItem = {
+      id: crypto.randomUUID(),
+      date: new Date().toISOString(),
+      documentType: type,
+      customTemplateTitle: customTemplate?.title,
+      clientData: { ...clientData },
+      docSettings: { ...docSettings },
+      addressData: { rua, numero, cidade, estado }
+    };
+    const updatedHistory = [newItem, ...history].slice(0, 50); // Keep last 50
+    setHistory(updatedHistory);
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(updatedHistory));
+  };
 
   const handleOpenPreview = (type: DocumentType) => {
     // 1. Build the full address to save
-    const fullAddress = [rua, numero].filter(Boolean).join(", ");
+    const fullAddress = `${rua}, ${numero} - ${cidade}/${estado}`;
+    setClientData(prev => ({ ...prev, address: fullAddress }));
     
-    const finalClientData = {
-      ...clientData,
-      address: fullAddress,
-      cidade,
-      estado,
-    };
-
-    setClientData(finalClientData);
-    
-    // 2. Save client if not exists
-    saveClientIfNeeded(finalClientData as CRMClient);
-
-    // 3. Open Modal
     setSelectedDocType(type);
     setSelectedCustomTemplate(null);
     setModalOpen(true);
+    saveToHistory(type);
   };
 
   const handleOpenCustomPreview = (template: CustomTemplate) => {
-    // 1. Build the full address to save
-    const fullAddress = [rua, numero].filter(Boolean).join(", ");
+    const fullAddress = `${rua}, ${numero} - ${cidade}/${estado}`;
+    setClientData(prev => ({ ...prev, address: fullAddress }));
     
-    const finalClientData = {
-      ...clientData,
-      address: fullAddress,
-      cidade,
-      estado,
-    };
-
-    setClientData(finalClientData);
-    saveClientIfNeeded(finalClientData as CRMClient);
-
     setSelectedDocType("custom");
     setSelectedCustomTemplate(template);
     setModalOpen(true);
+    saveToHistory("custom", template);
+  };
+
+  const handleRestoreHistory = (item: DocsHistoryItem) => {
+    setClientData(item.clientData);
+    setDocSettings(item.docSettings);
+    setRua(item.addressData.rua);
+    setNumero(item.addressData.numero);
+    setCidade(item.addressData.cidade);
+    setEstado(item.addressData.estado);
+    
+    setSelectedDocType(item.documentType);
+    if (item.documentType === "custom") {
+      // Find the custom template by title to restore its content
+      const template = customTemplates.find(t => t.title === item.customTemplateTitle);
+      if (template) setSelectedCustomTemplate(template);
+    } else {
+      setSelectedCustomTemplate(null);
+    }
+    setModalOpen(true);
+  };
+
+  const clearHistory = () => {
+    setHistory([]);
+    localStorage.removeItem(HISTORY_STORAGE_KEY);
+    toast.success("Histórico limpo!");
   };
 
   const saveClientIfNeeded = (client: CRMClient) => {
@@ -194,20 +248,80 @@ export default function DocsPage() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full -mr-64 -mt-64 pointer-events-none" />
 
       <div className="max-w-6xl mx-auto w-full flex flex-col gap-8 p-4 md:p-8 relative z-10">
-        <header className="flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
-              <FileSignature className="w-8 h-8 text-blue-500" />
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.15)] group hover:bg-blue-500/20 transition-all duration-500">
+              <FileSignature size={32} className="text-blue-500 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
             </div>
-            <div>
-              <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground leading-none">
+            <div className="space-y-1">
+              <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none flex items-center gap-4">
                 Docs Jurídicos
               </h1>
-              <p className="text-zinc-500 font-medium mt-1">
+              <p className="text-zinc-400 text-sm md:text-base font-medium">
                 Gere documentos pré-formatados com a identidade do escritório.
               </p>
             </div>
           </div>
+          
+          {/* History Button */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="bg-zinc-900/50 border-white/10 hover:bg-white/5 text-zinc-300 rounded-xl h-12 px-6">
+                <History className="w-4 h-4 mr-2" />
+                Histórico Recente
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="bg-zinc-950 border-l border-white/10 p-0 w-full sm:max-w-md flex flex-col">
+              <SheetHeader className="p-6 border-b border-white/10 bg-black/20">
+                <SheetTitle className="text-xl font-bold text-white flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-amber-500" />
+                  Histórico de Gerações
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                {history.length === 0 ? (
+                  <div className="text-center text-zinc-500 mt-10">
+                    <p>Nenhum documento gerado recentemente.</p>
+                  </div>
+                ) : (
+                  history.map((item) => (
+                    <div key={item.id} className="bg-zinc-900/50 border border-white/5 rounded-xl p-4 hover:border-amber-500/30 transition-colors group">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
+                            {item.documentType === "procuracao" ? "Procuração" :
+                             item.documentType === "declaracao" ? "Declaração" :
+                             item.documentType === "contrato" ? "Contrato" :
+                             item.customTemplateTitle || "Personalizado"}
+                          </h4>
+                          <p className="text-base text-white font-medium line-clamp-1">{item.clientData.name}</p>
+                        </div>
+                        <span className="text-xs text-zinc-500 font-medium">
+                          {new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit' })}
+                        </span>
+                      </div>
+                      <div className="flex gap-2 mt-4">
+                        <Button 
+                          onClick={() => handleRestoreHistory(item)}
+                          className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg h-9 text-xs"
+                        >
+                          <FileDown className="w-3 h-3 mr-2" />
+                          Reabrir para Baixar
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+              {history.length > 0 && (
+                <div className="p-4 border-t border-white/10 bg-black/20">
+                  <Button onClick={clearHistory} variant="ghost" className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                    Limpar Histórico
+                  </Button>
+                </div>
+              )}
+            </SheetContent>
+          </Sheet>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -415,22 +529,13 @@ export default function DocsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5 block">Réu *</label>
                 <Input 
                   value={docSettings.reu} 
                   onChange={(e) => setDocSettings({ ...docSettings, reu: e.target.value })}
                   placeholder="Ex: Nome da Empresa ou Réu" 
-                  className="bg-black/50 border-white/10 text-white h-12 rounded-xl focus:border-amber-500/50"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5 block">Honorários Iniciais (R$) *</label>
-                <Input 
-                  value={docSettings.valorInicial} 
-                  onChange={(e) => setDocSettings({ ...docSettings, valorInicial: e.target.value })}
-                  placeholder="Ex: 5.000,00" 
                   className="bg-black/50 border-white/10 text-white h-12 rounded-xl focus:border-amber-500/50"
                 />
               </div>

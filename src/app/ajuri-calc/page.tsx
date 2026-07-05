@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { DEFAULT_KEYWORDS, AnalysisResult, Transaction, DateLayout } from "@/types/calc";
 import { CRMClient } from "@/types/crm";
 import { toast } from "sonner";
+import * as XLSX from "xlsx";
 
 // ── helpers ─────────────────────────────────────────────────────────────
 function formatCurrency(value: number) {
@@ -28,46 +29,32 @@ function formatDate(iso: string) {
     });
 }
 
-// XML Spreadsheet 2003 export
-function exportToXML(result: AnalysisResult) {
-    const rows = result.transactions.map(t =>
-        `    <Row>
-      <Cell><Data ss:Type="String">${t.date}</Data></Cell>
-      <Cell><Data ss:Type="String">${t.description.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</Data></Cell>
-      <Cell><Data ss:Type="Number">${t.value.toFixed(2)}</Data></Cell>
-    </Row>`
-    ).join("\n");
+function exportToExcel(result: AnalysisResult) {
+    const data = [
+        ["Relatório Ajuri Calc", "", ""],
+        ["Cliente:", result.clientName || "Não informado", ""],
+        ["Banco:", result.bankName || "Não informado", ""],
+        ["Período:", result.period || "Não informado", ""],
+        ["", "", ""],
+        ["Data", "Descrição", "Valor (R$)"],
+        ...result.transactions.map(t => [t.date, t.description, t.value]),
+        ["", "", ""],
+        ["", "TOTAL DÉBITOS INDEVIDOS", result.totalDebits]
+    ];
 
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-  xmlns:o="urn:schemas-microsoft-com:office:office"
-  xmlns:x="urn:schemas-microsoft-com:office:excel"
-  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
-  <Worksheet ss:Name="Ajuri Calc">
-    <Table>
-      <Row>
-        <Cell><Data ss:Type="String">Data</Data></Cell>
-        <Cell><Data ss:Type="String">Descrição</Data></Cell>
-        <Cell><Data ss:Type="String">Valor (R$)</Data></Cell>
-      </Row>
-${rows}
-      <Row>
-        <Cell><Data ss:Type="String"></Data></Cell>
-        <Cell><Data ss:Type="String">TOTAL DÉBITOS INDEVIDOS</Data></Cell>
-        <Cell><Data ss:Type="Number">${result.totalDebits.toFixed(2)}</Data></Cell>
-      </Row>
-    </Table>
-  </Worksheet>
-</Workbook>`;
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    
+    // Set column widths to make it beautiful
+    ws['!cols'] = [
+        { wch: 15 }, // Date
+        { wch: 60 }, // Description
+        { wch: 20 }, // Value
+    ];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Ajuri Calc");
 
-    const blob = new Blob([xml], { type: "application/vnd.ms-excel" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `ajuri-calc-${result.fileName.replace(/\.pdf$/i, "")}.xls`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const fileName = `ajuri-calc-${result.fileName.replace(/\.pdf$/i, "")}.xlsx`;
+    XLSX.writeFile(wb, fileName);
 }
 
 const BRAZILIAN_BANKS = [
@@ -706,11 +693,11 @@ function AnalysisResultCard({
                     {result.transactions.length > 0 && (
                         <div className="flex items-center gap-2">
                             <button
-                                onClick={() => exportToXML(result)}
+                                onClick={() => exportToExcel(result)}
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-all"
                             >
                                 <Download className="w-3.5 h-3.5" />
-                                Exportar Excel (.xls)
+                                Exportar Excel (.xlsx)
                             </button>
                         </div>
                     )}
@@ -787,7 +774,7 @@ function LogCard({
     return (
         <div className="rounded-2xl border border-white/8 bg-white/2 overflow-hidden">
             <div
-                className="flex items-center justify-between p-5 cursor-pointer hover:bg-white/3 transition-all"
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 cursor-pointer hover:bg-white/3 transition-all gap-4 sm:gap-0"
                 onClick={() => setExpanded(v => !v)}
             >
                 <div className="flex items-center gap-4">
@@ -803,19 +790,21 @@ function LogCard({
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="text-right">
+                <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto mt-2 sm:mt-0">
+                    <div className="text-left sm:text-right">
                         <p className="text-xs text-zinc-600 mb-0.5">{log.transactions.length} débito(s)</p>
                         <p className="font-black text-orange-400">{formatCurrency(log.totalDebits)}</p>
                     </div>
-                    <button
-                        onClick={(e) => onDelete(log.id, e)}
-                        className="p-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all"
-                        title="Excluir do histórico"
-                    >
-                        <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                    {expanded ? <ChevronUp className="w-4 h-4 text-zinc-500" /> : <ChevronDown className="w-4 h-4 text-zinc-500" />}
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onDelete(log.id, e); }}
+                            className="p-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all"
+                            title="Excluir do histórico"
+                        >
+                            <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                        {expanded ? <ChevronUp className="w-4 h-4 text-zinc-500" /> : <ChevronDown className="w-4 h-4 text-zinc-500" />}
+                    </div>
                 </div>
             </div>
 
@@ -829,7 +818,7 @@ function LogCard({
                                 </p>
                                 <div className="flex gap-2">
                                     <button
-                                        onClick={() => exportToXML(log)}
+                                        onClick={() => exportToExcel(log)}
                                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-all"
                                     >
                                         <Download className="w-3.5 h-3.5" />

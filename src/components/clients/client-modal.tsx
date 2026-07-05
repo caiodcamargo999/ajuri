@@ -489,6 +489,11 @@ export function ClientModal({ isOpen, onClose, onSave, onDelete, editingClient, 
         if (saveTimeout.current) clearTimeout(saveTimeout.current);
         saveTimeout.current = setTimeout(() => {
             const data = form.getValues();
+            
+            // Only auto-save if CPF is valid and Name is provided (CPF is mandatory to register leads)
+            if (!data.name || data.name.trim().length < 2) return;
+            if (!data.cpf || !isValidCPF(data.cpf)) return;
+
             const payload = {
                 ...editingClient,
                 ...data,

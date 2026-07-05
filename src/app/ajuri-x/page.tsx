@@ -18,7 +18,6 @@ import { Scale16SolidIcon } from "@/components/icons/scale-icon";
 import { redirect } from "next/navigation"
 
 export default function AjuriXPage() {
-    redirect('/dashboard');
     return (
         <div className="flex flex-1 flex-col animate-in fade-in duration-700 bg-black min-h-screen relative">
             {/* Background elements */}

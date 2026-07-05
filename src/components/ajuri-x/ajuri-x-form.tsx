@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, Header, Footer, ImageRun } from "docx";
 import { saveAs } from "file-saver";
+import mammoth from "mammoth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -111,6 +112,7 @@ export default function AjuriXForm() {
     const [leads, setLeads] = useState<CRMClient[]>([]);
     const [step, setStep] = useState(1);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [downloadFormat, setDownloadFormat] = useState<'docx' | 'pdf'>('docx');
     const [isLoadingEdit, setIsLoadingEdit] = useState(false);
 
     const searchParams = useSearchParams();
@@ -433,7 +435,38 @@ export default function AjuriXForm() {
         setIsGenerating(true);
         try {
             handleCRMIntegration(data);
-            await generatePetition(data, selectedTemplateId);
+            const blob = await generatePetition(data, selectedTemplateId);
+            
+            if (downloadFormat === 'docx') {
+                saveAs(blob, `Peticao_${data.nomeCliente.replace(/\s+/g, '_')}.docx`);
+            } else if (downloadFormat === 'pdf') {
+                const arrayBuffer = await blob.arrayBuffer();
+                const result = await mammoth.convertToHtml({ arrayBuffer });
+                const html = result.value;
+
+                const container = document.createElement('div');
+                container.innerHTML = html;
+                container.style.padding = '40px';
+                container.style.fontFamily = 'Arial, sans-serif';
+                container.style.fontSize = '14px';
+                container.style.lineHeight = '1.5';
+                container.style.color = '#000';
+                container.style.background = '#fff';
+                
+                document.body.appendChild(container);
+
+                const html2pdf = (await import("html2pdf.js")).default;
+                const opt = {
+                    margin: [15, 15, 15, 15] as [number, number, number, number],
+                    filename: `Peticao_${data.nomeCliente.replace(/\s+/g, '_')}.pdf`,
+                    image: { type: "jpeg" as const, quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true },
+                    jsPDF: { unit: "mm" as const, format: "a4" as const, orientation: "portrait" as const }
+                };
+                await html2pdf().set(opt).from(container).save();
+                
+                document.body.removeChild(container);
+            }
 
             // Save to history
             const petitionData = {
@@ -531,8 +564,8 @@ export default function AjuriXForm() {
     return (
         <div className="w-full max-w-5xl mx-auto p-4 md:p-8">
             <div className="mb-12">
-                <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
+                    <div className="flex flex-wrap items-center gap-3">
                         <h1 className="text-4xl font-bold tracking-tighter text-foreground">
                             AJURI X
                         </h1>
@@ -546,7 +579,7 @@ export default function AjuriXForm() {
                         variant="ghost"
                         size="sm"
                         onClick={() => editId ? router.push('/peticoes') : setSelectedTemplateId(null)}
-                        className="text-zinc-500 hover:text-white"
+                        className="text-zinc-500 hover:text-white w-full sm:w-auto justify-start sm:justify-center"
                     >
                         <ArrowLeft className="w-4 h-4 mr-2" /> {editId ? "Cancelar Edição" : "Trocar Modelo"}
                     </Button>
@@ -926,11 +959,22 @@ export default function AjuriXForm() {
 
                                         <Button
                                             type="submit"
+                                            onClick={() => setDownloadFormat('docx')}
                                             disabled={isGenerating}
-                                            className="bg-emerald-600 hover:bg-emerald-500 text-white min-w-[180px] shadow-lg shadow-emerald-700/20 gap-2 transition-all"
+                                            className="bg-emerald-600 hover:bg-emerald-500 text-white min-w-[150px] shadow-lg shadow-emerald-700/20 gap-2 transition-all"
                                         >
-                                            {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                                            {isGenerating ? "Gerando..." : "Baixar .DOCX"}
+                                            {isGenerating && downloadFormat === 'docx' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                                            {isGenerating && downloadFormat === 'docx' ? "Gerando..." : "Baixar .DOCX"}
+                                        </Button>
+                                        
+                                        <Button
+                                            type="submit"
+                                            onClick={() => setDownloadFormat('pdf')}
+                                            disabled={isGenerating}
+                                            className="bg-rose-600 hover:bg-rose-500 text-white min-w-[150px] shadow-lg shadow-rose-700/20 gap-2 transition-all"
+                                        >
+                                            {isGenerating && downloadFormat === 'pdf' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                                            {isGenerating && downloadFormat === 'pdf' ? "Gerando..." : "Baixar PDF"}
                                         </Button>
                                     </div>
                                 )}

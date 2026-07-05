@@ -60,7 +60,7 @@ export const ContratoHonorariosTemplate: React.FC<Props> = ({ client, officeData
 
         <h2 className="font-bold mb-2">CLÁUSULA SEGUNDA - DOS HONORÁRIOS</h2>
         <p className="mb-8 text-justify indent-12 leading-relaxed">
-          Em remuneração aos serviços profissionais ora contratados, o(a) CONTRATANTE pagará à CONTRATADA a título de honorários iniciais o valor de <strong>R$ {docSettings?.valorInicial || "______________"}</strong>, além do percentual de <strong>{docSettings?.percentualExito || "______"}%</strong> sobre o proveito econômico obtido ao final da demanda.
+          Em remuneração aos serviços profissionais ora contratados, o(a) CONTRATANTE pagará à CONTRATADA o percentual de <strong>{docSettings?.percentualExito || "______"}%</strong> sobre o proveito econômico obtido ao final da demanda.
         </p>
 
         <h2 className="font-bold mb-2">CLÁUSULA TERCEIRA - DAS DESPESAS</h2>
@@ -77,17 +77,17 @@ export const ContratoHonorariosTemplate: React.FC<Props> = ({ client, officeData
           {officeData?.city || "_________________"} - {officeData?.state || "___"}, {new Date().toLocaleDateString("pt-BR", { year: "numeric", month: "long", day: "numeric" })}.
         </p>
 
-        <div className="flex flex-col md:flex-row justify-between mt-20 gap-10">
-          <div className="flex flex-col items-center flex-1">
-            <div className="w-full border-t border-black mb-2"></div>
-            <p className="font-bold text-center">{name || "________________________________"}</p>
+        <div className="flex flex-col md:flex-row justify-between items-center mt-20 gap-10 md:gap-0">
+          <div className="flex flex-col items-center w-full md:w-5/12 text-center">
+            <p className="mb-2">_________________________________________________</p>
+            <p className="font-bold">{name || "________________________________"}</p>
             <p className="text-sm">CONTRATANTE</p>
           </div>
-          <div className="flex flex-col items-center flex-1">
-            <div className="w-full border-t border-black pt-2 text-center text-sm font-bold uppercase">
-              {officeData?.name || "________________________________"}
-              <div className="font-normal text-xs normal-case">CONTRATADO(A)</div>
-            </div>
+
+          <div className="flex flex-col items-center w-full md:w-5/12 text-center">
+            <p className="mb-2">_________________________________________________</p>
+            <p className="font-bold">{officeData?.name || "________________________________"}</p>
+            <p className="text-sm">CONTRATADO(A)</p>
           </div>
         </div>
       </div>

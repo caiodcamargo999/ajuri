@@ -101,7 +101,9 @@ export function ClientForm({ data, onChange }: ClientFormProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="cpf">CPF</Label>
+                    <Label htmlFor="cpf" className="flex items-center gap-1">
+                        CPF <span className="text-destructive">*</span>
+                    </Label>
                     <Input
                         id="cpf"
                         value={data.cpf}

@@ -60,7 +60,7 @@ export function KanbanView({
     };
 
     return (
-        <div className="flex gap-6 overflow-x-auto pb-4 h-full min-h-[600px] px-10 snap-x w-full min-w-0">
+        <div className="flex gap-6 overflow-x-auto pb-4 h-full min-h-[600px] px-4 md:px-10 snap-x w-full min-w-0">
             {columns.map((column) => (
                 <div
                     key={column.id}

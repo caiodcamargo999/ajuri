@@ -26,12 +26,12 @@ export default function DashboardPage() {
     return (
         <div className="flex flex-1 flex-col animate-in fade-in duration-300 min-h-screen relative">
             <div className="max-w-[1600px] mx-auto w-full space-y-6 p-4 md:p-8 relative z-10">
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 mb-4">
                     <h1 className="text-2xl font-semibold tracking-tight text-white">
                         Dashboard
                     </h1>
-                    <Link href="/ajuri-x">
-                        <Button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 h-10 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]">
+                    <Link href="/ajuri-x" className="w-full sm:w-auto">
+                        <Button className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 h-10 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]">
                             <Sparkles className="w-4 h-4 mr-2" />
                             Criar via AJURI X
                         </Button>

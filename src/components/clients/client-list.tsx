@@ -74,7 +74,7 @@ export function ClientList({
     };
 
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
+        <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-x-auto w-full">
             <Table>
                 <TableHeader className="bg-muted/50">
                     <TableRow className="hover:bg-transparent">

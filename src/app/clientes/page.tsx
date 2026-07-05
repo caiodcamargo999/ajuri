@@ -279,12 +279,12 @@ export default function ClientesPage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2 bg-muted/50 p-1.5 rounded-2xl border backdrop-blur-md">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+                        <div className="flex items-center gap-2 bg-muted/50 p-1.5 rounded-2xl border backdrop-blur-md w-full sm:w-auto overflow-x-auto">
                             <Select value={currentPipelineId} onValueChange={setCurrentPipelineId}>
-                                <SelectTrigger className="w-[160px] md:w-[200px] h-11 bg-transparent border-none font-bold focus:ring-0">
+                                <SelectTrigger className="w-full sm:w-[200px] h-11 bg-transparent border-none font-bold focus:ring-0">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-primary" />
+                                        <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
                                         <SelectValue placeholder="Selecione o Funil" />
                                     </div>
                                 </SelectTrigger>
@@ -309,14 +309,14 @@ export default function ClientesPage() {
                         <Button
                             variant="outline"
                             onClick={() => setIsImportModalOpen(true)}
-                            className="font-bold h-12 px-6 rounded-2xl transition-all"
+                            className="font-bold h-12 px-6 rounded-2xl transition-all w-full sm:w-auto"
                         >
                             <FileUp className="h-5 w-5 mr-2" /> Importar CSV
                         </Button>
 
                         <Button
                             onClick={() => { setEditingClient(null); setIsModalOpen(true); }}
-                            className="font-black h-12 px-8 rounded-2xl transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap"
+                            className="font-black h-12 px-8 rounded-2xl transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap w-full sm:w-auto"
                         >
                             <PlusCircle className="h-5 w-5 mr-2" /> Novo Cliente
                         </Button>

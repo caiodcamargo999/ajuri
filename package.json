@@ -58,6 +58,8 @@
     "framer-motion": "^12.0.0",
     "geist": "^1.7.0",
     "googleapis": "^169.0.0",
+    "html-docx-js-typescript": "^0.1.5",
+    "html2pdf.js": "^0.14.0",
     "input-otp": "^1.4.2",
     "jimp": "^1.6.0",
     "lucide-react": "^0.462.0",
@@ -85,6 +87,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^7.0.0",
     "vaul": "^0.9.9",
+    "xlsx": "^0.18.5",
     "zod": "^3.25.76"
   },
   "devDependencies": {

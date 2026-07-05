@@ -51,8 +51,8 @@ export const DeclaracaoHipossuficienciaTemplate: React.FC<Props> = ({ client, of
           {officeData?.city || "_________________"} - {officeData?.state || "___"}, {new Date().toLocaleDateString("pt-BR", { year: "numeric", month: "long", day: "numeric" })}.
         </p>
 
-        <div className="flex flex-col items-center mt-20">
-          <div className="w-96 border-t border-black mb-2"></div>
+        <div className="flex flex-col items-center mt-20 text-center">
+          <p className="mb-2">________________________________________________________</p>
           <p className="font-bold">{name || "________________________________"}</p>
           <p className="text-sm">DECLARANTE</p>
         </div>

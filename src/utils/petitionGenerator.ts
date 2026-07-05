@@ -221,5 +221,5 @@ export async function generatePetition(formData: any, selectedTemplateId: string
     });
 
     const blob = await Packer.toBlob(doc);
-    saveAs(blob, `Peticao_${data.nomeCliente.replace(/\s+/g, '_')}.docx`);
+    return blob;
 }

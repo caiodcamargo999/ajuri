@@ -122,26 +122,24 @@ export function ComarcaField({ value, onChange, placeholder }: ComarcaFieldProps
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <FormControl>
-                    <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className={cn(
-                            "w-full justify-between bg-zinc-900 border-zinc-800 text-white h-12 rounded-xl focus:ring-emerald-500/20 px-4",
-                            !value && "text-zinc-500"
-                        )}
-                    >
-                        <div className="truncate text-left flex-1">
-                            {value ? value : placeholder || "Selecione a Comarca..."}
-                        </div>
-                        {(loading || isFetchingGlobal) && !cities.length ? (
-                            <Loader2 className="ml-2 h-4 w-4 shrink-0 animate-spin opacity-50" />
-                        ) : (
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        )}
-                    </Button>
-                </FormControl>
+                <button
+                    type="button"
+                    role="combobox"
+                    aria-expanded={open}
+                    className={cn(
+                        "w-full flex items-center justify-between bg-zinc-900 border-zinc-800 text-sm font-medium text-white h-12 rounded-xl focus:ring-emerald-500/20 px-4 border shadow-xs transition-colors hover:bg-zinc-800 outline-none",
+                        !value && "text-zinc-500"
+                    )}
+                >
+                    <div className="truncate text-left flex-1">
+                        {value ? value : placeholder || "Selecione a Comarca..."}
+                    </div>
+                    {(loading || isFetchingGlobal) && !cities.length ? (
+                        <Loader2 className="ml-2 h-4 w-4 shrink-0 animate-spin opacity-50" />
+                    ) : (
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    )}
+                </button>
             </PopoverTrigger>
             <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 bg-zinc-950 border-zinc-800 shadow-2xl z-[100] rounded-xl overflow-hidden">
                 <Command shouldFilter={false} className="bg-zinc-950">
