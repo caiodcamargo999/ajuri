@@ -104,7 +104,7 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
     try {
       const html2pdf = (await import("html2pdf.js")).default;
       const opt = {
-        margin: [15, 15, 15, 15] as [number, number, number, number],
+        margin: 0,
         filename: `Documentos_${clientData.name?.replace(/\s+/g, '_')}.pdf`,
         image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },

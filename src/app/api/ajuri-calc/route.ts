@@ -9,7 +9,7 @@ async function extractPdfText(buffer: Buffer): Promise<string> {
     try {
         // Use dynamic import with webpackIgnore to prevent webpack from bundling pdf-parse
         const { PDFParse } = await import(/* webpackIgnore: true */ 'pdf-parse');
-        parser = new PDFParse({ data: buffer });
+        parser = new PDFParse({ data: new Uint8Array(buffer), verbosity: 0 });
         const result = await parser.getText();
         return result.text || '';
     } catch (err: any) {
