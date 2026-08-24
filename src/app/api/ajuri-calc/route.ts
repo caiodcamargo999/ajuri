@@ -39,12 +39,101 @@ function isNoiseLine(line: string): boolean {
     return false;
 }
 
+// ── helper: classify action based on official model ──────────────────────
+function classifyAction(description: string, aiAction?: string): string {
+    if (aiAction && aiAction.trim().length > 1) {
+        const cleaned = aiAction.toUpperCase().trim();
+        if (cleaned !== "OUTRO" && cleaned !== "DESCONHECIDO") {
+            return cleaned;
+        }
+    }
+    const d = description.toUpperCase();
+    if (d.includes('SEGURO') || d.includes('SEG.') || d.includes('SEG ') || d.includes('PRESTAMISTA') || d.includes('ASPECIR') || d.includes('CHUBB') || d.includes('PREVISUL') || d.includes('VIDA E PREV') || d.includes('SUPERPROTEGIDO')) {
+        return 'SEGURO';
+    }
+    if (d.includes('ANUIDADE') || d.includes('ANUID')) {
+        return 'ANUIDADE';
+    }
+    if (d.includes('PARC') || d.includes('PARCELA') || d.includes('PARCELAMENTO')) {
+        return 'PARCELA CRED';
+    }
+    if (d.includes('MORA') || d.includes('MULTA')) {
+        return 'MORA';
+    }
+    if (d.includes('CESTA') || d.includes('COMBINAQUI') || d.includes('PADRONIZADO') || d.includes('MAXIC')) {
+        return 'CESTA';
+    }
+    if (d.includes('JUROS') || d.includes('IOF')) {
+        return 'JUROS ABUSIVOS';
+    }
+    if (d.includes('RMC')) {
+        return 'RMC';
+    }
+    if (d.includes('RCC')) {
+        return 'RCC';
+    }
+    if (d.includes('AVERBA') || d.includes('AVERB')) {
+        return 'AVERBAÇÃO';
+    }
+    if (d.includes('APLIC') || d.includes('INVEST')) {
+        return 'APLIC';
+    }
+    if (d.includes('ENCARGO') || d.includes('EMCARGO')) {
+        return 'ENCARGOS';
+    }
+    if (d.includes('GASTO') || d.includes('COMPRA') || (d.includes('CARTAO') && !d.includes('ANUIDADE'))) {
+        return 'GASTOS CARTÃO DE CRÉDITO';
+    }
+    if (d.includes('PACOTE') || d.includes('SERV BANC')) {
+        return 'PACOTE DE SERVIÇOS';
+    }
+    if (d.includes('BX')) {
+        return 'BX';
+    }
+    if (d.includes('CAP') || d.includes('CAPITALIZA')) {
+        return 'TITULO DE CAPITALIZAÇÃO';
+    }
+    if (d.includes('FATURA PROTEGIDA')) {
+        return 'FATURA PROTEGIDA';
+    }
+    if (d.includes('CADASTRO') || d.includes('CONFECÇÃO')) {
+        return 'TARIFA DE CADASTRO';
+    }
+    if (d.includes('AVALIA') || d.includes('AVAL')) {
+        return 'TARIFA DE AVALIAÇÃO';
+    }
+    if (d.includes('REGISTRO')) {
+        return 'REGISTRO DE CONTRATO';
+    }
+    if (d.includes('ADIANT') || d.includes('ADEP')) {
+        return 'ADIANT DEPOSITANTE';
+    }
+    if (d.includes('SAQUE')) {
+        return 'SAQUE TERMINAL';
+    }
+    if (d.includes('SMS')) {
+        return 'FACILIDADE SMS PLUS';
+    }
+    if (d.includes('GOLPE') || d.includes('PIX FRAUD')) {
+        return 'GOLPE DO PIX';
+    }
+    if (d.includes('BLOQUEIO')) {
+        return 'BLOQUEIO INDEVIDO';
+    }
+    if (d.includes('TARIFA') || d.includes('TAR ')) {
+        return 'TARIFA INDEVIDA';
+    }
+    return 'COBRANÇA INDEVIDA';
+}
+
 // ── helper: build the GPT prompt ────────────────────────────────────────
 function buildPrompt(keywords: string[], dateLayout: string, clientName: string, bankName: string, period: string, hasPreprocessedDates: boolean) {
     const keywordList = keywords.map((k) => `"${k}"`).join(', ');
     const dateLayoutDesc = dateLayout === 'header'
         ? 'a data aparece como cabeçalho de seção (linha separada acima das transações do dia)'
         : 'a data aparece na mesma linha que a descrição da transação';
+
+    const actionCategories = "SEGURO, ANUIDADE, PARCELA CRED, MORA, CESTA, JUROS ABUSIVOS, RMC, RCC, AVERBAÇÃO, APLIC, ENCARGOS, GASTOS CARTÃO DE CRÉDITO, PACOTE DE SERVIÇOS, BX, TITULO DE CAPITALIZAÇÃO, FATURA PROTEGIDA, TARIFA DE CADASTRO, REGISTRO DE CONTRATO, TARIFA DE AVALIAÇÃO, ADIANT DEPOSITANTE, SAQUE TERMINAL, FACILIDADE SMS PLUS, COBRANÇA INDEVIDA";
 
     let system = '';
     if (hasPreprocessedDates) {
@@ -58,8 +147,9 @@ REGRAS:
 4. EXCLUA pagamentos de boletos de consumo pessoal (lojas de varejo como Renner, Riachuelo, C&A, contas de consumo pessoal como água, luz, telefone, internet, e transferências voluntárias realizadas para outras pessoas físicas), pois não são tarifas ou cobranças indevidas do banco.
 5. Cada linha do extrato filtrado está prefixada com "[DATA: DD/MM/YYYY]" para indicar a data correspondente à transação daquela linha. Utilize esta data para preencher o campo "date" no JSON. Remova este prefixo "[DATA: ...]" do campo "description".
 6. Se a transação estiver dividida em múltiplas linhas consecutivas sob a mesma data, junte as descrições em um único texto contínuo e extraia o valor correto da linha correspondente.
-7. Extraia: data (da marcação [DATA: ...]), descrição exata (sem o prefixo [DATA: ...]) e valor positivo (converta negativo em positivo).
-8. Retorne SOMENTE JSON puro, sem markdown, sem explicações.${clientName ? `\nCliente: ${clientName}` : ''}${bankName ? `\nBanco: ${bankName}` : ''}${period ? `\nPeríodo: ${period}` : ''}`;
+7. Para cada transação, classifique o campo "action" em uma das categorias de ações jurídicas: ${actionCategories}.
+8. Extraia: data (da marcação [DATA: ...]), descrição exata (sem o prefixo [DATA: ...]), valor positivo (converta negativo em positivo) e a categoria da ação no campo "action".
+9. Retorne SOMENTE JSON puro, sem markdown, sem explicações.${clientName ? `\nCliente: ${clientName}` : ''}${bankName ? `\nBanco: ${bankName}` : ''}${period ? `\nPeríodo: ${period}` : ''}`;
     } else {
         system = `Você é um especialista em análise de extratos bancários para ações revisionais de contratos bancários.
 Sua tarefa é identificar APENAS os débitos cujas descrições contenham (parcial ou totalmente, sem diferenciar maiúsculas/minúsculas) as palavras-chave fornecidas.
@@ -70,8 +160,9 @@ REGRAS:
 3. EXCLUA estritamente qualquer transação de CRÉDITO (entrada de dinheiro, rendimentos, depósitos recebidos, recebimentos de TED/DOC de outros bancos), mesmo que contenha alguma palavra-chave (ex: "RENDIMENTOS", "RECEBIMENTO", "REMETENTE" são créditos/entradas e devem ser ignorados).
 4. EXCLUA pagamentos de boletos de consumo pessoal (lojas de varejo como Renner, Riachuelo, C&A, contas de consumo pessoal como água, luz, telefone, internet, e transferências voluntárias realizadas para outras pessoas físicas), pois não são tarifas ou cobranças indevidas do banco.
 5. Layout do extrato: ${dateLayoutDesc}.
-6. Extraia: data (exatamente como aparece), descrição exata e valor positivo (converta negativo em positivo).
-7. Retorne SOMENTE JSON puro, sem markdown, sem explicações.${clientName ? `\nCliente: ${clientName}` : ''}${bankName ? `\nBanco: ${bankName}` : ''}${period ? `\nPeríodo: ${period}` : ''}`;
+6. Para cada transação, classifique o campo "action" em uma das categorias de ações jurídicas: ${actionCategories}.
+7. Extraia: data (exatamente como aparece), descrição exata, valor positivo (converta negativo em positivo) e a categoria da ação no campo "action".
+8. Retorne SOMENTE JSON puro, sem markdown, sem explicações.${clientName ? `\nCliente: ${clientName}` : ''}${bankName ? `\nBanco: ${bankName}` : ''}${period ? `\nPeríodo: ${period}` : ''}`;
     }
 
     const userJson = `Palavras-chave: ${keywordList}
@@ -79,7 +170,7 @@ REGRAS:
 Retorne EXATAMENTE este JSON (sem markdown):
 {
   "transactions": [
-    { "date": "data exata", "description": "descrição exata", "value": 0.00 }
+    { "date": "data exata", "description": "descrição exata", "value": 0.00, "action": "SEGURO" }
   ]
 }
 
@@ -222,10 +313,15 @@ export async function POST(request: Request) {
                 } catch (err: any) {
                     console.error(`[ajuri-calc] Failed to parse chunk ${idx + 1} JSON:`, err?.message);
                     // Regex fallback parser for the chunk response in case of syntax anomaly
-                    const regex = /\{\s*"date"\s*:\s*"([^"]*)"\s*,\s*"description"\s*:\s*"([^"]*)"\s*,\s*"value"\s*:\s*([0-9.]+)\s*\}/gi;
+                    const regex = /\{\s*"date"\s*:\s*"([^"]*)"\s*,\s*"description"\s*:\s*"([^"]*)"\s*,\s*"value"\s*:\s*([0-9.]+)(?:,\s*"action"\s*:\s*"([^"]*)")?\s*\}/gi;
                     let match;
                     while ((match = regex.exec(responseContent)) !== null) {
-                        allTransactions.push({ date: match[1], description: match[2], value: parseFloat(match[3]) });
+                        allTransactions.push({ 
+                            date: match[1], 
+                            description: match[2], 
+                            value: parseFloat(match[3]),
+                            action: match[4] || undefined,
+                        });
                     }
                 }
             }
@@ -285,11 +381,15 @@ export async function POST(request: Request) {
             result = JSON.parse(match[0]);
         }
 
-        const transactions = (result.transactions || []).map((t: any) => ({
-            date: String(t.date || '').trim(),
-            description: String(t.description || '').trim(),
-            value: Math.abs(parseFloat(String(t.value).replace(',', '.')) || 0),
-        })).filter((t: any) => t.value > 0);
+        const transactions = (result.transactions || []).map((t: any) => {
+            const desc = String(t.description || '').trim();
+            return {
+                date: String(t.date || '').trim(),
+                description: desc,
+                value: Math.abs(parseFloat(String(t.value).replace(',', '.')) || 0),
+                action: classifyAction(desc, t.action),
+            };
+        }).filter((t: any) => t.value > 0);
 
         const totalDebits = Math.round(
             transactions.reduce((sum: number, t: any) => sum + t.value, 0) * 100

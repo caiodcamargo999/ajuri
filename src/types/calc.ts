@@ -4,6 +4,7 @@ export interface Transaction {
   date: string;
   description: string;
   value: number;
+  action?: string; // Ação classificada conforme o modelo oficial (ex: SEGURO, CESTA, MORA, PARCELA CRED)
 }
 
 export interface AnalysisResult {
@@ -13,6 +14,9 @@ export interface AnalysisResult {
   clientName?: string;
   bankName?: string;
   period?: string;
+  origem?: string;
+  responsavel?: string;
+  status?: string;
   transactions: Transaction[];
   totalDebits: number;
   keywordsUsed: string[];
@@ -26,35 +30,88 @@ export interface CalcSettings {
   dateLayout: DateLayout;
 }
 
-// The default keywords/blacklist to identify indevid charges
+// Palavras-chave padrão baseadas no modelo oficial da PLANILHA DE NOVAS AÇÕES
 export const DEFAULT_KEYWORDS: string[] = [
   "2VIA DE EXTRATO",
+  "ADEP",
+  "ADIANT DEPOSITANTE",
+  "ADIANTAMENTO",
+  "ANP",
   "ANUIDADE",
+  "APLIC",
+  "APLIC INVEST",
+  "ASPECIR",
+  "ASSISTENCIA",
+  "ASSINATURA",
+  "AVALIAÇÃO",
+  "AVERBAÇÃO",
+  "AVERB",
+  "BLOQUEIO",
+  "BONIFICADA",
+  "BX",
+  "BX ANT",
+  "CADASTRO",
+  "CAP PIC",
+  "CAPITALIZAÇÃO",
+  "CARTAO PROTEGIDO",
   "CESTA",
+  "CHUBB",
   "COBRANÇA",
-  "CONTRATAÇÃO DE CRÉDITO",
-  "CONTRATAÇÃO DE LIMITE",
+  "COMBINAQUI",
+  "CONTRATAÇÃO",
+  "DEBITO AUTORIZADO",
+  "DESCONTO",
+  "DOC",
+  "EMISSÃO EXTRATO",
+  "EMPRÉSTIMO",
   "ENCARGO",
+  "ENCARGOS",
+  "EXTRATO",
+  "FATURA PROTEGIDA",
+  "GASTO CARTAO",
+  "GASTOS CARTAO",
+  "GOLPE",
   "IOF",
   "JUROS",
-  "JUROS CHEQUE",
+  "LIMITE",
+  "MAXIC",
+  "MENSAL",
+  "MENSALIDADE",
   "MORA",
   "MULTA",
+  "ODONTO",
+  "PACOTE",
+  "PADRONIZADO",
+  "PARC AUTOMATICO",
+  "PARC CRED",
+  "PARC FACIL",
+  "PARCELA CRED",
+  "PARCELAMENTO",
   "PAGTO ELETRON",
   "PLANO DE SAUDE",
+  "PRESTAMISTA",
+  "PREVISUL",
+  "RCC",
+  "REFINANCIAMENTO",
+  "REGISTRO",
   "RENOVAÇÃO",
-  "RENDIMENTO",
+  "RMC",
+  "SAQUE TERMINAL",
+  "SAQUETERMINAL",
   "SEGURO",
   "SERVIÇO",
   "SERVIÇOS BANCÁRIOS",
+  "SMS",
+  "SUPERPROTEGIDO",
   "TAC",
   "TARIFA",
-  "TARIFA CADASTRO",
-  "TARIFA DOC/TED",
-  "TARIFA EXTRATO",
-  "TARIFA MANUTENÇÃO",
+  "TAR ",
   "TAXA",
   "TD ",
-  "TED ",
+  "TED",
+  "TITULO DE CAP",
+  "TITULO CAPITALIZAÇÃO",
   "TRANSFERENCIA",
+  "VENDA CASADA",
+  "VIDA E PREV",
 ];

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ChargeItem, PetitionType, PETITION_TYPE_LABELS } from "@/types/petition";
+import { RUBRICAS } from "@/constants/ajuri-data";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -131,13 +132,19 @@ export function ChargesForm({
                 </div>
 
                 <div>
-                    <Label>Descrição da Cobrança</Label>
+                    <Label>Descrição da Cobrança / Rubrica</Label>
                     <Input
+                        list="rubricas-options"
                         value={chargeDescription}
                         onChange={(e) => onChargeDescriptionChange(e.target.value)}
-                        placeholder="PACOTE DE SERVIÇO PADRONIZADO..."
+                        placeholder="Selecione ou digite a rubrica..."
                         className="mt-1.5"
                     />
+                    <datalist id="rubricas-options">
+                        {RUBRICAS.map((r) => (
+                            <option key={r} value={r} />
+                        ))}
+                    </datalist>
                 </div>
             </div>
 

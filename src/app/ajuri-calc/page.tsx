@@ -4,12 +4,13 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
     Upload, X, Calculator, FileText, Download,
     Trash2, Plus, ChevronDown, ChevronUp, BarChart2,
-    AlertCircle, CheckCircle, Clock, TrendingDown, Search, User
+    AlertCircle, CheckCircle, Clock, TrendingDown, Search, User, FileSpreadsheet
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DEFAULT_KEYWORDS, AnalysisResult, Transaction, DateLayout } from "@/types/calc";
 import { CRMClient } from "@/types/crm";
+import { STATUS_OPTIONS, ORIGEM_OPTIONS } from "@/constants/ajuri-data";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
@@ -30,30 +31,71 @@ function formatDate(iso: string) {
 }
 
 function exportToExcel(result: AnalysisResult) {
-    const data = [
-        ["Relatório Ajuri Calc", "", ""],
-        ["Cliente:", result.clientName || "Não informado", ""],
-        ["Banco:", result.bankName || "Não informado", ""],
-        ["Período:", result.period || "Não informado", ""],
-        ["", "", ""],
-        ["Data", "Descrição", "Valor (R$)"],
-        ...result.transactions.map(t => [t.date, t.description, t.value]),
-        ["", "", ""],
-        ["", "TOTAL DÉBITOS INDEVIDOS", result.totalDebits]
+    const defaultOrigem = (result.origem || "CARTEIRA").toUpperCase();
+    const defaultStatus = (result.status || "PRÉ-PRODUÇÃO").toUpperCase();
+    const defaultResponsavel = (result.responsavel || "").toUpperCase();
+    const clientUpper = (result.clientName || "CLIENTE").toUpperCase();
+    const bankUpper = (result.bankName || "BANCO").toUpperCase();
+
+    // ── Aba 1: PLANILHA GERAL (Modelo Oficial 'PLANILHA DE NOVAS AÇÕES.xlsx') ──
+    // Colunas: CLIENTE | AÇÃO | RÉU | STATUS | RESPONSÁVEL | DATA | ORIGEM | OBS
+    const headerRow = ["CLIENTE", "AÇÃO", "RÉU", "STATUS", "RESPONSÁVEL", "DATA", "ORIGEM", "OBS"];
+
+    const modelRows = result.transactions.map((t) => [
+        clientUpper,
+        (t.action || "COBRANÇA INDEVIDA").toUpperCase(),
+        bankUpper,
+        defaultStatus,
+        defaultResponsavel,
+        t.date,
+        defaultOrigem,
+        t.value ? `${t.description} (Valor: R$ ${t.value.toFixed(2).replace('.', ',')})` : t.description
+    ]);
+
+    const dataModel = [headerRow, ...modelRows];
+    const wsModel = XLSX.utils.aoa_to_sheet(dataModel);
+
+    // Larguras exatas de colunas conforme o modelo oficial fornecido
+    wsModel['!cols'] = [
+        { wch: 42 }, // CLIENTE
+        { wch: 26 }, // AÇÃO
+        { wch: 26 }, // RÉU
+        { wch: 27 }, // STATUS
+        { wch: 16 }, // RESPONSÁVEL
+        { wch: 14 }, // DATA
+        { wch: 16 }, // ORIGEM
+        { wch: 44 }, // OBS
     ];
 
-    const ws = XLSX.utils.aoa_to_sheet(data);
-    
-    // Set column widths to make it beautiful
-    ws['!cols'] = [
-        { wch: 15 }, // Date
-        { wch: 60 }, // Description
-        { wch: 20 }, // Value
+    // ── Aba 2: DÉBITOS DETALHADOS (Resumo e Repetição em Dobro) ──
+    const detailData = [
+        ["RELATÓRIO DE DÉBITOS INDEVIDOS - AJURI CALC", "", "", ""],
+        ["Cliente:", clientUpper, "", ""],
+        ["Instituição Ré:", bankUpper, "", ""],
+        ["Período:", result.period || "Não informado", "", ""],
+        ["Origem:", defaultOrigem, "Status:", defaultStatus],
+        ["Responsável:", defaultResponsavel || "Não atribuído", "", ""],
+        ["", "", "", ""],
+        ["Data", "Ação Classificada", "Descrição no Extrato", "Valor (R$)"],
+        ...result.transactions.map(t => [t.date, t.action || "COBRANÇA INDEVIDA", t.description, t.value]),
+        ["", "", "", ""],
+        ["", "", "TOTAL DÉBITOS INDEVIDOS", result.totalDebits],
+        ["", "", "REPETIÇÃO DO INDÉBITO (2X)", result.totalDebits * 2],
     ];
+    const wsDetails = XLSX.utils.aoa_to_sheet(detailData);
+    wsDetails['!cols'] = [
+        { wch: 15 },
+        { wch: 28 },
+        { wch: 50 },
+        { wch: 24 },
+    ];
+
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Ajuri Calc");
+    XLSX.utils.book_append_sheet(wb, wsModel, "PLANILHA GERAL");
+    XLSX.utils.book_append_sheet(wb, wsDetails, "DÉBITOS DETALHADOS");
 
-    const fileName = `ajuri-calc-${result.fileName.replace(/\.pdf$/i, "")}.xlsx`;
+    const safeClient = (result.clientName || "CLIENTE").replace(/[^a-zA-Z0-9_\-]/g, "_");
+    const fileName = `PLANILHA_NOVAS_ACOES_${safeClient}.xlsx`;
     XLSX.writeFile(wb, fileName);
 }
 
@@ -90,6 +132,9 @@ export default function AjuriCalcPage() {
     const [clientName, setClientName] = useState("");
     const [bankName, setBankName] = useState("");
     const [period, setPeriod] = useState("");
+    const [origem, setOrigem] = useState("CARTEIRA");
+    const [status, setStatus] = useState("PRÉ-PRODUÇÃO");
+    const [responsavel, setResponsavel] = useState("");
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<AnalysisResult | null>(null);
     const [showKeywords, setShowKeywords] = useState(false);
@@ -229,6 +274,9 @@ export default function AjuriCalcPage() {
             formData.append("clientName", clientName);
             formData.append("bankName", bankName);
             formData.append("period", period);
+            formData.append("origem", origem);
+            formData.append("status", status);
+            formData.append("responsavel", responsavel);
 
             const response = await fetch("/api/ajuri-calc", {
                 method: "POST",
@@ -249,6 +297,9 @@ export default function AjuriCalcPage() {
                 clientName: clientName || undefined,
                 bankName: bankName || undefined,
                 period: period || undefined,
+                origem: origem || undefined,
+                status: status || undefined,
+                responsavel: responsavel || undefined,
                 transactions: data.transactions || [],
                 totalDebits: data.totalDebits || 0,
                 keywordsUsed: [...keywords],
@@ -273,16 +324,24 @@ export default function AjuriCalcPage() {
             {/* Header */}
             <div className="relative overflow-hidden border-b border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-amber-500/5" />
-                <div className="relative px-6 py-8">
-                    <div className="flex items-center gap-3 mb-2">
+                <div className="relative px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
                         <div className="p-2 rounded-xl bg-orange-500/10 border border-orange-500/20">
                             <Calculator className="w-6 h-6 text-orange-400" />
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold tracking-tight text-white">Ajuri Calc</h1>
-                            <p className="text-sm text-zinc-500 mt-0.5">Análise automatizada de extratos bancários · Identificação de débitos indevidos</p>
+                            <p className="text-sm text-zinc-500 mt-0.5">Análise automatizada de extratos bancários · Modelo oficial de Ações</p>
                         </div>
                     </div>
+                    <a
+                        href="/PLANILHA DE NOVAS AÇÕES.xlsx"
+                        download="PLANILHA_MODELO_NOVAS_ACOES.xlsx"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-zinc-300 hover:text-emerald-400 text-xs font-semibold transition-all shadow-sm"
+                    >
+                        <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+                        Baixar Planilha Modelo (.xlsx)
+                    </a>
                 </div>
             </div>
 
@@ -313,7 +372,7 @@ export default function AjuriCalcPage() {
                         <div className="lg:col-span-1 space-y-4">
                             {/* Client Info */}
                             <div className="rounded-2xl border border-white/8 bg-white/2 p-5">
-                                <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-4">Dados da Análise</h2>
+                                <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-4">Dados da Análise (Modelo)</h2>
                                 <div className="space-y-3">
                                     {/* Client search with dropdown */}
                                     <div className="relative">
@@ -371,7 +430,7 @@ export default function AjuriCalcPage() {
                                     </div>
                                     {/* Bank search with dropdown */}
                                     <div className="relative">
-                                        <label className="text-xs text-zinc-500 font-medium mb-1 block">Banco</label>
+                                        <label className="text-xs text-zinc-500 font-medium mb-1 block">Banco / Réu</label>
                                         <div className="relative">
                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
                                             <input
@@ -384,7 +443,7 @@ export default function AjuriCalcPage() {
                                                 }}
                                                 onFocus={() => setShowBankDropdown(true)}
                                                 onBlur={() => setTimeout(() => setShowBankDropdown(false), 150)}
-                                                placeholder="Buscar ou digitar banco..."
+                                                placeholder="Buscar ou digitar banco réu..."
                                                 className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-orange-500/50 focus:bg-white/8 transition-all"
                                             />
                                             {bankSearch && (
@@ -422,6 +481,46 @@ export default function AjuriCalcPage() {
                                             </div>
                                         )}
                                     </div>
+                                    
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="text-xs text-zinc-500 font-medium mb-1 block">Origem</label>
+                                            <select
+                                                value={origem}
+                                                onChange={e => setOrigem(e.target.value)}
+                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/8 transition-all"
+                                            >
+                                                {ORIGEM_OPTIONS.map(opt => (
+                                                    <option key={opt} value={opt} className="bg-zinc-900 text-white">{opt}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label className="text-xs text-zinc-500 font-medium mb-1 block">Status</label>
+                                            <select
+                                                value={status}
+                                                onChange={e => setStatus(e.target.value)}
+                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/8 transition-all"
+                                            >
+                                                {STATUS_OPTIONS.map(opt => (
+                                                    <option key={opt} value={opt} className="bg-zinc-900 text-white">{opt}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="text-xs text-zinc-500 font-medium mb-1 block">Responsável</label>
+                                        <input
+                                            type="text"
+                                            value={responsavel}
+                                            onChange={e => setResponsavel(e.target.value)}
+                                            placeholder="Ex: Leonardo, Marina, Camilly..."
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-orange-500/50 focus:bg-white/8 transition-all"
+                                        />
+                                    </div>
+
                                     <div>
                                         <label className="text-xs text-zinc-500 font-medium mb-1 block">Período do Extrato</label>
                                         <div className="relative">
@@ -679,6 +778,21 @@ function AnalysisResultCard({
                                 🏦 {result.bankName}
                             </Badge>
                         )}
+                        {result.origem && (
+                            <Badge variant="outline" className="border-purple-500/30 text-purple-400 text-xs">
+                                📌 Origem: {result.origem}
+                            </Badge>
+                        )}
+                        {result.status && (
+                            <Badge variant="outline" className="border-amber-500/30 text-amber-400 text-xs">
+                                ⚖️ {result.status}
+                            </Badge>
+                        )}
+                        {result.responsavel && (
+                            <Badge variant="outline" className="border-blue-500/30 text-blue-400 text-xs">
+                                👤 {result.responsavel}
+                            </Badge>
+                        )}
                         {result.period && (
                             <Badge variant="outline" className="border-white/10 text-zinc-400 text-xs">
                                 📅 {result.period}
@@ -694,10 +808,10 @@ function AnalysisResultCard({
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => exportToExcel(result)}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-all"
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-all shadow-sm"
                             >
                                 <Download className="w-3.5 h-3.5" />
-                                Exportar Excel (.xlsx)
+                                Exportar Planilha de Ações (.xlsx)
                             </button>
                         </div>
                     )}
@@ -711,7 +825,7 @@ function AnalysisResultCard({
                         onClick={() => setExpanded(v => !v)}
                         className="w-full flex items-center justify-between px-5 py-3 text-sm text-zinc-400 hover:text-white hover:bg-white/3 transition-all"
                     >
-                        <span className="font-semibold">Ver lançamentos detalhados</span>
+                        <span className="font-semibold">Ver lançamentos categorizados ({result.transactions.length})</span>
                         {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
 
@@ -721,7 +835,8 @@ function AnalysisResultCard({
                                 <thead>
                                     <tr className="border-y border-white/5 bg-white/3">
                                         <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider w-28">Data</th>
-                                        <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider">Descrição</th>
+                                        <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider w-44">Ação (Modelo)</th>
+                                        <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider">Descrição no Extrato</th>
                                         <th className="px-5 py-3 text-right text-xs font-bold text-zinc-500 uppercase tracking-wider w-32">Valor</th>
                                     </tr>
                                 </thead>
@@ -729,6 +844,11 @@ function AnalysisResultCard({
                                     {result.transactions.map((t, i) => (
                                         <tr key={i} className="border-b border-white/3 hover:bg-white/3 transition-colors">
                                             <td className="px-5 py-3 text-zinc-400 font-mono text-xs whitespace-nowrap">{t.date}</td>
+                                            <td className="px-5 py-3 whitespace-nowrap">
+                                                <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                                                    {t.action || "COBRANÇA INDEVIDA"}
+                                                </span>
+                                            </td>
                                             <td className="px-5 py-3 text-zinc-200">{t.description}</td>
                                             <td className="px-5 py-3 text-right text-red-400 font-semibold font-mono whitespace-nowrap">
                                                 {formatCurrency(t.value)}
@@ -738,7 +858,7 @@ function AnalysisResultCard({
                                 </tbody>
                                 <tfoot>
                                     <tr className="bg-orange-500/8 border-t border-orange-500/20">
-                                        <td colSpan={2} className="px-5 py-4 font-bold text-zinc-300 text-sm uppercase tracking-wider">
+                                        <td colSpan={3} className="px-5 py-4 font-bold text-zinc-300 text-sm uppercase tracking-wider">
                                             Total de Débitos Indevidos
                                         </td>
                                         <td className="px-5 py-4 text-right font-black text-orange-400 text-base font-mono">
@@ -787,6 +907,7 @@ function LogCard({
                             {formatDate(log.analyzedAt)}
                             {log.clientName ? ` · ${log.clientName}` : ""}
                             {log.bankName ? ` · ${log.bankName}` : ""}
+                            {log.origem ? ` · Origem: ${log.origem}` : ""}
                         </p>
                     </div>
                 </div>
@@ -822,7 +943,7 @@ function LogCard({
                                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition-all"
                                     >
                                         <Download className="w-3.5 h-3.5" />
-                                        Excel
+                                        Exportar Planilha de Ações (.xlsx)
                                     </button>
                                 </div>
                             </div>
@@ -831,7 +952,8 @@ function LogCard({
                                     <thead>
                                         <tr className="border-b border-white/5 bg-white/3">
                                             <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider w-28">Data</th>
-                                            <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider">Descrição</th>
+                                            <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider w-44">Ação (Modelo)</th>
+                                            <th className="px-5 py-3 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider">Descrição no Extrato</th>
                                             <th className="px-5 py-3 text-right text-xs font-bold text-zinc-500 uppercase tracking-wider w-32">Valor</th>
                                         </tr>
                                     </thead>
@@ -839,6 +961,11 @@ function LogCard({
                                         {log.transactions.map((t, i) => (
                                             <tr key={i} className="border-b border-white/3 hover:bg-white/3 transition-colors">
                                                 <td className="px-5 py-3 text-zinc-400 font-mono text-xs whitespace-nowrap">{t.date}</td>
+                                                <td className="px-5 py-3 whitespace-nowrap">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                                                        {t.action || "COBRANÇA INDEVIDA"}
+                                                    </span>
+                                                </td>
                                                 <td className="px-5 py-3 text-zinc-200">{t.description}</td>
                                                 <td className="px-5 py-3 text-right text-red-400 font-semibold font-mono whitespace-nowrap">
                                                     {formatCurrency(t.value)}
